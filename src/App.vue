@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid>
+    <b-container id="app" fluid>
       <div id="ol-map-container" ref="gpzmap"><GpzMap /></div>
       <b-row align-v="start">
         <b-col md="4" lg="3">

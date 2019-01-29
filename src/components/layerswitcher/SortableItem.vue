@@ -3,7 +3,7 @@
     <b-card no-body class="mb-1">
       <b-card-header header-tag="header" class="p-1">
         <span v-handle class="handle" style="float: left;"></span>
-        <b-btn v-b-toggle="'layercard' + index" variant="info">{{ item.name }}</b-btn>
+        <b-btn v-b-toggle="'layercard' + index" variant="info">{{ item.title }}</b-btn>
         <input type="checkbox" :id="'checkbox' + index" v-model="item.visible">
       </b-card-header>
       <b-collapse :id="'layercard' + index">

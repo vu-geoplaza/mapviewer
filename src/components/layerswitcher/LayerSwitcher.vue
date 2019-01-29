@@ -61,10 +61,11 @@
         layers = layerArrClone.reverse();
         var layerItems = [];
         layers.forEach(function (layer) {
-          if (layer.get('type') === 'wms') {
+          if (layer.get('type') === 'wms'||layer.get('type') === 'wmts') {
             layerItems.push({
               id: layer.get('lid'),
               name: layer.get('name'),
+              title: layer.get('title'),
               visible: layer.getVisible(),
               opacity: layer.getOpacity(),
               legend_img: layer.get('legend_img')
