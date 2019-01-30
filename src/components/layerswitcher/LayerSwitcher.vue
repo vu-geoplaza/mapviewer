@@ -5,7 +5,7 @@
   </a>
     <b-card v-show='toggle' visible no-body class="mb-1">
       <b-card-header header-tag="header" class="p-2">
-        <h4 class="pull-left">Layers</h4>
+        <span class="widget-header-text">Layers</span>
         <a @click='toggle = !toggle' class="pull-right">
           <font-awesome-icon icon="arrow-left" />
         </a>

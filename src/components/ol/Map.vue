@@ -2,18 +2,33 @@
 
 <script>
   import 'ol/ol.css';
-  import {Map, View} from 'ol';
+  import {Map, transform} from 'ol';
   import TileLayer from 'ol/layer/Tile';
   import OSM from 'ol/source/OSM';
-  import { WMSLayer, WMTSLayer, getWMSCapabilities, getWMTSCapabilities } from "@/assets/layerHelpers";
-  import { GpzEventBus } from '@/main.js';
+  import {register} from 'ol/proj/proj4'
+  import {
+    WMSLayer,
+    WMTSLayer,
+    getWMSCapabilities,
+    getWMTSCapabilities,
+    BRT,
+    base4326,
+    setView
+  } from "@/assets/layerHelpers";
+  import {GpzEventBus} from '@/main.js';
+  import {transformExtent} from "ol/proj";
+  import proj4 from 'proj4';
+  import View from "ol/View";
+
+  proj4.defs("EPSG:28992", "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs");
+  register(proj4);
 
   // Add a simple extension to enable layer lookup by layer id
   if (Map.prototype.getLayerByLid === undefined) {
     Map.prototype.getLayerByLid = function (id) {
       var layer;
       this.getLayers().forEach(function (lyr) {
-        if (id == lyr.get('lid')) {
+        if (id === lyr.get('lid')) {
           layer = lyr;
         }
       });
@@ -26,16 +41,20 @@
     data() {
       return {
         mapdata: {
-          CRS: 'EPSG:3857',
-          services: [
-          ]
-        }
+          CRS: 'EPSG:28992',
+          extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999],
+          available_crs: [],
+          services: []
+        },
+        map: Object
       }
     },
-    mounted () {
-      var me=this;
+    mounted() {
       // Send the event 'ol-map-mounted' with the OL map as payload
       GpzEventBus.$emit('ol-map-mounted', this.map);
+      GpzEventBus.$on('change-projection', crs => {
+        this.reProject(crs)
+      });
 
       // resize the map, so it fits to parent
       console.log('map mounted');
@@ -49,75 +68,125 @@
     created() {
       console.log('map created');
       this.initMap();
-      this.addLayers();
-      this.wmsLoader('https://geodata.nationaalgeoregister.nl/inspire/sr/ows?');
-      this.wmsLoader('https://geodata.nationaalgeoregister.nl/bestandbodemgebruik2015/ows?');
-      // this.wmtsLoader('https://geodata.nationaalgeoregister.nl/tiles/service/wmts?'); // deze wordt alleen aangeboden in 28992
     },
     methods: {
       initMap() {
         // create a map object, do not bind it to the DOM yet.
-        console.log('init map');
-        this.view= new View({
-          center: [546677, 6867102],
-          zoom: 15
+        console.log('init map crs: ' + this.mapdata.CRS);
+        const view=new View({
+          projection: this.mapdata.CRS
         });
+        view.fit(this.mapdata.extent,{size: [1920,1080], nearest: true});
         this.map = new Map({
-          layers: [
-            new TileLayer({
-              source: new OSM(),
-              type: 'base'
-            })
-          ],
-          view: this.view
+          view: view,
         });
+        console.log(this.map.getView());
+        this.map.available_crs = [this.mapdata.CRS];
+        this.addLayers();
+        this.wmsLoader('https://geodata.nationaalgeoregister.nl/inspire/sr/ows?');
+        this.wmsLoader('https://geodata.nationaalgeoregister.nl/bestandbodemgebruik2015/ows?');
+
+        this.setBaseLayer();
       },
-      wmtsLoader: function(url) {
-        var me=this;
-        getWMTSCapabilities(url, function(service){
+      reProject: function (crs) {
+        console.log('reproject to ' + crs);
+        this.removeBaseLayers();
+        const extent = transformExtent(this.map.getView(this.map.getSize()).calculateExtent(),this.mapdata.CRS,crs);
+        this.mapdata.CRS = crs;
+        const view=new View({
+          projection: this.mapdata.CRS
+        });
+        view.fit(extent, {size: this.map.getSize(), nearest: true});
+
+        this.map.setView(view);
+        this.setBaseLayer();
+      },
+      wmtsLoader: function (url) {
+        var me = this;
+        getWMTSCapabilities(url, function (service) {
           me.addLayersFromWMTS(service);
         });
       },
-      wmsLoader: function(url) {
-        var me=this;
-        getWMSCapabilities(url, function(service){
+      wmsLoader: function (url) {
+        var me = this;
+        getWMSCapabilities(url, function (service) {
           me.addLayersFromWMS(service);
         });
       },
       addLayers: function () {
-        console.log('add layers')
+        console.log('add layers');
         for (const service of this.mapdata.services) {
-          if (service.type == 'wms') {
+          if (service.type === 'wms') {
             this.addLayersFromWMS(service);
 
-          } else if (service.type == 'wmts') {
+          } else if (service.type === 'wmts') {
             this.addLayersFromWMTS(service);
           }
         }
       },
-      addLayersFromWMS(service){
+      addLayersFromWMS(service) {
         for (const layer of service.layers) {
-          const l=WMSLayer(service,layer);
+          const l = WMSLayer(service, layer);
           l.set('lid', layer.id);
           l.set('name', layer.name);
           l.set('title', layer.title);
+          l.set('extent_lonlat', layer.extent_lonlat);
           l.set('type', 'wms');
           l.set('legend_img', layer.legend_img);
           l.setVisible(layer.visible);
+          this.calcAvailableCRS(layer.available_crs);
           this.map.addLayer(l);
         }
       },
-      addLayersFromWMTS(service){
+      addLayersFromWMTS(service) {
         for (const layer of service.layers) {
-          const l=WMTSLayer(service,layer)
+          const l = WMTSLayer(service, layer);
           l.set('lid', layer.id);
           l.set('name', layer.name);
           l.set('title', layer.title);
           l.set('type', 'wmts');
           l.set('legend_img', layer.legend_img);
-          l.setVisible(layer.visible)
+          l.setVisible(layer.visible);
           this.map.addLayer(l);
         }
+      },
+      calcAvailableCRS(arr_crs) {
+        const allowedCRS = ['EPSG:28992', 'EPSG:3857', 'EPSG:4326'];
+
+        if (this.map.available_crs.length <= 1) {
+          this.map.available_crs = allowedCRS;
+        }
+        const new_arr = [];
+        for (const crs of this.map.available_crs) {
+          if ((arr_crs.indexOf(crs) > -1) && (new_arr.indexOf(crs) === -1) && (allowedCRS.indexOf(crs) > -1)) {
+            new_arr.push(crs);
+          }
+        }
+        this.map.available_crs = new_arr;
+
+      },
+      setBaseLayer() {
+        if (this.mapdata.CRS==='EPSG:3857') {
+          console.log('add OSM base layer');
+          this.map.addLayer(new TileLayer({
+            source: new OSM(),
+            type: 'base'
+          }));
+        } else if (this.mapdata.CRS==='EPSG:28992') {
+          this.map.addLayer(BRT());
+        } else if (this.mapdata.CRS==='EPSG:4326') {
+          this.map.addLayer(base4326());
+        }
+      },
+      removeBaseLayers() {
+        var me=this;
+        this.map.getLayers().forEach(function (layer) {
+          if (layer != undefined) {
+            if (layer.get('type') === 'base') {
+              me.map.removeLayer(layer);
+            }
+          }
+        });
       }
     }
   }

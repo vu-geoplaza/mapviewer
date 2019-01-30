@@ -1,5 +1,6 @@
 <template>
     <b-container id="app" fluid>
+      <NavBar />
       <div id="ol-map-container" ref="gpzmap"><GpzMap /></div>
       <b-row align-v="start">
         <b-col md="4" lg="3">
@@ -19,6 +20,7 @@
   import GpzMap from './components/ol/Map'
   import { GpzEventBus } from './main.js'
   import FeatureInfo from "./components/featureinfo/FeatureInfo";
+  import NavBar from "@/components/navbar/NavBar";
 
   export default {
     mounted() {
@@ -27,6 +29,7 @@
     },
     name: 'App',
     components: {
+      NavBar,
       FeatureInfo,
       LayerSwitcher,
       GpzMap
@@ -90,12 +93,26 @@
     background-color: azure;
     z-index: 1000;
     opacity: 0.95;
+  }
 
+  .navbar {
+    z-index: 999;
+    opacity: 0.95;
+  }
+
+  .widget-header-text {
+    font-weight: bold;
+    font-size: 1.2em;
   }
 
   .ol-zoom {
     left: auto;
     right: .5em;
+    top: 5em;
+  }
+
+  .nav-link {
+    color: white;
   }
 </style>
 

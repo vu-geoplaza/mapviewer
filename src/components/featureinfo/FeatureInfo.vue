@@ -1,8 +1,11 @@
 <template>
   <div id="feature-info">
-    <b-card no-body class="mb-1">
+    <b-card v-show='toggle' no-body class="mb-1">
       <b-card-header header-tag="header" class="p-1">
-        <h2>Feature Info</h2>
+        <a @click='toggle = !toggle' class="fa-pull-left">
+          <font-awesome-icon icon="arrow-right" />
+        </a>
+        <span class="widget-header-text">Feature Info</span>
       </b-card-header>
       <b-card-body>
         <b-tabs>
@@ -25,6 +28,7 @@
 
     data() {
       return {
+        toggle: false,
         items: [{
           title: 'empty'
         }]
@@ -71,6 +75,7 @@
       },
       addItem: function(item){
         this.items.push(item);
+        this.toggle = true;
       }
     }
   }
