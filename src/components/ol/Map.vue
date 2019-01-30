@@ -85,6 +85,7 @@
         this.addLayers();
         this.wmsLoader('https://geodata.nationaalgeoregister.nl/inspire/sr/ows?');
         this.wmsLoader('https://geodata.nationaalgeoregister.nl/bestandbodemgebruik2015/ows?');
+        this.wmtsLoader('https://geodata.nationaalgeoregister.nl/tiles/service/wmts?');
 
         this.setBaseLayer();
       },
@@ -127,26 +128,17 @@
       addLayersFromWMS(service) {
         for (const layer of service.layers) {
           const l = WMSLayer(service, layer);
-          l.set('lid', layer.id);
-          l.set('name', layer.name);
-          l.set('title', layer.title);
-          l.set('extent_lonlat', layer.extent_lonlat);
-          l.set('type', 'wms');
-          l.set('legend_img', layer.legend_img);
           l.setVisible(layer.visible);
           this.calcAvailableCRS(layer.available_crs);
+          console.log(l.get('name'));
           this.map.addLayer(l);
         }
       },
       addLayersFromWMTS(service) {
         for (const layer of service.layers) {
-          const l = WMTSLayer(service, layer);
-          l.set('lid', layer.id);
-          l.set('name', layer.name);
-          l.set('title', layer.title);
-          l.set('type', 'wmts');
-          l.set('legend_img', layer.legend_img);
+          const l = WMTSLayer(service, layer, this.mapdata.CRS);
           l.setVisible(layer.visible);
+          this.calcAvailableCRS(layer.available_crs);
           this.map.addLayer(l);
         }
       },

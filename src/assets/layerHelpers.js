@@ -7,7 +7,10 @@ import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import Projection from 'ol/proj/Projection';
 import {getTopLeft} from 'ol/extent';
 import {fromLonLat} from "ol/proj";
+import {optionsFromCapabilities} from 'ol/source/WMTS';
 const uuidv4 = require('uuid/v4');
+
+
 
 export function WMSLayer(service, layer){
   return new TileLayer({
@@ -15,32 +18,29 @@ export function WMSLayer(service, layer){
       url: service.url,
       params: {'LAYERS': layer.name},
       transition: 0,
-      lid: layer.id,
-      name: layer.name,
-      title: layer.title,
-      type: 'wms',
-      legend_img: layer.legend_img,
-      visible: layer.visible
-    })
+
+    }),
+    lid: layer.id,
+    name: layer.name,
+    title: layer.title,
+    extent_lonlat: layer.extent_lonlat,
+    type: 'wms',
+    legend_img: layer.legend_img,
+    visible: layer.visible
   });
 }
-export function WMTSLayer(service, layer){
+export function WMTSLayer(service, layer, crs){
   return new TileLayer({
-    source: new WMTS({
-      url: service.url,
-      params: {
-        'layer': layer.title,
-        matrixSet: 'EPSG:3857'
-      },
-      transition: 0,
-      lid: layer.id,
-      name: layer.name,
-      title: layer.title,
-      type: 'wmts',
-      legend_img: layer.legend_img,
-      visible: layer.visible
-    })
+    source: new WMTS(layer.options[crs]),
+    lid: layer.id,
+    name: layer.name,
+    title: layer.title,
+    extent_lonlat: layer.extent_lonlat,
+    type: 'wmts',
+    legend_img: layer.legend_img,
+    visible: layer.visible
   });
+
 }
 
 export function getWMSCapabilities(input_url, callback){
@@ -84,14 +84,30 @@ export function getWMTSCapabilities(input_url, callback){
   }).then(function(text) {
     const result = parser.read(text);
     for (const layer of result.Contents.Layer) {
+      const crs=[];
 
+      const options={};
+      // see: https://openlayers.org/en/latest/examples/wmts-layer-from-capabilities.html
+      for (const link of layer.TileMatrixSetLink){
+        crs.push(link.TileMatrixSet);
+        if (['EPSG:28992','EPSG:4326','EPSG:3857'].indexOf(link.TileMatrixSet)>-1) {
+          const o = optionsFromCapabilities(result, {
+            layer: layer.Title,
+            matrixSet: link.TileMatrixSet
+          });
+          options[link.TileMatrixSet] = o;
+        }
+      }
       service.layers.push({
         id: uuidv4(),
         name: layer.Name,
         title: layer.Title,
+        extent_lonlat: layer.WGS84BoundingBox,
         opacity: 0.8,
         visible: false,
         legend_img: `${url}?service=WMTS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${layer.Name}&version=1.3.0&SLD_VERSION=1.1.0`,
+        available_crs: crs,
+        options: options
       });
     }
     callback(service);

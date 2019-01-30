@@ -8,6 +8,11 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faArrowLeft,faArrowRight,faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+import {register} from 'ol/proj/proj4'
+import proj4 from 'proj4';
+proj4.defs("EPSG:28992", "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs");
+register(proj4);
+
 library.add(faArrowLeft,faArrowRight,faLayerGroup);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);

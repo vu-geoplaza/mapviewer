@@ -10,7 +10,7 @@
           <font-awesome-icon icon="arrow-left" />
         </a>
       </b-card-header>
-        <b-card-body class="p-2">
+        <b-card-body class="p-2 scroll">
           <SortableList lockAxis="y" v-model="items" :useDragHandle="true">
             <SortableItem v-for="(item, index) in items" :index="index" :key="index" :item="item"/>
           </SortableList>
@@ -130,6 +130,11 @@
     top: 30px;
     left: 30px;
     background-color: white;
+  }
+
+  .scroll {
+    max-height: 80vh;
+    overflow-y: auto;
   }
 
 
