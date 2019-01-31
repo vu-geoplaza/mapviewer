@@ -12,6 +12,7 @@
           <FeatureInfo/>
         </b-col>
       </b-row>
+      <!--<FileLoader />-->
     </b-container>
 </template>
 
@@ -21,6 +22,7 @@
   import { GpzEventBus } from './main.js'
   import FeatureInfo from "./components/featureinfo/FeatureInfo";
   import NavBar from "@/components/navbar/NavBar";
+  import FileLoader from "@/components/file/FileLoader"
 
   export default {
     mounted() {
@@ -32,9 +34,9 @@
       NavBar,
       FeatureInfo,
       LayerSwitcher,
-      GpzMap
+      GpzMap,
+      FileLoader
     },
-
   }
 </script>
 

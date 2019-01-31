@@ -79,13 +79,11 @@ export const layerHelper = {
       var service = await this.getWMSCapabilities(serviceData.url).then(function (cap_service) {
         return me.merge(serviceData, cap_service, crs);
       });
-      console.log('returning updated service 2');
       return service;
     } else if (serviceData.type === 'wmts') {
       var service = await this.getWMTSCapabilities(serviceData.url).then(function (cap_service) {
         return me.merge(serviceData, cap_service, crs);
       });
-      console.log('returning updated service 2');
       return service;
     }
   },
@@ -118,10 +116,15 @@ export const layerHelper = {
       for (const layer of cap_service.layers) {
         const index = layer_names.indexOf(layer.title);
         if (index > -1) {
-          // should have better merge
-          layer.opacity == serviceData.layers[index].opacity;
-          layer.visible == serviceData.layers[index].visible;
-          layer.ol = WMSLayer(cap_service, layer);
+          // should have better merge, but ok for just 2 attributes
+
+          layer.opacity = serviceData.layers[index].opacity;
+          layer.visible = serviceData.layers[index].visible;
+          if (service.type === 'wms') {
+            layer.ol = this.WMSLayer(cap_service, layer);
+          } else if (service.type === 'wmts') {
+            layer.ol = this.WMTSLayer(cap_service, layer, crs);
+          }
           service.layers[index] = layer;
         }
       }
@@ -204,6 +207,7 @@ export const layerHelper = {
     });
   },
   WMSLayer(service, layer) {
+    console.log(layer.visible);
     return new TileLayer({
       source: new TileWMS({
         url: service.url,

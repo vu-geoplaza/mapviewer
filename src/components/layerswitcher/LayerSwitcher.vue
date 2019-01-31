@@ -1,6 +1,6 @@
 <template>
 <div class="layerswitcher">
-  <a @click='toggle = !toggle' class="open-button">
+  <a @click='toggle = !toggle' v-show='!toggle' class="open-button">
     <font-awesome-icon icon="layer-group" />
   </a>
     <b-card v-show='toggle' visible no-body class="mb-1">

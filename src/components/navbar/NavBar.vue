@@ -8,6 +8,14 @@
     <b-collapse is-nav id="nav_collapse">
         <ProjectionSwitcher />
         <ZoomToExtent />
+      <!--<b-navbar-nav>
+        <b-nav-item><b-btn v-b-modal.uploadmodal>upload</b-btn></b-nav-item>
+      </b-navbar-nav>-->
+
+      <b-navbar-nav>
+        <FileSaver />
+      </b-navbar-nav>
+
 
 <!--
       <b-navbar-nav>
@@ -49,10 +57,12 @@
 <script>
     import ProjectionSwitcher from "@/components/ProjectionSwitcher/ProjectionSwitcher";
     import ZoomToExtent from './ZoomToExtent'
+    import FileLoader from '@/components/file/FileLoader'
+    import FileSaver from '@/components/file/FileSaver'
 
     export default {
       name: "NavBar",
-      components: {ProjectionSwitcher,ZoomToExtent},
+      components: {ProjectionSwitcher,ZoomToExtent,FileLoader,FileSaver},
     }
 </script>
 

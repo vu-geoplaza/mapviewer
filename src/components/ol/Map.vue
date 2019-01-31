@@ -41,23 +41,7 @@
           CRS: 'EPSG:28992',
           bbox: [3.31497114423, 50.803721015, 7.09205325687, 53.5104033474],
           available_crs: [],
-          services: [
-            {
-              type: 'wms',
-              url: 'https://geodata.nationaalgeoregister.nl/inspire/sr/ows?',
-              layers: []
-            },
-            {
-              type: 'wms',
-              url: 'https://geodata.nationaalgeoregister.nl/bestandbodemgebruik2015/ows?',
-              layers: []
-            },
-/*            {
-              type: 'wmts',
-              url: 'https://geodata.nationaalgeoregister.nl/tiles/service/wmts?',
-              layers: []
-            }*/
-          ]
+          services: [{}]
         },
         map: Object
       }
@@ -83,12 +67,17 @@
     },
     created() {
       console.log('map created');
+
       this.initMap();
     },
     methods: {
+      async fetchData(url) {
+        //return
+      },
       initMap: function () {
         var me = this;
         // create a map object, do not bind it to the DOM yet.
+
         console.log('init map crs: ' + this.mapdata.CRS);
         const view = new View({
           projection: this.mapdata.CRS
@@ -97,12 +86,27 @@
         this.map = new Map({
           view: view,
         });
-        console.log(this.map.getView());
         this.map.available_crs = [this.mapdata.CRS];
-        console.log('call getinstance from map.vue');
 
-        this.addLayers(this.mapdata);
-        this.setBaseLayer();
+        console.log('call getinstance from map.vue');
+        // TODO: clean this up.
+        this.mapdata=fetch('/static/data.json').then(function (response) {
+          if (!response.ok) {
+            throw new Error("HTTP error " + response.status);
+          }
+          console.log(response);
+          return response.json();
+        }).then(function(data){
+          me.mapdata=data;
+          const view = new View({
+            projection: me.mapdata.CRS
+          });
+          view.fit(transformExtent(me.mapdata.bbox, 'EPSG:4326', view.getProjection()), me.map.getSize());
+          me.map.setView(view);
+
+          me.setBaseLayer(data.CRS);
+          me.addLayers(data);
+        });
       },
       reProject: function (crs) {
         console.log('reproject to ' + crs);
@@ -115,13 +119,14 @@
         view.fit(extent, {size: this.map.getSize(), nearest: true});
 
         this.map.setView(view);
-        this.setBaseLayer();
+        this.setBaseLayer(crs);
       },
       addLayers(mapdata) {
         var me = this;
         for (const service of mapdata.services) {
           layerHelper.getLayersInstance(service, mapdata.CRS).then(function (serviceData) {
             for (const layer of serviceData.layers) {
+              console.log('add layer '+layer.title);
               me.calcAvailableCRS(layer.available_crs);
               me.map.addLayer(layer.ol);
             }
@@ -141,15 +146,16 @@
         }
         this.map.available_crs = new_arr;
       },
-      setBaseLayer() {
-        if (this.mapdata.CRS === 'EPSG:3857') {
+      setBaseLayer(crs) {
+        console.log('set base layer');
+        if (crs === 'EPSG:3857') {
           this.map.addLayer(new TileLayer({
             source: new OSM(),
             type: 'base'
           }));
-        } else if (this.mapdata.CRS === 'EPSG:28992') {
+        } else if (crs === 'EPSG:28992') {
           this.map.addLayer(BRT());
-        } else if (this.mapdata.CRS === 'EPSG:4326') {
+        } else if (crs === 'EPSG:4326') {
           this.map.addLayer(base4326());
         }
       },
