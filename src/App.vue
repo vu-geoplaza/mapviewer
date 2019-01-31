@@ -108,7 +108,7 @@
   }
 
   .ol-zoom {
-    left: auto;
+    left: unset !important;
     right: .5em;
     top: 5em;
   }

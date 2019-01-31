@@ -8,119 +8,18 @@ import Projection from 'ol/proj/Projection';
 import {getTopLeft} from 'ol/extent';
 import {fromLonLat} from "ol/proj";
 import {optionsFromCapabilities} from 'ol/source/WMTS';
+
 const uuidv4 = require('uuid/v4');
-
-
-
-export function WMSLayer(service, layer){
-  return new TileLayer({
-    source: new TileWMS({
-      url: service.url,
-      params: {'LAYERS': layer.name},
-      transition: 0,
-
-    }),
-    lid: layer.id,
-    name: layer.name,
-    title: layer.title,
-    extent_lonlat: layer.extent_lonlat,
-    type: 'wms',
-    legend_img: layer.legend_img,
-    visible: layer.visible
-  });
-}
-export function WMTSLayer(service, layer, crs){
-  return new TileLayer({
-    source: new WMTS(layer.options[crs]),
-    lid: layer.id,
-    name: layer.name,
-    title: layer.title,
-    extent_lonlat: layer.extent_lonlat,
-    type: 'wmts',
-    legend_img: layer.legend_img,
-    visible: layer.visible
-  });
-
-}
-
-export function getWMSCapabilities(input_url, callback){
-  const url = input_url.substring(0, input_url.indexOf('?'));
-  const service={
-    type: 'wms',
-    url: url + '?',
-    layers: []
-  };
-  const parser = new WMSCapabilities();
-  fetch(url + '?request=GetCapabilities&service=WMS').then(function(response) {
-    return response.text();
-  }).then(function(text) {
-    const result = parser.read(text);
-    for (const layer of result.Capability.Layer.Layer) {
-      service.layers.push({
-        id: uuidv4(),
-        name: layer.Name,
-        extent_lonlat: layer.EX_GeographicBoundingBox,
-        title: layer.Title,
-        opacity: 0.8,
-        visible: false,
-        legend_img: `${url}?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${layer.Name}&version=1.3.0&SLD_VERSION=1.1.0`,
-        available_crs: layer.CRS
-      });
-    }
-    callback(service);
-  });
-}
-
-export function getWMTSCapabilities(input_url, callback){
-  const url = input_url.substring(0, input_url.indexOf('?'));
-  const service={
-    type: 'wmts',
-    url: url + '?',
-    layers: []
-  };
-  const parser = new WMTSCapabilities();
-  fetch(url + '?request=GetCapabilities&service=WMTS').then(function(response) {
-    return response.text();
-  }).then(function(text) {
-    const result = parser.read(text);
-    for (const layer of result.Contents.Layer) {
-      const crs=[];
-
-      const options={};
-      // see: https://openlayers.org/en/latest/examples/wmts-layer-from-capabilities.html
-      for (const link of layer.TileMatrixSetLink){
-        crs.push(link.TileMatrixSet);
-        if (['EPSG:28992','EPSG:4326','EPSG:3857'].indexOf(link.TileMatrixSet)>-1) {
-          const o = optionsFromCapabilities(result, {
-            layer: layer.Title,
-            matrixSet: link.TileMatrixSet
-          });
-          options[link.TileMatrixSet] = o;
-        }
-      }
-      service.layers.push({
-        id: uuidv4(),
-        name: layer.Name,
-        title: layer.Title,
-        extent_lonlat: layer.WGS84BoundingBox,
-        opacity: 0.8,
-        visible: false,
-        legend_img: `${url}?service=WMTS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${layer.Name}&version=1.3.0&SLD_VERSION=1.1.0`,
-        available_crs: crs,
-        options: options
-      });
-    }
-    callback(service);
-  });
-}
 
 export const BRT_EXTENT = [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999];
 export const BRT_RESOLUTIONS = [3440.640, 1720.320, 860.160, 430.080, 215.040, 107.520, 53.760, 26.880, 13.440, 6.720, 3.360, 1.680, 0.840, 0.420, 0.210];
 
+const VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
+
 export function BRT() {
 // Geldigheidsgebied van het tiling schema in RD-coördinaten:
   var projectionExtent = BRT_EXTENT;
-  var projection = new Projection({ code: 'EPSG:28992', units: 'm', extent: projectionExtent });
+  var projection = new Projection({code: 'EPSG:28992', units: 'm', extent: projectionExtent});
 // Resoluties (pixels per meter) van de zoomniveaus:
   var resolutions = BRT_RESOLUTIONS;
   //var size = ol.extent.getWidth(projectionExtent) / 256;
@@ -151,7 +50,7 @@ export function BRT() {
   })
 }
 
-export function base4326(){
+export function base4326() {
   return new TileLayer({
     zIndex: 1,
     type: 'base',
@@ -166,4 +65,178 @@ export function base4326(){
     })
   })
 }
+
+export const layerHelper = {
+  /**
+   * return an array of ol layer instances part of this service
+   *
+   * @param serviceData
+   */
+  getLayersInstance: async function (serviceData, crs) {
+    var me = this;
+    serviceData.layers = (typeof serviceData.layers === 'undefined') ? [] : serviceData.layers;
+    if (serviceData.type === 'wms') {
+      var service = await this.getWMSCapabilities(serviceData.url).then(function (cap_service) {
+        return me.merge(serviceData, cap_service, crs);
+      });
+      console.log('returning updated service 2');
+      return service;
+    } else if (serviceData.type === 'wmts') {
+      var service = await this.getWMTSCapabilities(serviceData.url).then(function (cap_service) {
+        return me.merge(serviceData, cap_service, crs);
+      });
+      console.log('returning updated service 2');
+      return service;
+    }
+  },
+  merge(serviceData, cap_service, crs) {
+    const service = serviceData;
+    console.log('after get capabilities');
+    if (serviceData.layers.length === 0) {
+      console.log('no specific layers asked, adding all');
+      var layers = [];
+      console.log(cap_service);
+      for (const layer of cap_service.layers) {
+        layer.opacity = 0.8;
+        layer.visible = false;
+        if (service.type === 'wms') {
+          layer.ol = this.WMSLayer(cap_service, layer);
+        } else if (service.type === 'wmts') {
+          layer.ol = this.WMTSLayer(cap_service, layer, crs);
+        }
+        if (layer.ol!==false) {
+          layers.push(layer);
+        }
+      }
+      service.layers = layers;
+    } else {
+      var layer_names = [];
+      for (const l of serviceData.layers) {
+        layer_names.push(l.title);
+      }
+      service.ol_layers = [];
+      for (const layer of cap_service.layers) {
+        const index = layer_names.indexOf(layer.title);
+        if (index > -1) {
+          // should have better merge
+          layer.opacity == serviceData.layers[index].opacity;
+          layer.visible == serviceData.layers[index].visible;
+          layer.ol = WMSLayer(cap_service, layer);
+          service.layers[index] = layer;
+        }
+      }
+    }
+    console.log('returning updated service 1');
+    return service
+  },
+  getWMSCapabilities: async function (input_url) {
+    const url = input_url.substring(0, input_url.indexOf('?'));
+    const service = {
+      type: 'wms',
+      url: url + '?',
+      layers: []
+    };
+    const parser = new WMSCapabilities();
+    console.log('start get capabilities');
+    return fetch(url + '?request=GetCapabilities&service=WMS').then(function (response) {
+      return response.text();
+    }).then(function (text) {
+      const result = parser.read(text);
+      for (const layer of result.Capability.Layer.Layer) {
+        service.layers.push({
+          id: uuidv4(),
+          name: layer.Name,
+          extent_lonlat: layer.EX_GeographicBoundingBox,
+          title: layer.Title,
+          legend_img: `${url}?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${layer.Name}&version=1.3.0&SLD_VERSION=1.1.0`,
+          available_crs: layer.CRS
+        });
+      }
+      console.log('return get capabilities');
+      return service;
+    });
+  },
+  getWMTSCapabilities: async function (input_url) {
+    const url = input_url.substring(0, input_url.indexOf('?'));
+    const service = {
+      type: 'wmts',
+      url: url + '?',
+      layers: []
+    };
+    const parser = new WMTSCapabilities();
+    return fetch(url + '?request=GetCapabilities&service=WMTS').then(function (response) {
+      return response.text();
+    }).then(function (text) {
+      const result = parser.read(text);
+      for (const layer of result.Contents.Layer) {
+        //console.log(layer);
+        const crs = [];
+        const options = {};
+        // see: https://openlayers.org/en/latest/examples/wmts-layer-from-capabilities.html
+        var ok=true;
+        for (const link of layer.TileMatrixSetLink) {
+          crs.push(link.TileMatrixSet);
+          // this will only work for known projections
+          if (VIEWER_CRS.indexOf(link.TileMatrixSet) > -1) {
+            const o = optionsFromCapabilities(result, {
+              layer: layer.Title,
+              matrixSet: link.TileMatrixSet
+            });
+            options[link.TileMatrixSet] = o;
+          }
+        }
+          service.layers.push({
+            id: uuidv4(),
+            name: layer.Name,
+            title: layer.Title,
+            extent_lonlat: layer.WGS84BoundingBox,
+            opacity: 0.8,
+            visible: false,
+            legend_img: `${url}?service=WMTS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${layer.Name}&version=1.3.0&SLD_VERSION=1.1.0`,
+            available_crs: crs,
+            options: options
+
+        });
+
+        console.log('return get capabilities');
+      }
+      return service;
+    });
+  },
+  WMSLayer(service, layer) {
+    return new TileLayer({
+      source: new TileWMS({
+        url: service.url,
+        params: {'LAYERS': layer.name},
+        transition: 0,
+
+      }),
+      lid: layer.id,
+      name: layer.name,
+      title: layer.title,
+      extent_lonlat: layer.extent_lonlat,
+      type: 'wms',
+      legend_img: layer.legend_img,
+      visible: layer.visible,
+      opacity: layer.opacity
+    });
+  },
+  WMTSLayer(service, layer, crs) {
+    if (typeof layer.options[crs] === 'undefined') {
+      console.log(layer.title + ' is not available at this CRS');
+      return false;
+    } else {
+      return new TileLayer({
+        source: new WMTS(layer.options[crs]),
+        lid: layer.id,
+        name: layer.name,
+        title: layer.title,
+        extent_lonlat: layer.extent_lonlat,
+        type: 'wmts',
+        legend_img: layer.legend_img,
+        visible: layer.visible
+      });
+    }
+  }
+};
 

@@ -7,13 +7,10 @@
   import OSM from 'ol/source/OSM';
   import {register} from 'ol/proj/proj4'
   import {
-    WMSLayer,
-    WMTSLayer,
-    getWMSCapabilities,
-    getWMTSCapabilities,
     BRT,
     base4326,
-    setView
+    setView,
+    layerHelper
   } from "@/assets/layerHelpers";
   import {GpzEventBus} from '@/main.js';
   import {transformExtent} from "ol/proj";
@@ -42,9 +39,25 @@
       return {
         mapdata: {
           CRS: 'EPSG:28992',
-          extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999],
+          bbox: [3.31497114423, 50.803721015, 7.09205325687, 53.5104033474],
           available_crs: [],
-          services: []
+          services: [
+            {
+              type: 'wms',
+              url: 'https://geodata.nationaalgeoregister.nl/inspire/sr/ows?',
+              layers: []
+            },
+            {
+              type: 'wms',
+              url: 'https://geodata.nationaalgeoregister.nl/bestandbodemgebruik2015/ows?',
+              layers: []
+            },
+/*            {
+              type: 'wmts',
+              url: 'https://geodata.nationaalgeoregister.nl/tiles/service/wmts?',
+              layers: []
+            }*/
+          ]
         },
         map: Object
       }
@@ -60,8 +73,11 @@
       console.log('map mounted');
       window.setTimeout(() => {
         console.log('set target');
-        this.map.setTarget(document.getElementById('ol-map-container'));
+        var div=document.getElementById('ol-map-container');
+        this.map.setTarget(div);
         this.map.updateSize();
+        // fit to view
+        this.map.getView().fit(transformExtent(this.mapdata.bbox, 'EPSG:4326', this.map.getView().getProjection()), {size: [div.clientWidth,div.clientHeight], nearest: true});
       }, 200);
 
     },
@@ -70,31 +86,30 @@
       this.initMap();
     },
     methods: {
-      initMap() {
+      initMap: function () {
+        var me = this;
         // create a map object, do not bind it to the DOM yet.
         console.log('init map crs: ' + this.mapdata.CRS);
-        const view=new View({
+        const view = new View({
           projection: this.mapdata.CRS
         });
-        view.fit(this.mapdata.extent,{size: [1920,1080], nearest: true});
+
         this.map = new Map({
           view: view,
         });
         console.log(this.map.getView());
         this.map.available_crs = [this.mapdata.CRS];
-        this.addLayers();
-        this.wmsLoader('https://geodata.nationaalgeoregister.nl/inspire/sr/ows?');
-        this.wmsLoader('https://geodata.nationaalgeoregister.nl/bestandbodemgebruik2015/ows?');
-        this.wmtsLoader('https://geodata.nationaalgeoregister.nl/tiles/service/wmts?');
+        console.log('call getinstance from map.vue');
 
+        this.addLayers(this.mapdata);
         this.setBaseLayer();
       },
       reProject: function (crs) {
         console.log('reproject to ' + crs);
         this.removeBaseLayers();
-        const extent = transformExtent(this.map.getView(this.map.getSize()).calculateExtent(),this.mapdata.CRS,crs);
+        const extent = transformExtent(this.map.getView(this.map.getSize()).calculateExtent(), this.mapdata.CRS, crs);
         this.mapdata.CRS = crs;
-        const view=new View({
+        const view = new View({
           projection: this.mapdata.CRS
         });
         view.fit(extent, {size: this.map.getSize(), nearest: true});
@@ -102,49 +117,19 @@
         this.map.setView(view);
         this.setBaseLayer();
       },
-      wmtsLoader: function (url) {
+      addLayers(mapdata) {
         var me = this;
-        getWMTSCapabilities(url, function (service) {
-          me.addLayersFromWMTS(service);
-        });
-      },
-      wmsLoader: function (url) {
-        var me = this;
-        getWMSCapabilities(url, function (service) {
-          me.addLayersFromWMS(service);
-        });
-      },
-      addLayers: function () {
-        console.log('add layers');
-        for (const service of this.mapdata.services) {
-          if (service.type === 'wms') {
-            this.addLayersFromWMS(service);
-
-          } else if (service.type === 'wmts') {
-            this.addLayersFromWMTS(service);
-          }
-        }
-      },
-      addLayersFromWMS(service) {
-        for (const layer of service.layers) {
-          const l = WMSLayer(service, layer);
-          l.setVisible(layer.visible);
-          this.calcAvailableCRS(layer.available_crs);
-          console.log(l.get('name'));
-          this.map.addLayer(l);
-        }
-      },
-      addLayersFromWMTS(service) {
-        for (const layer of service.layers) {
-          const l = WMTSLayer(service, layer, this.mapdata.CRS);
-          l.setVisible(layer.visible);
-          this.calcAvailableCRS(layer.available_crs);
-          this.map.addLayer(l);
+        for (const service of mapdata.services) {
+          layerHelper.getLayersInstance(service, mapdata.CRS).then(function (serviceData) {
+            for (const layer of serviceData.layers) {
+              me.calcAvailableCRS(layer.available_crs);
+              me.map.addLayer(layer.ol);
+            }
+          });
         }
       },
       calcAvailableCRS(arr_crs) {
         const allowedCRS = ['EPSG:28992', 'EPSG:3857', 'EPSG:4326'];
-
         if (this.map.available_crs.length <= 1) {
           this.map.available_crs = allowedCRS;
         }
@@ -155,23 +140,21 @@
           }
         }
         this.map.available_crs = new_arr;
-
       },
       setBaseLayer() {
-        if (this.mapdata.CRS==='EPSG:3857') {
-          console.log('add OSM base layer');
+        if (this.mapdata.CRS === 'EPSG:3857') {
           this.map.addLayer(new TileLayer({
             source: new OSM(),
             type: 'base'
           }));
-        } else if (this.mapdata.CRS==='EPSG:28992') {
+        } else if (this.mapdata.CRS === 'EPSG:28992') {
           this.map.addLayer(BRT());
-        } else if (this.mapdata.CRS==='EPSG:4326') {
+        } else if (this.mapdata.CRS === 'EPSG:4326') {
           this.map.addLayer(base4326());
         }
       },
       removeBaseLayers() {
-        var me=this;
+        var me = this;
         this.map.getLayers().forEach(function (layer) {
           if (layer != undefined) {
             if (layer.get('type') === 'base') {

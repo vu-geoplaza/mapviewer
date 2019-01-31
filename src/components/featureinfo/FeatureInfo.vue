@@ -52,6 +52,7 @@
         const viewResolution = (this.map.getView().getResolution());
         const viewProjection = (this.map.getView().getProjection());
         const layers = this.map.getLayers();
+        //TODO: featureInfo for WMTS
         layers.forEach(function (layer) {
           if (layer.get('type') === 'wms') {
             if (layer.getVisible()) {
