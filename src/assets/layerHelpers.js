@@ -68,9 +68,12 @@ export function base4326() {
 
 export const layerHelper = {
   /**
-   * return an array of ol layer instances part of this service
+   * adds OL layer objects to a mapdata service
    *
    * @param serviceData
+   * @param crs
+   * @param order
+   * @returns {Promise<T>} augmented mapdata service object
    */
   getLayersInstance: async function (serviceData, crs, order) {
     var me = this;
@@ -87,6 +90,15 @@ export const layerHelper = {
       return service;
     }
   },
+  /**
+   * Merge the mapdata service object with the Capabilities info and the OL layer objects
+   *
+   * @param serviceData
+   * @param cap_service
+   * @param crs
+   * @param order
+   * @returns {*} mapdata service object with OL layer objects added
+   */
   merge(serviceData, cap_service, crs, order) {
     const service = serviceData;
     console.log('after get capabilities');

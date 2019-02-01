@@ -37,12 +37,6 @@
     name: 'GpzMap',
     data() {
       return {
-        mapdata: {
-          CRS: 'EPSG:28992',
-          bbox: [3.31497114423, 50.803721015, 7.09205325687, 53.5104033474],
-          available_crs: [],
-          services: [{}]
-        },
         map: Object
       }
     },
@@ -61,7 +55,7 @@
         this.map.setTarget(div);
         this.map.updateSize();
         // fit to view
-        this.map.getView().fit(transformExtent(this.mapdata.bbox, 'EPSG:4326', this.map.getView().getProjection()), {size: [div.clientWidth,div.clientHeight], nearest: true});
+        this.map.getView().fit(transformExtent(this.$mapdata.bbox, 'EPSG:4326', this.map.getView().getProjection()), {size: [div.clientWidth,div.clientHeight], nearest: true});
       }, 200);
 
     },
@@ -71,49 +65,35 @@
       this.initMap();
     },
     methods: {
-      async fetchData(url) {
-        //return
-      },
       initMap: function () {
         var me = this;
         // create a map object, do not bind it to the DOM yet.
-
-        console.log('init map crs: ' + this.mapdata.CRS);
+        const mapdata=this.$mapdata;
+        console.log('init map crs: ' + mapdata.CRS);
         const view = new View({
-          projection: this.mapdata.CRS
+          projection: mapdata.CRS
         });
 
         this.map = new Map({
           view: view,
         });
-        this.map.available_crs = [this.mapdata.CRS];
+        this.map.available_crs = [mapdata.CRS];
 
-        console.log('call getinstance from map.vue');
-        // TODO: clean this up.
-        this.mapdata=fetch('/static/data.json').then(function (response) {
-          if (!response.ok) {
-            throw new Error("HTTP error " + response.status);
-          }
-          return response.json();
-        }).then(function(data){
-          me.mapdata=data;
-          const view = new View({
-            projection: me.mapdata.CRS
-          });
-          view.fit(transformExtent(me.mapdata.bbox, 'EPSG:4326', view.getProjection()), me.map.getSize());
-          me.map.setView(view);
+        view.fit(transformExtent(mapdata.bbox, 'EPSG:4326', view.getProjection()), this.map.getSize());
+        this.map.setView(view);
 
-          me.setBaseLayer(data.CRS);
-          me.addLayers(data);
-        });
+        this.setBaseLayer(mapdata.CRS);
+        this.addLayers(mapdata);
+
       },
+
       reProject: function (crs) {
         console.log('reproject to ' + crs);
         this.removeBaseLayers();
-        const extent = transformExtent(this.map.getView(this.map.getSize()).calculateExtent(), this.mapdata.CRS, crs);
-        this.mapdata.CRS = crs;
+        const curview=this.map.getView(this.map.getSize());
+        const extent = transformExtent(curview.calculateExtent(), curview.getProjection().getCode(), crs);
         const view = new View({
-          projection: this.mapdata.CRS
+          projection: crs
         });
         view.fit(extent, {size: this.map.getSize(), nearest: true});
 

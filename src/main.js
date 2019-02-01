@@ -25,9 +25,21 @@ Vue.config.productionTip = false;
 
 export const GpzEventBus = new Vue();
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  components: { App },
-  template: '<App/>'
-});
+fetch('static/data.json')
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (mapdata) {
+    // make app config accessible for all components
+    Vue.prototype.$mapdata = mapdata;
+
+    /* eslint-disable no-new */
+    new Vue({
+      el: '#app',
+      components: { App },
+      template: '<App/>'
+    });
+  });
+
+
+

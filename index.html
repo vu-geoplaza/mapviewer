@@ -9,4 +9,67 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+<script>
+  var mapdata={
+    "CRS": "EPSG:28992",
+    "bbox": [
+      2.8198683170561836,
+      52.5610574471442,
+      7.694766804449606,
+      53.21909556280224
+    ],
+    "order": [
+      "0aea803a-ee83-4ac9-b98f-9308d5e8aadb",
+      "2ef1fd77-db88-426d-b24b-8ed41daeb379",
+      "063fd152-e770-40ae-b322-591f24c2a66e",
+      "9cd8fc99-b37a-4c8d-89c2-4a649d038029",
+      "d9d85d30-4d4b-442b-b0b1-c6b70511689f"
+    ],
+    "services": [
+      {
+        "url": "https://geodata.nationaalgeoregister.nl/inspire/sr/ows?",
+        "type": "wms",
+        "layers": [
+          {
+            "id": "0aea803a-ee83-4ac9-b98f-9308d5e8aadb",
+            "title": "Coastline",
+            "visible": true,
+            "opacity": 0.8
+          },
+          {
+            "id": "063fd152-e770-40ae-b322-591f24c2a66e",
+            "title": "InterTidalArea",
+            "visible": false,
+            "opacity": 0.8
+          },
+          {
+            "id": "9cd8fc99-b37a-4c8d-89c2-4a649d038029",
+            "title": "Shoreline",
+            "visible": false,
+            "opacity": 0.8
+          }
+        ]
+      },
+      {
+        "url": "https://geodata.nationaalgeoregister.nl/bestandbodemgebruik2015/ows?",
+        "type": "wms",
+        "layers": [
+          {
+            "id": "2ef1fd77-db88-426d-b24b-8ed41daeb379",
+            "title": "bbg2015_hoofdgroep",
+            "visible": false,
+            "opacity": 0.8
+          },
+          {
+            "id": "d9d85d30-4d4b-442b-b0b1-c6b70511689f",
+            "title": "bbg2015",
+            "visible": false,
+            "opacity": 0.8
+          }
+        ]
+      }
+    ]
+  }
+
+</script>
 </html>

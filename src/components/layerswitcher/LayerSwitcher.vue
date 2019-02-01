@@ -95,9 +95,9 @@
               l.setZIndex(zindex);
               zindex--;
             }
-            this.init=false;
             this.map.updateSize();
           }
+          this.init=false;
         },
         deep: true
       }
