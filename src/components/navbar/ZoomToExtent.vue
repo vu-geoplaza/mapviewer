@@ -14,10 +14,8 @@
         zoomExtent() {
           const a=this.map.getLayers().getArray();
           const toplayer=a[a.length - 1];
-          console.log(toplayer);
           const view=this.map.getView()
           const extent=toplayer.get('extent_lonlat');
-          console.log(extent);
           if (extent!==undefined) {
             view.fit(transformExtent(extent, 'EPSG:4326', view.getProjection()), this.map.getSize());
           }

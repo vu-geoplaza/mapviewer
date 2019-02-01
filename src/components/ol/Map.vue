@@ -94,7 +94,6 @@
           if (!response.ok) {
             throw new Error("HTTP error " + response.status);
           }
-          console.log(response);
           return response.json();
         }).then(function(data){
           me.mapdata=data;

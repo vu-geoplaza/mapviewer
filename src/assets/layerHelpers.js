@@ -93,7 +93,6 @@ export const layerHelper = {
     if (serviceData.layers.length === 0) {
       console.log('no specific layers asked, adding all');
       var layers = [];
-      console.log(cap_service);
       for (const layer of cap_service.layers) {
         layer.opacity = 0.8;
         layer.visible = false;
@@ -118,14 +117,10 @@ export const layerHelper = {
         const index = layer_names.indexOf(layer.title);
         if (index > -1) {
           // should have better merge, but ok for just 2 attributes
-          console.log(serviceData);
           layer.id = serviceData.layers[index].id;
           layer.opacity = serviceData.layers[index].opacity;
           layer.visible = serviceData.layers[index].visible;
           layer.zIndex = 100-order.indexOf(layer.id);
-          console.log(order);
-          console.log(layer.id);
-          console.log('***** add with zindex ' + layer.zIndex)
           if (service.type === 'wms') {
             layer.ol = this.WMSLayer(cap_service, layer);
           } else if (service.type === 'wmts') {
@@ -211,7 +206,6 @@ export const layerHelper = {
     });
   },
   WMSLayer(service, layer) {
-    console.log(layer.visible);
     return new TileLayer({
       source: new TileWMS({
         url: service.url,

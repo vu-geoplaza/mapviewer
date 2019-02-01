@@ -63,7 +63,6 @@
         var layerItems = [];
         layers.forEach(function (layer) {
           if (layer.get('type') === 'wms'||layer.get('type') === 'wmts') {
-            console.log(layer.getZIndex())
             layerItems.push({
               id: layer.get('lid'),
               name: layer.get('name'),
@@ -75,12 +74,9 @@
             });
           }
         });
-        console.log('************ sort');
-        console.log(layerItems[0]);
         layerItems.sort(function(a,b){
           return b.zIndex - a.zIndex;
         });
-        console.log(layerItems[0]);
         this.items = layerItems;
         this.init=true;
       }
