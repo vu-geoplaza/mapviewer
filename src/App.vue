@@ -115,7 +115,7 @@
     top: 5em;
   }
 
-  .nav-link {
+  .navbar .nav-link {
     color: white;
   }
 </style>

@@ -124,7 +124,7 @@
       addLayers(mapdata) {
         var me = this;
         for (const service of mapdata.services) {
-          layerHelper.getLayersInstance(service, mapdata.CRS).then(function (serviceData) {
+          layerHelper.getLayersInstance(service, mapdata.CRS, mapdata.order).then(function (serviceData) {
             for (const layer of serviceData.layers) {
               console.log('add layer '+layer.title);
               me.calcAvailableCRS(layer.available_crs);

@@ -72,22 +72,22 @@ export const layerHelper = {
    *
    * @param serviceData
    */
-  getLayersInstance: async function (serviceData, crs) {
+  getLayersInstance: async function (serviceData, crs, order) {
     var me = this;
     serviceData.layers = (typeof serviceData.layers === 'undefined') ? [] : serviceData.layers;
     if (serviceData.type === 'wms') {
       var service = await this.getWMSCapabilities(serviceData.url).then(function (cap_service) {
-        return me.merge(serviceData, cap_service, crs);
+        return me.merge(serviceData, cap_service, crs, order);
       });
       return service;
     } else if (serviceData.type === 'wmts') {
       var service = await this.getWMTSCapabilities(serviceData.url).then(function (cap_service) {
-        return me.merge(serviceData, cap_service, crs);
+        return me.merge(serviceData, cap_service, crs, order);
       });
       return service;
     }
   },
-  merge(serviceData, cap_service, crs) {
+  merge(serviceData, cap_service, crs, order) {
     const service = serviceData;
     console.log('after get capabilities');
     if (serviceData.layers.length === 0) {
@@ -97,6 +97,7 @@ export const layerHelper = {
       for (const layer of cap_service.layers) {
         layer.opacity = 0.8;
         layer.visible = false;
+        layer.id = uuidv4();
         if (service.type === 'wms') {
           layer.ol = this.WMSLayer(cap_service, layer);
         } else if (service.type === 'wmts') {
@@ -117,9 +118,14 @@ export const layerHelper = {
         const index = layer_names.indexOf(layer.title);
         if (index > -1) {
           // should have better merge, but ok for just 2 attributes
-
+          console.log(serviceData);
+          layer.id = serviceData.layers[index].id;
           layer.opacity = serviceData.layers[index].opacity;
           layer.visible = serviceData.layers[index].visible;
+          layer.zIndex = 100-order.indexOf(layer.id);
+          console.log(order);
+          console.log(layer.id);
+          console.log('***** add with zindex ' + layer.zIndex)
           if (service.type === 'wms') {
             layer.ol = this.WMSLayer(cap_service, layer);
           } else if (service.type === 'wmts') {
@@ -147,7 +153,6 @@ export const layerHelper = {
       const result = parser.read(text);
       for (const layer of result.Capability.Layer.Layer) {
         service.layers.push({
-          id: uuidv4(),
           name: layer.Name,
           extent_lonlat: layer.EX_GeographicBoundingBox,
           title: layer.Title,
@@ -189,7 +194,6 @@ export const layerHelper = {
           }
         }
           service.layers.push({
-            id: uuidv4(),
             name: layer.Name,
             title: layer.Title,
             extent_lonlat: layer.WGS84BoundingBox,
@@ -222,7 +226,8 @@ export const layerHelper = {
       type: 'wms',
       legend_img: layer.legend_img,
       visible: layer.visible,
-      opacity: layer.opacity
+      opacity: layer.opacity,
+      zIndex: layer.zIndex
     });
   },
   WMTSLayer(service, layer, crs) {
@@ -238,7 +243,8 @@ export const layerHelper = {
         extent_lonlat: layer.extent_lonlat,
         type: 'wmts',
         legend_img: layer.legend_img,
-        visible: layer.visible
+        visible: layer.visible,
+        zIndex: layer.zIndex
       });
     }
   }

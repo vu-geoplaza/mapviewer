@@ -55,40 +55,53 @@
       },
       initSwitcher() {
         // get the needed info for the switcher from the map object (from Mapable)
+        console.log('init layer switcher');
         var layers = this.map.getLayers();
         // clone to only reverse the order for the list
-        var layerArrClone = layers.getArray().slice(0);
-        layers = layerArrClone.reverse();
+        //var layerArrClone = layers.getArray().slice(0);
+        //layers = layerArrClone.reverse();
         var layerItems = [];
         layers.forEach(function (layer) {
           if (layer.get('type') === 'wms'||layer.get('type') === 'wmts') {
+            console.log(layer.getZIndex())
             layerItems.push({
               id: layer.get('lid'),
               name: layer.get('name'),
               title: layer.get('title'),
               visible: layer.getVisible(),
               opacity: layer.getOpacity(),
-              legend_img: layer.get('legend_img')
+              legend_img: layer.get('legend_img'),
+              zIndex: layer.getZIndex()
             });
           }
         });
+        console.log('************ sort');
+        console.log(layerItems[0]);
+        layerItems.sort(function(a,b){
+          return b.zIndex - a.zIndex;
+        });
+        console.log(layerItems[0]);
         this.items = layerItems;
+        this.init=true;
       }
     },
     watch: {
       items: {
         handler(val, oldVal) {
-          // Update the map when something changes in the switcher.
-          // Looks like it's to messy to isolate exactly what is changed
-          console.log('items handler tripped')
-          var zindex = 100;
-          for (const item of val) {
-            const l = this.map.getLayerByLid(item.id);
-            l.setVisible(item.visible);
-            l.setZIndex(zindex);
-            zindex--;
+          if (!this.init) { // don't run on initializing thw switcher itself
+            // Update the map when something changes in the switcher.
+            // Looks like it's to messy to isolate exactly what is changed
+            console.log('items handler tripped')
+            var zindex = 100;
+            for (const item of val) {
+              const l = this.map.getLayerByLid(item.id);
+              l.setVisible(item.visible);
+              l.setZIndex(zindex);
+              zindex--;
+            }
+            this.init=false;
+            this.map.updateSize();
           }
-          this.map.updateSize();
         },
         deep: true
       }
