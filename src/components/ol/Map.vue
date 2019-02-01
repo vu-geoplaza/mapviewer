@@ -42,6 +42,21 @@
       GpzEventBus.$on('change-projection', crs => {
         this.reProject(crs)
       });
+      var me=this;
+      GpzEventBus.$on('add-service', options => {
+        const service={
+          type: options.type,
+          url: options.url
+        }
+        console.log('adding service');
+        layerHelper.getServiceInstance(service, this.map.getView().getProjection().getCode()).then(function (serviceData) {
+          for (const layer of serviceData.layers) {
+            console.log('add layer ' + layer.title);
+            me.calcAvailableCRS(layer.available_crs);
+            me.map.addLayer(layer.ol);
+          }
+        });
+      });
 
       // resize the map, so it fits to parent
       console.log('map mounted');
@@ -99,7 +114,7 @@
       addLayers(mapdata) {
         var me = this;
         for (const service of mapdata.services) {
-          layerHelper.getLayersInstance(service, mapdata.CRS, mapdata.order).then(function (serviceData) {
+          layerHelper.getServiceInstance(service, mapdata.CRS, mapdata.order).then(function (serviceData) {
             for (const layer of serviceData.layers) {
               console.log('add layer '+layer.title);
               me.calcAvailableCRS(layer.available_crs);

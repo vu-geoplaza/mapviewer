@@ -49,13 +49,13 @@
           me.initSwitcher();
         });
       },
+      /**
+       * get all the layers from the map, create the switcher items, sort them by the layer zIndex
+       */
       initSwitcher() {
         // get the needed info for the switcher from the map object (from Mapable)
         console.log('init layer switcher');
         var layers = this.map.getLayers();
-        // clone to only reverse the order for the list
-        //var layerArrClone = layers.getArray().slice(0);
-        //layers = layerArrClone.reverse();
         var layerItems = [];
         layers.forEach(function (layer) {
           if (layer.get('type') === 'wms'||layer.get('type') === 'wmts') {
@@ -79,10 +79,15 @@
     },
     watch: {
       items: {
+        /**
+         * automatically called when the items array changes.
+         * Will set the zIndex of the map layers in the same order as the switcher
+         *
+         * @param val
+         * @param oldVal
+         */
         handler(val, oldVal) {
-          if (!this.init) { // don't run on initializing thw switcher itself
-            // Update the map when something changes in the switcher.
-            // Looks like it's to messy to isolate exactly what is changed
+          if (!this.init) { // don't run on initializing the switcher itself, might mess up the order when asynchronously adding layers
             console.log('items handler tripped')
             var zindex = 100;
             for (const item of val) {

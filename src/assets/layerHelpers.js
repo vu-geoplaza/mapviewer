@@ -75,7 +75,7 @@ export const layerHelper = {
    * @param order
    * @returns {Promise<T>} augmented mapdata service object
    */
-  getLayersInstance: async function (serviceData, crs, order) {
+  getServiceInstance: async function (serviceData, crs, order) {
     var me = this;
     serviceData.layers = (typeof serviceData.layers === 'undefined') ? [] : serviceData.layers;
     if (serviceData.type === 'wms') {

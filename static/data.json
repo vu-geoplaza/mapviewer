@@ -1,0 +1,71 @@
+{
+  "CRS": "EPSG:28992",
+  "bbox": [
+    2.7906529317858966,
+    52.1414097243633,
+    7.713581591837995,
+    53.640264162792946
+  ],
+  "services": [
+    {
+      "url": "https://geodata.nationaalgeoregister.nl/inspire/sr/ows?",
+      "type": "wms",
+      "layers": [
+        {
+          "id": "0aea803a-ee83-4ac9-b98f-9308d5e8aadb",
+          "title": "Coastline",
+          "visible": true,
+          "opacity": 0.8,
+          "zindex": 100
+        },
+        {
+          "id": "063fd152-e770-40ae-b322-591f24c2a66e",
+          "title": "InterTidalArea",
+          "visible": false,
+          "opacity": 0.8,
+          "zindex": 98
+        },
+        {
+          "id": "9cd8fc99-b37a-4c8d-89c2-4a649d038029",
+          "title": "Shoreline",
+          "visible": false,
+          "opacity": 0.8,
+          "zindex": 96
+        }
+      ]
+    },
+    {
+      "url": "https://geodata.nationaalgeoregister.nl/bestandbodemgebruik2015/ows?",
+      "type": "wms",
+      "layers": [
+        {
+          "id": "2ef1fd77-db88-426d-b24b-8ed41daeb379",
+          "title": "bbg2015_hoofdgroep",
+          "visible": false,
+          "opacity": 0.8,
+          "zindex": 95
+        },
+        {
+          "id": "d9d85d30-4d4b-442b-b0b1-c6b70511689f",
+          "title": "bbg2015",
+          "visible": false,
+          "opacity": 0.8,
+          "zindex": 99
+        }
+      ]
+    },
+    {
+      "url": "http://geoplaza.vu.nl/ows/kerken?",
+      "type": "wms",
+      "layers": [
+        {
+          "id": "5c55c1d5-42cf-43c0-ad3d-de8deb009486",
+          "title": "Stijl",
+          "visible": true,
+          "opacity": 0.8,
+          "zindex": 97
+        }
+      ]
+    }
+  ]
+}
