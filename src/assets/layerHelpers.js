@@ -132,7 +132,7 @@ export const layerHelper = {
           layer.id = serviceData.layers[index].id;
           layer.opacity = serviceData.layers[index].opacity;
           layer.visible = serviceData.layers[index].visible;
-          layer.zIndex = 100-order.indexOf(layer.id);
+          layer.zIndex = serviceData.layers[index].zindex;
           if (service.type === 'wms') {
             layer.ol = this.WMSLayer(cap_service, layer);
           } else if (service.type === 'wmts') {
@@ -154,7 +154,7 @@ export const layerHelper = {
     };
     const parser = new WMSCapabilities();
     console.log('start get capabilities');
-    return fetch(url + '?request=GetCapabilities&service=WMS').then(function (response) {
+    return fetch(url + '?request=GetCapabilities&service=WMS',).then(function (response) {
       return response.text();
     }).then(function (text) {
       const result = parser.read(text);

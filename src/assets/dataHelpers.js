@@ -10,7 +10,6 @@ export const dataHelper = {
     const view=olmap.getView();
     const services=[];
     const tmp=[];
-    const order=[];
     olmap.getLayers().forEach(function(layer){
       const type=layer.get('type');
       if (type==='wms'||type==='wmts') {
@@ -19,6 +18,7 @@ export const dataHelper = {
           title: layer.get('title'),
           visible: layer.getVisible(),
           opacity: layer.getOpacity(),
+          zindex: layer.getZIndex()
         };
         const url=layer.getSource().getUrls()[0];
         if (typeof tmp[url] === 'undefined') {
@@ -28,7 +28,7 @@ export const dataHelper = {
           tmp[url][type]=[];
         }
         tmp[url][type].push(lyr);
-        order.push(layer.get('lid'));
+
       }
     });
 
@@ -44,7 +44,6 @@ export const dataHelper = {
     const mapdata= {
       CRS: view.getProjection().getCode(),
       bbox: transformExtent( view.calculateExtent(), view.getProjection(), 'EPSG:4326'),
-      order: order.reverse(),
       services: services
     };
     return mapdata

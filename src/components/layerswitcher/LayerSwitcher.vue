@@ -31,10 +31,6 @@
       SortableItem,
       SortableList
     },
-    created() {
-      console.log('switcher created')
-      //this.initSwitcher()
-    },
     data() {
       return {
         items: [],
