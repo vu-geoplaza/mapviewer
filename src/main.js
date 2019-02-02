@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
 import Vue from 'vue'
-import App from './App'
+import GpzViewer from './GpzViewer'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faArrowLeft,faArrowRight,faLayerGroup } from '@fortawesome/free-solid-svg-icons'
@@ -26,7 +26,7 @@ Vue.config.productionTip = false;
 
 
 export const GpzEventBus = new Vue();
-const datafile=document.getElementById("app").dataset.configfile
+const datafile=document.getElementById("gpz").dataset.configfile
 fetch(datafile)
   .then(function (response) {
     return response.json();
@@ -40,9 +40,9 @@ fetch(datafile)
 
     /* eslint-disable no-new */
     new Vue({
-      el: '#app',
-      components: { App },
-      template: '<App/>'
+      el: '#gpz',
+      components: { GpzViewer },
+      template: '<GpzViewer/>'
     });
   });
 

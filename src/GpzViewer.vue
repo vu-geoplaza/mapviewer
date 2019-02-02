@@ -30,7 +30,7 @@
       GpzEventBus.$emit('app-mounted');
       console.log('app mounted')
     },
-    name: 'App',
+    name: 'GpzViewer',
     components: {
       ServiceLoader,
       NavBar,
