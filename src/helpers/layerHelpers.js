@@ -9,6 +9,9 @@ import {getTopLeft} from 'ol/extent';
 import {fromLonLat} from "ol/proj";
 import {optionsFromCapabilities} from 'ol/source/WMTS';
 
+import ViewerLayer from './ViewerLayer';
+import ViewerService from './ViewerService';
+
 const uuidv4 = require('uuid/v4');
 
 export const BRT_EXTENT = [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999];
@@ -80,12 +83,12 @@ export const layerHelper = {
     serviceData.layers = (typeof serviceData.layers === 'undefined') ? [] : serviceData.layers;
     if (serviceData.type === 'wms') {
       var service = await this.getWMSCapabilities(serviceData.url).then(function (cap_service) {
-        return me.merge(serviceData, cap_service, crs, order);
+        return me.merge(serviceData, cap_service, crs);
       });
       return service;
     } else if (serviceData.type === 'wmts') {
       var service = await this.getWMTSCapabilities(serviceData.url).then(function (cap_service) {
-        return me.merge(serviceData, cap_service, crs, order);
+        return me.merge(serviceData, cap_service, crs);
       });
       return service;
     }
@@ -96,62 +99,49 @@ export const layerHelper = {
    * @param serviceData
    * @param cap_service
    * @param crs
-   * @param order
    * @returns {*} mapdata service object with OL layer objects added
    */
-  merge(serviceData, cap_service, crs, order) {
+  merge(serviceData, cap_service, crs) {
     const service = serviceData;
-    console.log('after get capabilities');
+    var layerstoadd = [];
     if (serviceData.layers.length === 0) {
-      console.log('no specific layers asked, adding all');
-      var layers = [];
-      for (const layer of cap_service.layers) {
-        layer.opacity = 0.8;
-        layer.visible = false;
-        layer.id = uuidv4();
-        if (service.type === 'wms') {
-          layer.ol = this.WMSLayer(cap_service, layer);
-        } else if (service.type === 'wmts') {
-          layer.ol = this.WMTSLayer(cap_service, layer, crs);
-        }
-        if (layer.ol!==false) {
-          layers.push(layer);
-        }
-      }
-      service.layers = layers;
+      layerstoadd = cap_service.layers;
     } else {
       var layer_names = [];
       for (const l of serviceData.layers) {
         layer_names.push(l.title);
       }
-      service.ol_layers = [];
       for (const layer of cap_service.layers) {
         const index = layer_names.indexOf(layer.title);
         if (index > -1) {
-          // should have better merge, but ok for just 2 attributes
-          layer.id = serviceData.layers[index].id;
-          layer.opacity = serviceData.layers[index].opacity;
-          layer.visible = serviceData.layers[index].visible;
-          layer.zIndex = serviceData.layers[index].zindex;
-          if (service.type === 'wms') {
-            layer.ol = this.WMSLayer(cap_service, layer);
-          } else if (service.type === 'wmts') {
-            layer.ol = this.WMTSLayer(cap_service, layer, crs);
-          }
-          service.layers[index] = layer;
+          console.log('----------');
+          console.log(layer);
+          layer.mergeConfigSettings(serviceData.layers[index]);
+          console.log(layer);
+          layerstoadd.push(layer);
         }
       }
     }
-    console.log('returning updated service 1');
+    var layers = [];
+    for (const layer of layerstoadd) {
+      if (service.type === 'wms') {
+        layer.ol = this.WMSLayer(cap_service, layer);
+      } else if (service.type === 'wmts') {
+        layer.ol = this.WMTSLayer(cap_service, layer, crs);
+      }
+      if (layer.ol !== false) {
+        layers.push(layer);
+      }
+    }
+    service.layers = layers;
     return service
   },
   getWMSCapabilities: async function (input_url) {
     const url = input_url.substring(0, input_url.indexOf('?'));
-    const service = {
+    const service = new ViewerService({
       type: 'wms',
       url: url + '?',
-      layers: []
-    };
+    });
     const parser = new WMSCapabilities();
     console.log('start get capabilities');
     return fetch(url + '?request=GetCapabilities&service=WMS',).then(function (response) {
@@ -159,13 +149,13 @@ export const layerHelper = {
     }).then(function (text) {
       const result = parser.read(text);
       for (const layer of result.Capability.Layer.Layer) {
-        service.layers.push({
+        service.layers.push(new ViewerLayer({
           name: layer.Name,
           extent_lonlat: layer.EX_GeographicBoundingBox,
           title: layer.Title,
           legend_img: `${url}?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${layer.Name}&version=1.3.0&SLD_VERSION=1.1.0`,
           available_crs: layer.CRS
-        });
+        }));
       }
       console.log('return get capabilities');
       return service;
@@ -173,11 +163,10 @@ export const layerHelper = {
   },
   getWMTSCapabilities: async function (input_url) {
     const url = input_url.substring(0, input_url.indexOf('?'));
-    const service = {
+    const service = new ViewerService({
       type: 'wmts',
       url: url + '?',
-      layers: []
-    };
+    });
     const parser = new WMTSCapabilities();
     return fetch(url + '?request=GetCapabilities&service=WMTS').then(function (response) {
       return response.text();
@@ -188,7 +177,7 @@ export const layerHelper = {
         const crs = [];
         const options = {};
         // see: https://openlayers.org/en/latest/examples/wmts-layer-from-capabilities.html
-        var ok=true;
+        var ok = true;
         for (const link of layer.TileMatrixSetLink) {
           crs.push(link.TileMatrixSet);
           // this will only work for known projections
@@ -200,17 +189,16 @@ export const layerHelper = {
             options[link.TileMatrixSet] = o;
           }
         }
-          service.layers.push({
-            name: layer.Name,
-            title: layer.Title,
-            extent_lonlat: layer.WGS84BoundingBox,
-            opacity: 0.8,
-            visible: false,
-            legend_img: `${url}?service=WMTS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${layer.Name}&version=1.3.0&SLD_VERSION=1.1.0`,
-            available_crs: crs,
-            options: options
-
-        });
+        service.layers.push(new ViewerLayer({
+          name: layer.Name,
+          title: layer.Title,
+          extent_lonlat: layer.WGS84BoundingBox,
+          opacity: 0.8,
+          visible: false,
+          legend_img: `${url}?service=WMTS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${layer.Name}&version=1.3.0&SLD_VERSION=1.1.0`,
+          available_crs: crs,
+          options: options
+        }));
 
         console.log('return get capabilities');
       }
@@ -218,6 +206,8 @@ export const layerHelper = {
     });
   },
   WMSLayer(service, layer) {
+    console.log('-------- ' + layer.visible);
+    console.log('-------- ' + layer.zindex);
     return new TileLayer({
       source: new TileWMS({
         url: service.url,
@@ -233,7 +223,7 @@ export const layerHelper = {
       legend_img: layer.legend_img,
       visible: layer.visible,
       opacity: layer.opacity,
-      zIndex: layer.zIndex
+      zIndex: layer.zindex
     });
   },
   WMTSLayer(service, layer, crs) {
@@ -250,7 +240,7 @@ export const layerHelper = {
         type: 'wmts',
         legend_img: layer.legend_img,
         visible: layer.visible,
-        zIndex: layer.zIndex
+        zIndex: layer.zindex
       });
     }
   }

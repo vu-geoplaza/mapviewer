@@ -6,7 +6,7 @@
 
 <script>
   import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
-  import {dataHelper} from "@/assets/dataHelpers";
+  import {dataHelper} from "@/helpers/dataHelpers";
     export default {
       name: "FileSaver",
       mixins: [Mapable],

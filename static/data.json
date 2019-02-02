@@ -1,5 +1,5 @@
 {
-  "CRS": "EPSG:28992",
+  "crs": "EPSG:28992",
   "bbox": [
     2.7906529317858966,
     52.1414097243633,
@@ -24,13 +24,6 @@
           "visible": false,
           "opacity": 0.8,
           "zindex": 98
-        },
-        {
-          "id": "9cd8fc99-b37a-4c8d-89c2-4a649d038029",
-          "title": "Shoreline",
-          "visible": false,
-          "opacity": 0.8,
-          "zindex": 96
         }
       ]
     },

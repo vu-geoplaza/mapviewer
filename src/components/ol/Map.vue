@@ -11,7 +11,8 @@
     base4326,
     setView,
     layerHelper
-  } from "@/assets/layerHelpers";
+  } from "@/helpers/layerHelpers";
+  import ViewerService from '@/helpers/ViewerService'
   import {GpzEventBus} from '@/main.js';
   import {transformExtent} from "ol/proj";
   import View from "ol/View";
@@ -44,10 +45,10 @@
       });
       var me=this;
       GpzEventBus.$on('add-service', options => {
-        const service={
+        const service=new ViewerService({
           type: options.type,
           url: options.url
-        }
+        });
         console.log('adding service');
         layerHelper.getServiceInstance(service, this.map.getView().getProjection().getCode()).then(function (serviceData) {
           for (const layer of serviceData.layers) {
@@ -66,7 +67,7 @@
         this.map.setTarget(div);
         this.map.updateSize();
         // fit to view
-        this.map.getView().fit(transformExtent(this.$mapdata.bbox, 'EPSG:4326', this.map.getView().getProjection()), {size: [div.clientWidth,div.clientHeight], nearest: true});
+        this.map.getView().fit(transformExtent(this.$config.bbox, 'EPSG:4326', this.map.getView().getProjection()), {size: [div.clientWidth,div.clientHeight], nearest: true});
       }, 200);
 
     },
@@ -79,21 +80,21 @@
       initMap: function () {
         var me = this;
         // create a map object, do not bind it to the DOM yet.
-        const mapdata=this.$mapdata;
-        console.log('init map crs: ' + mapdata.CRS);
+        const mapdata=this.$config;
+        console.log('init map crs: ' + mapdata.crs);
         const view = new View({
-          projection: mapdata.CRS
+          projection: mapdata.crs
         });
 
         this.map = new Map({
           view: view,
         });
-        this.map.available_crs = [mapdata.CRS];
+        this.map.available_crs = [mapdata.crs];
 
         view.fit(transformExtent(mapdata.bbox, 'EPSG:4326', view.getProjection()), this.map.getSize());
         this.map.setView(view);
 
-        this.setBaseLayer(mapdata.CRS);
+        this.setBaseLayer(mapdata.crs);
         this.addLayers(mapdata);
 
       },
@@ -114,7 +115,7 @@
       addLayers(mapdata) {
         var me = this;
         for (const service of mapdata.services) {
-          layerHelper.getServiceInstance(service, mapdata.CRS, mapdata.order).then(function (serviceData) {
+          layerHelper.getServiceInstance(service, mapdata.crs, mapdata.order).then(function (serviceData) {
             for (const layer of serviceData.layers) {
               console.log('add layer '+layer.title);
               me.calcAvailableCRS(layer.available_crs);

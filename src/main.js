@@ -7,6 +7,7 @@ import App from './App'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faArrowLeft,faArrowRight,faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import ViewerConfig from './helpers/ViewerConfig'
 
 import {register} from 'ol/proj/proj4'
 import proj4 from 'proj4';
@@ -23,15 +24,19 @@ Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
 
+
 export const GpzEventBus = new Vue();
 const datafile=document.getElementById("app").dataset.configfile
 fetch(datafile)
   .then(function (response) {
     return response.json();
   })
-  .then(function (mapdata) {
+  .then(function (json) {
     // make app config accessible for all components
-    Vue.prototype.$mapdata = mapdata;
+    const config = new ViewerConfig();
+    config.readJSON(json);
+    console.log(config);
+    Vue.prototype.$config = config;
 
     /* eslint-disable no-new */
     new Vue({
