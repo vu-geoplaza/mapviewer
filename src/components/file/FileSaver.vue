@@ -12,8 +12,8 @@
       mixins: [Mapable],
       methods: {
           savedata() {
-            //alert( encodeURIComponent( btoa( JSON.stringify(dataHelper.mapToData(this.map))) ) );
-            var mapdata = JSON.stringify(dataHelper.mapToData(this.map), null, 2);
+            //alert( encodeURIComponent( btoa( JSON.stringify(dataHelper.olmapToConfigData(this.map))) ) );
+            var mapdata = JSON.stringify(dataHelper.olmapToConfigData(this.map), null, 2);
             var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(mapdata);
             var downloadAnchorNode = document.createElement('a');
             downloadAnchorNode.setAttribute("href", dataStr);
