@@ -1,4 +1,5 @@
-import ViewerService from './ViewerService'
+import ViewerWMS from './ViewerWMS'
+import ViewerWMTS from './ViewerWMTS'
 
 class ViewerConfig {
   crs='EPSG:3857';
@@ -15,10 +16,12 @@ class ViewerConfig {
     if (json.services) {
       this.services=[];
       for (const s of json.services) {
-        this.services.push(new ViewerService(s));
+        if (s.type==='wms') this.services.push(new ViewerWMS(s));
+        if (s.type==='wmts') this.services.push(new ViewerWMTS(s));
       }
     }
   };
+
 }
 
 export default ViewerConfig;

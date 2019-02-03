@@ -9,7 +9,7 @@
       </b-card-header>
       <b-card-body>
         <b-tabs>
-          <b-tab v-for="(item, index) in items" :key="index" :title="item.title">
+          <b-tab v-for="(item, index) in items" :key="index" :title="item.title" class="scroll">
             <span v-html="item.content"></span>
           </b-tab>
         </b-tabs>
@@ -90,5 +90,8 @@
     opacity: 0.95;
   }
 
-
+  .scroll {
+    max-height: 50vh;
+    overflow-y: auto;
+  }
 </style>

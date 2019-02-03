@@ -95,6 +95,7 @@
               l.setVisible(item.visible);
               l.setZIndex(zindex);
               zindex--;
+              console.log('ls update layer ' + l.get('title'));
             }
             this.map.updateSize();
           }

@@ -9,13 +9,13 @@
   import {
     BRT,
     base4326,
-    setView,
-    layerHelper
+    setView
   } from "@/helpers/layerHelpers";
   import ViewerService from '@/helpers/ViewerService'
   import {GpzEventBus} from '@/main.js';
   import {transformExtent} from "ol/proj";
   import View from "ol/View";
+  import ViewerWMS from "@/helpers/ViewerWMS";
 
   // Add a simple extension to enable layer lookup by layer id
   if (Map.prototype.getLayerByLid === undefined) {
@@ -45,12 +45,22 @@
       });
       var me=this;
       GpzEventBus.$on('add-service', options => {
-        const service=new ViewerService({
-          type: options.type,
-          url: options.url
-        });
+        // TODO rewrite to use ViewerService
+        let service=null;
+        if (type==="wms"){
+          service=new ViewerWMS({
+            type: options.type,
+            url: options.url
+          });
+        }
+        if (type==="wmts"){
+          service=new ViewerWMTS({
+            type: options.type,
+            url: options.url
+          });
+        }
         console.log('adding service');
-        layerHelper.getServiceInstance(service, this.map.getView().getProjection().getCode()).then(function (serviceData) {
+        service.getServiceInstance(service, this.map.getView().getProjection().getCode()).then(function (serviceData) {
           for (const layer of serviceData.layers) {
             console.log('add layer ' + layer.title);
             me.calcAvailableCRS(layer.available_crs);
@@ -115,7 +125,7 @@
       addLayers(mapdata) {
         var me = this;
         for (const service of mapdata.services) {
-          layerHelper.getServiceInstance(service, mapdata.crs, mapdata.order).then(function (serviceData) {
+          service.getServiceInstance(service, mapdata.crs).then(function (serviceData) {
             for (const layer of serviceData.layers) {
               console.log('add layer '+layer.title);
               me.calcAvailableCRS(layer.available_crs);
