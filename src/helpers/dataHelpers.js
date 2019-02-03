@@ -6,7 +6,7 @@ export const dataHelper = {
    *
    * @param olmap
    */
-  mapToData(olmap){
+  olmapToConfigData(olmap){
     const view=olmap.getView();
     const services=[];
     const tmp=[];
