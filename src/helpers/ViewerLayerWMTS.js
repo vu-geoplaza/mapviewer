@@ -10,10 +10,6 @@ class ViewerLayerWMTS extends ViewerLayer {
     } else {
       return new TileLayer({
         source: new WMTS(this.options[crs]),
-        lid: this.id,
-        name: this.name,
-        title: this.title,
-        extent_lonlat: this.extent_lonlat,
         type: 'wmts',
         legend_img: this.legend_img,
         visible: this.visible,

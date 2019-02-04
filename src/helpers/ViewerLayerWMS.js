@@ -11,15 +11,11 @@ class ViewerLayerWMS extends ViewerLayer {
         transition: 0,
 
       }),
-      lid: this.id,
-      name: this.name,
-      title: this.title,
-      extent_lonlat: this.extent_lonlat,
       type: 'wms',
-      legend_img: this.legend_img,
       visible: this.visible,
       opacity: this.opacity,
-      zIndex: this.zindex
+      zIndex: this.zindex,
+      legend_img: this.legend_img
     });
   }
 }

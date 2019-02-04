@@ -58,7 +58,7 @@
         var layers = this.map.getLayers();
         var layerItems = [];
         layers.forEach(function (layer) {
-          if (layer.get('type') === 'wms'||layer.get('type') === 'wmts') {
+          if (layer.get('type') !== 'base') {
             layerItems.push({
               id: layer.get('lid'),
               name: layer.get('name'),

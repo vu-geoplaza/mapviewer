@@ -3,14 +3,16 @@ import ViewerLayer from './ViewerLayer';
 class ViewerService {
   type = '';
   url = '';
+  arcCapabilities=null;
   layers = [];
 
-  constructor(servicejson) {
-    console.log(servicejson);
-    if (servicejson.type) this.type = servicejson.type;
-    if (servicejson.url) this.url = servicejson.url;
-    if (servicejson.layers) {
-      this.setLayers(servicejson.layers);
+  constructor(config) {
+    console.log(config);
+    if (config.type) this.type = config.type;
+    if (config.url) this.url = config.url;
+    if (config.arcCapabilities) this.url = config.arcCapabilities;
+    if (config.layers) {
+      this.setLayers(config.layers);
     }
     console.log(this);
   }
@@ -21,14 +23,17 @@ class ViewerService {
     for (const l of me.layers) {
       layer_names.push(l.title);
     }
+    // do I need these return values? but if not how do I await?
     var service = await this.getCapabilities(layer_names).then(function (cservice) {
-      // this is confused
       var i=0;
       for (const layer of cservice.layers){
         console.log(layer);
-        const ol = layer.OLLayer(cservice.url, crs);
+        layer.setOL(cservice.url, crs);
         if (layer.ol !== false) {
-          cservice.layers[i].ol=ol;
+          cservice.layers[i].ol=layer.ol;
+        } else {
+          // unset
+          cservice.layers[i].splice(i,1);
         }
         i++;
       }

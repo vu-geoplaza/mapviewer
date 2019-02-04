@@ -113,7 +113,7 @@
   .ol-zoom {
     left: unset !important;
     right: .5em;
-    top: 5em;
+    top: 5em !important;
   }
 
   .navbar .nav-link {

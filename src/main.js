@@ -24,7 +24,6 @@ Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
 
-
 export const GpzEventBus = new Vue();
 const datafile=document.getElementById("gpz").dataset.configfile
 fetch(datafile)

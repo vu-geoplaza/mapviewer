@@ -15,8 +15,8 @@
   import {GpzEventBus} from '@/main.js';
   import {transformExtent} from "ol/proj";
   import View from "ol/View";
-  import ViewerWMS from "@/helpers/ViewerWMS";
-
+  import ViewerWMS from '@/helpers/ViewerWMS'
+  import ViewerWMTS from '@/helpers/ViewerWMTS'
   // Add a simple extension to enable layer lookup by layer id
   if (Map.prototype.getLayerByLid === undefined) {
     Map.prototype.getLayerByLid = function (id) {
@@ -46,19 +46,10 @@
       var me=this;
       GpzEventBus.$on('add-service', options => {
         // TODO rewrite to use ViewerService
-        let service=null;
-        if (type==="wms"){
-          service=new ViewerWMS({
-            type: options.type,
-            url: options.url
-          });
-        }
-        if (type==="wmts"){
-          service=new ViewerWMTS({
-            type: options.type,
-            url: options.url
-          });
-        }
+        const service = this.$config.getService({
+          type: options.type,
+          url: options.url
+        });
         console.log('adding service');
         service.getServiceInstance(service, this.map.getView().getProjection().getCode()).then(function (serviceData) {
           for (const layer of serviceData.layers) {

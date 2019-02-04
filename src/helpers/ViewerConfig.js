@@ -1,5 +1,6 @@
 import ViewerWMS from './ViewerWMS'
 import ViewerWMTS from './ViewerWMTS'
+import ViewerServiceTileArcGIS from "./ViewerServiceTileArcGIS";
 
 class ViewerConfig {
   crs='EPSG:3857';
@@ -16,12 +17,15 @@ class ViewerConfig {
     if (json.services) {
       this.services=[];
       for (const s of json.services) {
-        if (s.type==='wms') this.services.push(new ViewerWMS(s));
-        if (s.type==='wmts') this.services.push(new ViewerWMTS(s));
+        this.services.push(this.getService(s));
       }
     }
   };
-
+  getService(service) {
+    if (service.type==='wms') return new ViewerWMS(service);
+    if (service.type==='wmts') return new ViewerWMTS(service);
+    if (service.type==='arcgis_image'||service.type==='arcgis_tile') return new ViewerServiceTileArcGIS(service);
+  }
 }
 
 export default ViewerConfig;

@@ -15,31 +15,36 @@ class ViewerLayer {
   options = null;
   ol = null;
 
-  constructor(layerjson) {
-    if (layerjson.id) this.id=  layerjson.id;
-    if (layerjson.title) this.title = layerjson.title;
-    if (layerjson.name) this.name = layerjson.name;
-    if (layerjson.label) {
-      this.label = layerjson.label;
+  constructor(config) {
+    if (config.id) this.id=  config.id;
+    if (config.title) this.title = config.title;
+    if (config.name) this.name = config.name;
+    if (config.label) {
+      this.label = config.label;
     } else {
       this.label = this.title;
     }
-    if (layerjson.opacity) this.opacity = layerjson.opacity;
-    if (layerjson.visible) this.visible = layerjson.visible;
-    if (layerjson.zindex) this.zindex = layerjson.zindex;
+    if (config.opacity) this.opacity = config.opacity;
+    if (config.visible) this.visible = config.visible;
+    if (config.zindex) this.zindex = config.zindex;
   };
-
-  /**
-   * use to merge a layer from config with the cap layers
-   *
-   * @param layer
-   */
-  mergeConfigSettings(layer){
-    this.id = layer.id;
-    this.opacity = layer.opacity;
-    this.visible = layer.visible;
-    this.zindex = layer.zindex;
+  setOL(url,crs) {
+    const ollayer=this.OLLayer(url,crs);
+    if (ollayer) {
+      this.ol=ollayer;
+      this.setCustomOLValues();
+      return true;
+    } else {
+      return false;
+    }
   };
+  setCustomOLValues(){
+    this.ol.set('lid',this.id);
+    this.ol.set('name', this.name);
+    this.ol.set('label',this.label);
+    this.ol.set('title', this.title);
+    this.ol.set('extent_lonlat', this.extent_lonlat);
+  }
 }
 
 export default ViewerLayer;

@@ -6,14 +6,14 @@
     <b-navbar-brand href="#">VU Geoplaza</b-navbar-brand>
 
     <b-collapse is-nav id="nav_collapse">
-        <ProjectionSwitcher />|
-        <ZoomToExtent />|
+        <ProjectionSwitcher />
+        <ZoomToExtent />
       <!--<b-navbar-nav>
         <b-nav-item><b-btn v-b-modal.uploadmodal>upload</b-btn></b-nav-item>
       </b-navbar-nav>-->
       <b-navbar-nav>
         <b-nav-item v-b-modal.servicemodal>add service</b-nav-item>
-      </b-navbar-nav>|
+      </b-navbar-nav>
       <b-navbar-nav>
         <FileSaver />
       </b-navbar-nav>
