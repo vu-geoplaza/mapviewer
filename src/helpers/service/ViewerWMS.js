@@ -1,6 +1,6 @@
 import ViewerService from './ViewerService'
 import WMSCapabilities from "ol/format/WMSCapabilities";
-import ViewerWMSLayer from "../layer/ViewerLayerWMS";
+import ViewerLayerWMS from "../layer/ViewerLayerWMS";
 
 class ViewerWMS extends ViewerService {
   async getCapabilities(layer_names) {
@@ -14,7 +14,7 @@ class ViewerWMS extends ViewerService {
       const result = parser.read(text);
       if (layer_names.length === 0) {
         for (const layer of result.Capability.Layer.Layer) {
-          me.layers.push(new ViewerWMSLayer({
+          me.layers.push(new ViewerLayerWMS({
             name: layer.Name,
             extent_lonlat: layer.EX_GeographicBoundingBox,
             title: layer.Title,
@@ -42,7 +42,7 @@ class ViewerWMS extends ViewerService {
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
-      this.layers.push(new ViewerWMSLayer(l));
+      this.layers.push(new ViewerLayerWMS(l));
     }
   };
 }

@@ -1,7 +1,7 @@
 import ViewerService from './ViewerService'
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import {optionsFromCapabilities} from "ol/source/WMTS";
-import ViewerWMTSLayer from "../layer/ViewerLayerWMTS";
+import ViewerLayerWMTS from "../layer/ViewerLayerWMTS";
 
 const VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
 
@@ -35,7 +35,7 @@ class ViewerWMTS extends ViewerService {
           }
         }
         if (layer_name.length===0) {
-          me.layers.push(new ViewerWMTSLayer({
+          me.layers.push(new ViewerLayerWMTS({
             name: layer.Name,
             title: layer.Title,
             extent_lonlat: layer.WGS84BoundingBox,
@@ -62,7 +62,7 @@ class ViewerWMTS extends ViewerService {
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
-      this.layers.push(new ViewerWMTSLayer(l));
+      this.layers.push(new ViewerLayerWMTS(l));
     }
   };
 }
