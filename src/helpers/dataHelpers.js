@@ -12,15 +12,21 @@ export const dataHelper = {
     const tmp=[];
     olmap.getLayers().forEach(function(layer){
       const type=layer.get('type');
-      if (type==='wms'||type==='wmts') {
+      if (type!=='base') {
         const lyr={
           id: layer.get('lid'),
           title: layer.get('title'),
+          label: layer.get('label'),
           visible: layer.getVisible(),
           opacity: layer.getOpacity(),
           zindex: layer.getZIndex()
         };
-        const url=layer.getSource().getUrls()[0];
+        let url='';
+        if(type==='kml') {
+          url=layer.getSource().getUrl();
+        } else {
+          url=layer.getSource().getUrls()[0];
+        }
         if (typeof tmp[url] === 'undefined') {
           tmp[url]=[];
         }

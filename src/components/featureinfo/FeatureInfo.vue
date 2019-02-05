@@ -20,7 +20,6 @@
 
 <script>
   import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
-  import axios from "axios";
 
   export default {
     name: "FeatureInfo",
@@ -42,27 +41,33 @@
         var me = this;
         // bind an onclick for the featureInfo
         this.map.on('singleclick', function (evt) {
-          me.getFeatureInfo(evt.coordinate);
+          console.log(evt);
+          me.getFeatureInfo(evt.coordinate, evt.pixel);
         });
       },
-      getFeatureInfo: function (coordinate) {
-        var me = this;
+      getFeatureInfo: function (coordinate, pixel) {
         this.items = [];
+        this.getVectorFeatureInfo(pixel);
+        this.getRasterFeatureInfo(coordinate)
+      },
+      getRasterFeatureInfo(coordinate) {
+        var me = this;
+
         const viewResolution = (this.map.getView().getResolution());
         const viewProjection = (this.map.getView().getProjection());
         const layers = this.map.getLayers();
-        //TODO: featureInfo for WMTS
+        //TODO: featureInfo for ArcGIS?
         layers.forEach(function (layer) {
-          if (layer.get('type') === 'wms') {
+          if (layer.get('type') === 'wms'||layer.get('type') === 'wmts') {
             if (layer.getVisible()) {
               // get source from layer
               let url = layer.getSource().getGetFeatureInfoUrl(
                 coordinate, viewResolution, viewProjection,
                 {'INFO_FORMAT': 'text/html'});
-              axios({method: "GET", "url": url}).then(result => {
+              fetch(url).then(result => {
                 me.addItem(
                   {
-                    title: layer.get('name'),
+                    title: layer.get('label'),
                     content: result.data,
                     zIndex: layer.getZIndex()
                   }
@@ -73,6 +78,36 @@
             }
           }
         });
+      },
+      getVectorFeatureInfo(pixel) {
+        // vector features
+        var me=this;
+        const items={};
+        console.log(pixel);
+        this.map.forEachFeatureAtPixel(pixel, function(feature,layer) {
+          const title=layer.get('label');
+          if (typeof items[title]==='undefined') {
+            items[title]={
+              info: [],
+              zIndex: layer.getZIndex()
+            };
+          }
+          // make this more sophisticated
+          items[title].info.push(feature.get('name'));
+        });
+        console.log(items);
+          for (const k in items) {
+            console.log('add:');
+            console.log(k);
+            me.addItem(
+              {
+                title: k,
+                content: items[k].info.join(', '),
+                zIndex: items[k].zIndex
+              });
+          }
+
+
       },
       addItem: function(item){
         this.items.push(item);

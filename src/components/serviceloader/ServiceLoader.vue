@@ -32,10 +32,13 @@
             text: "WMTS"
           },
           {
+            value: "kml",
+            text: "KML"
+          },
+          {
             value: "arcgis_image",
             text: "ArcGIS Image"
           },
-          ,
           {
             value: "arcgis_tile",
             text: "ArcGIS Tile"

@@ -61,8 +61,7 @@
           if (layer.get('type') !== 'base') {
             layerItems.push({
               id: layer.get('lid'),
-              name: layer.get('name'),
-              title: layer.get('title'),
+              label: layer.get('title'),
               visible: layer.getVisible(),
               opacity: layer.getOpacity(),
               legend_img: layer.get('legend_img'),

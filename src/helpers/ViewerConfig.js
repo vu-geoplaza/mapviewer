@@ -1,6 +1,7 @@
 import ViewerWMS from './service/ViewerWMS'
 import ViewerWMTS from './service/ViewerWMTS'
 import ViewerServiceTileArcGIS from "./service/ViewerServiceTileArcGIS";
+import ViewerServiceKML from "./service/ViewerServiceKML";
 
 class ViewerConfig {
   crs='EPSG:3857';
@@ -25,6 +26,7 @@ class ViewerConfig {
     if (service.type==='wms') return new ViewerWMS(service);
     if (service.type==='wmts') return new ViewerWMTS(service);
     if (service.type==='arcgis_image'||service.type==='arcgis_tile') return new ViewerServiceTileArcGIS(service);
+    if (service.type==='kml') return new ViewerServiceKML(service);
   }
 }
 
