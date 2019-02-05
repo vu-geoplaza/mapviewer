@@ -41,7 +41,6 @@
       onMapBound() {
         var me = this;
         // bind an onclick for the featureInfo
-        console.log('register map click')
         this.map.on('singleclick', function (evt) {
           me.getFeatureInfo(evt.coordinate);
         });
@@ -64,7 +63,8 @@
                 me.addItem(
                   {
                     title: layer.get('name'),
-                    content: result.data
+                    content: result.data,
+                    zIndex: layer.getZIndex()
                   }
                 );
               }, error => {
@@ -77,6 +77,9 @@
       addItem: function(item){
         this.items.push(item);
         this.toggle = true;
+        this.items.sort(function(a,b){
+          return b.zIndex - a.zIndex;
+        });
       }
     }
   }
