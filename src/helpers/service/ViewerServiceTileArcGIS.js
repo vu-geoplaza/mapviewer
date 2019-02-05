@@ -1,6 +1,7 @@
-import ViewerLayerTileArcGIS from "./ViewerLayerTileArcGIS";
-import ViewerService from "@/helpers/ViewerService";
-import ViewerLayerXYZArcGIS from "@/helpers/ViewerLayerXYZArcGIS";
+import ViewerLayerTileArcGIS from "../layer/ViewerLayerTileArcGIS";
+import ViewerService from "./ViewerService";
+import ViewerLayerXYZArcGIS from "../layer/ViewerLayerXYZArcGIS";
+import {transformExtent} from "ol/proj";
 
 //https://tiles.arcgis.com/tiles/y59l2kue2wCNNoZS/arcgis/rest/services/25_Amsterdam1_img/MapServer?
 
@@ -16,19 +17,18 @@ class ViewerServiceTileArcGIS extends ViewerService {
     return fetch(url + '?f=json').then(function (response) {
       return response.json();
     }).then(function (data) {
-        console.log('-----------extent:');
-        console.log(data.fullExtent);
-        const extent_lonlat=[data.fullExtent.xmin, data.fullExtent.ymin, data.fullExtent.xmax,data.fullExtent.ymax];
-        me.arcCapabilities=data.capabilities;
+      //const data=JSON.parse(json_string);
+      console.log(data);
+        const extent_lonlat=transformExtent([data.fullExtent.xmin, data.fullExtent.ymin, data.fullExtent.xmax,data.fullExtent.ymax], 'EPSG:' + data.fullExtent.spatialReference.latestWkid,'EPSG:4326');
         if (layer_names.length === 0) {
           for (const layer of data.layers) {
-            const options={
+            const options = {
               name: layer.name,
               extent_lonlat: extent_lonlat,
               title: layer.name,
               legend_img: '', // see https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer/legend?f=json
               available_crs: VIEWER_CRS // at least I think so
-            };
+            }
             if (me.type='arcgis_tile') {
               me.layers.push(new ViewerLayerXYZArcGIS(options));
             } else if (me.type='arcgis_image') {
@@ -39,7 +39,8 @@ class ViewerServiceTileArcGIS extends ViewerService {
           for (const layer of data.layers) {
             const index = layer_names.indexOf(layer.name);
             if (index > -1) {
-              me.layers[index].name = layer.name;
+              me.layers[index].name = 'naam';
+              me.layers[index].test2 = 'zomaarhoor',
               me.layers[index].extent_lonlat = extent_lonlat;
               me.layers[index].title = layer.name;
               me.layers[index].legend_img = '';
@@ -47,6 +48,7 @@ class ViewerServiceTileArcGIS extends ViewerService {
             }
           }
         }
+        console.log(data);
       console.log(me);
       return me;
     })

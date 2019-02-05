@@ -27,6 +27,8 @@ class ViewerLayer {
     if (config.opacity) this.opacity = config.opacity;
     if (config.visible) this.visible = config.visible;
     if (config.zindex) this.zindex = config.zindex;
+    if (config.extent_lonlat) this.extent_lonlat = config.extent_lonlat;
+    if (config.available_crs) this.available_crs = config.available_crs;
   };
   setOL(url,crs) {
     const ollayer=this.OLLayer(url,crs);

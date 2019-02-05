@@ -21,7 +21,7 @@
         options: [
           {
             value:null,
-          text: 'select type'
+            text: 'select type'
           },
           {
           value: "wms",

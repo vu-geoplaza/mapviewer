@@ -1,7 +1,7 @@
 import ViewerService from './ViewerService'
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import {optionsFromCapabilities} from "ol/source/WMTS";
-import ViewerWMTSLayer from "./ViewerLayerWMTS";
+import ViewerWMTSLayer from "../layer/ViewerLayerWMTS";
 
 const VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
 

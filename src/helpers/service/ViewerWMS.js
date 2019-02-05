@@ -1,6 +1,6 @@
 import ViewerService from './ViewerService'
 import WMSCapabilities from "ol/format/WMSCapabilities";
-import ViewerWMSLayer from "./ViewerLayerWMS";
+import ViewerWMSLayer from "../layer/ViewerLayerWMS";
 
 class ViewerWMS extends ViewerService {
   async getCapabilities(layer_names) {

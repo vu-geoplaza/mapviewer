@@ -1,6 +1,6 @@
-import ViewerWMS from './ViewerWMS'
-import ViewerWMTS from './ViewerWMTS'
-import ViewerServiceTileArcGIS from "./ViewerServiceTileArcGIS";
+import ViewerWMS from './service/ViewerWMS'
+import ViewerWMTS from './service/ViewerWMTS'
+import ViewerServiceTileArcGIS from "./service/ViewerServiceTileArcGIS";
 
 class ViewerConfig {
   crs='EPSG:3857';

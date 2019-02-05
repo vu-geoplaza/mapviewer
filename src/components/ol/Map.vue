@@ -11,12 +11,12 @@
     base4326,
     setView
   } from "@/helpers/layerHelpers";
-  import ViewerService from '@/helpers/ViewerService'
+  import ViewerService from '@/helpers/service/ViewerService'
   import {GpzEventBus} from '@/main.js';
   import {transformExtent} from "ol/proj";
   import View from "ol/View";
-  import ViewerWMS from '@/helpers/ViewerWMS'
-  import ViewerWMTS from '@/helpers/ViewerWMTS'
+  import ViewerWMS from '@/helpers/service/ViewerWMS'
+  import ViewerWMTS from '@/helpers/service/ViewerWMTS'
   // Add a simple extension to enable layer lookup by layer id
   if (Map.prototype.getLayerByLid === undefined) {
     Map.prototype.getLayerByLid = function (id) {
@@ -45,13 +45,14 @@
       });
       var me=this;
       GpzEventBus.$on('add-service', options => {
-        // TODO rewrite to use ViewerService
         const service = this.$config.getService({
           type: options.type,
           url: options.url
         });
         console.log('adding service');
         service.getServiceInstance(service, this.map.getView().getProjection().getCode()).then(function (serviceData) {
+          console.log('this is the service');
+          console.log(serviceData);
           for (const layer of serviceData.layers) {
             console.log('add layer ' + layer.title);
             me.calcAvailableCRS(layer.available_crs);

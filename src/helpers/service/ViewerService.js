@@ -1,16 +1,14 @@
-import ViewerLayer from './ViewerLayer';
+import ViewerLayer from '../layer/ViewerLayer';
 
 class ViewerService {
   type = '';
   url = '';
-  arcCapabilities=null;
   layers = [];
 
   constructor(config) {
     console.log(config);
     if (config.type) this.type = config.type;
     if (config.url) this.url = config.url;
-    if (config.arcCapabilities) this.url = config.arcCapabilities;
     if (config.layers) {
       this.setLayers(config.layers);
     }
@@ -23,7 +21,7 @@ class ViewerService {
     for (const l of me.layers) {
       layer_names.push(l.title);
     }
-    // do I need these return values? but if not how do I await?
+    console.log('get service instance');
     var service = await this.getCapabilities(layer_names).then(function (cservice) {
       var i=0;
       for (const layer of cservice.layers){
@@ -40,8 +38,14 @@ class ViewerService {
       return cservice;
     });
     return service;
-  }
-
+  };
+  async getCapabilities(layer_names) {
+    // get overwritten in all the subclasses;
+    return this;
+  };
+  setLayers(layers) {
+    // get overwritten in all the subclasses;
+  };
 }
 
 export default ViewerService;
