@@ -7,12 +7,12 @@ const vueLoaderConfig = require('./vue-loader.conf')
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
-
+require('babel-polyfill');
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: ["babel-polyfill", './src/main.js']
   },
   output: {
     path: config.build.assetsRoot,
@@ -37,7 +37,11 @@ module.exports = {
       },
       {
         test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env']
+        },
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
@@ -84,5 +88,5 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  }
+  },
 }

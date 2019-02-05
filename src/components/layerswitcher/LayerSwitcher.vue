@@ -31,7 +31,7 @@
       SortableItem,
       SortableList
     },
-    data() {
+    data: function () {
       return {
         items: [],
         toggle: true
@@ -41,7 +41,7 @@
       /**
        * This function is executed, after the map is bound (see mixins/Mapable)
        */
-      onMapBound() {
+      onMapBound: function () {
         var me = this;
         me.initSwitcher();
         // react on added / removed layers
@@ -52,7 +52,7 @@
       /**
        * get all the layers from the map, create the switcher items, sort them by the layer zIndex
        */
-      initSwitcher() {
+      initSwitcher: function () {
         // get the needed info for the switcher from the map object (from Mapable)
         console.log('init layer switcher');
         var layers = this.map.getLayers();
@@ -69,11 +69,11 @@
             });
           }
         });
-        layerItems.sort(function(a,b){
+        layerItems.sort(function (a, b) {
           return b.zIndex - a.zIndex;
         });
         this.items = layerItems;
-        this.init=true;
+        this.init = true;
       }
     },
     watch: {
@@ -85,7 +85,7 @@
          * @param val
          * @param oldVal
          */
-        handler(val, oldVal) {
+        handler: function (val, oldVal) {
           if (!this.init) { // don't run on initializing the switcher itself, might mess up the order when asynchronously adding layers
             console.log('items handler tripped')
             var zindex = 100;
@@ -98,7 +98,7 @@
             }
             this.map.updateSize();
           }
-          this.init=false;
+          this.init = false;
         },
         deep: true
       }

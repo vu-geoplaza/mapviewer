@@ -18,8 +18,7 @@ library.add(faArrowLeft,faArrowRight,faLayerGroup);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
-
-import BootstrapVue from 'bootstrap-vue'
+import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
 Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;

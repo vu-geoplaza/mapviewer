@@ -22,11 +22,11 @@
   import GpzMap from './components/ol/Map'
   import { GpzEventBus } from './main.js'
   import FeatureInfo from "./components/featureinfo/FeatureInfo";
-  import NavBar from "@/components/navbar/NavBar";
-  import ServiceLoader from "@/components/serviceloader/ServiceLoader";
+  import NavBar from "./components/navbar/NavBar";
+  import ServiceLoader from "./components/serviceloader/ServiceLoader";
 
   export default {
-    mounted() {
+    mounted: function () {
       GpzEventBus.$emit('app-mounted');
       console.log('app mounted')
     },

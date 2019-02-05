@@ -3,7 +3,7 @@
     <b-card v-show='toggle' no-body class="mb-1">
       <b-card-header header-tag="header" class="p-1">
         <a @click='toggle = !toggle' class="fa-pull-left">
-          <font-awesome-icon icon="arrow-right" />
+          <font-awesome-icon icon="arrow-right"/>
         </a>
         <span class="widget-header-text">Feature Info</span>
       </b-card-header>
@@ -58,7 +58,7 @@
         const layers = this.map.getLayers();
         //TODO: featureInfo for ArcGIS?
         layers.forEach(function (layer) {
-          if (layer.get('type') === 'wms'||layer.get('type') === 'wmts') {
+          if (layer.get('type') === 'wms' || layer.get('type') === 'wmts') {
             if (layer.getVisible()) {
               // get source from layer
               let url = layer.getSource().getGetFeatureInfoUrl(
@@ -81,13 +81,12 @@
       },
       getVectorFeatureInfo(pixel) {
         // vector features
-        var me=this;
-        const items={};
-        console.log(pixel);
-        this.map.forEachFeatureAtPixel(pixel, function(feature,layer) {
-          const title=layer.get('label');
-          if (typeof items[title]==='undefined') {
-            items[title]={
+        var me = this;
+        const items = {};
+        this.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
+          const title = layer.get('label');
+          if (typeof items[title] === 'undefined') {
+            items[title] = {
               info: [],
               zIndex: layer.getZIndex()
             };
@@ -95,24 +94,19 @@
           // make this more sophisticated
           items[title].info.push(feature.get('name'));
         });
-        console.log(items);
-          for (const k in items) {
-            console.log('add:');
-            console.log(k);
-            me.addItem(
-              {
-                title: k,
-                content: items[k].info.join(', '),
-                zIndex: items[k].zIndex
-              });
-          }
-
-
+        for (const k in items) {
+          me.addItem(
+            {
+              title: k,
+              content: items[k].info.join(', '),
+              zIndex: items[k].zIndex
+            });
+        }
       },
-      addItem: function(item){
+      addItem: function (item) {
         this.items.push(item);
         this.toggle = true;
-        this.items.sort(function(a,b){
+        this.items.sort(function (a, b) {
           return b.zIndex - a.zIndex;
         });
       }
