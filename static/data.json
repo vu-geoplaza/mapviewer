@@ -14,7 +14,7 @@
         {
           "id": "2ef1fd77-db88-426d-b24b-8ed41daeb379",
           "title": "bbg2015_hoofdgroep",
-          "label": "bbg2015_hoofdgroep",
+          "label": "bodemgebruik: bbg2015_hoofdgroep",
           "visible": false,
           "opacity": 0.8,
           "zindex": 96
@@ -22,7 +22,7 @@
         {
           "id": "d9d85d30-4d4b-442b-b0b1-c6b70511689f",
           "title": "bbg2015",
-          "label": "bbg2015",
+          "label": "bodemgebruik: bbg2015",
           "visible": false,
           "opacity": 0.8,
           "zindex": 99
@@ -36,7 +36,7 @@
         {
           "id": "0aea803a-ee83-4ac9-b98f-9308d5e8aadb",
           "title": "Coastline",
-          "label": "Coastline",
+          "label": "Zeegebieden: Coastline",
           "visible": true,
           "opacity": 0.8,
           "zindex": 100
@@ -44,7 +44,7 @@
         {
           "id": "063fd152-e770-40ae-b322-591f24c2a66e",
           "title": "InterTidalArea",
-          "label": "InterTidalArea",
+          "label": "Zeegebieden: InterTidalArea",
           "visible": false,
           "opacity": 0.8,
           "zindex": 98
@@ -58,7 +58,7 @@
         {
           "id": "5c55c1d5-42cf-43c0-ad3d-de8deb009486",
           "title": "Stijl",
-          "label": "Stijl",
+          "label": "Kerken: Stijl",
           "visible": true,
           "opacity": 0.8,
           "zindex": 97
@@ -72,7 +72,7 @@
         {
           "id": "96ce83cb-30d9-4e31-b024-49092cba6d4d",
           "title": "Kloosters in 1200",
-          "label": "Kloosters in 1200",
+          "label": "Kloosters in 1200 (kml)",
           "visible": true,
           "opacity": 0.8,
           "zindex": 95
@@ -86,7 +86,7 @@
         {
           "id": "317d4fed-bed5-4cda-8cb8-a2d76023a271",
           "title": "25 Amsterdam1.img",
-          "label": "25 Amsterdam1.img",
+          "label": "25 Amsterdam1.img (arcrest)",
           "visible": true,
           "opacity": 0.8,
           "zindex": 94
