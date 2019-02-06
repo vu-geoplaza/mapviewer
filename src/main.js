@@ -8,6 +8,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faArrowLeft,faArrowRight,faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import ViewerConfig from './helpers/ViewerConfig'
+import axios from 'axios'
 
 import {register} from 'ol/proj/proj4'
 import proj4 from 'proj4';
@@ -26,29 +27,29 @@ Vue.config.productionTip = false;
 export const GpzEventBus = new Vue();
 const datafile=document.getElementById("gpz").dataset.configfile;
 const adminmode=document.getElementById("gpz").dataset.adminmode;
-fetch(datafile)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (json) {
-    // make app config accessible for all components
-    const config = new ViewerConfig();
-    config.readJSON(json);
-    console.log(config);
-    Vue.prototype.$config = config;
-    if (adminmode==="1") {
-      Vue.prototype.$adminmode = true;
-    } else {
-      Vue.prototype.$adminmode = false;
-    }
 
-    /* eslint-disable no-new */
-    new Vue({
-      el: '#gpz',
-      components: { GpzViewer },
-      template: '<GpzViewer/>'
+try {
+  axios.get(datafile).then(function (response) {
+      // make app config accessible for all components
+      const config = new ViewerConfig();
+      config.readJSON(response.data);
+      console.log(config);
+      Vue.prototype.$config = config;
+      if (adminmode === "1") {
+        Vue.prototype.$adminmode = true;
+      } else {
+        Vue.prototype.$adminmode = false;
+      }
+
+      /* eslint-disable no-new */
+      new Vue({
+        el: '#gpz',
+        components: {GpzViewer},
+        template: '<GpzViewer/>'
+      });
     });
-  });
-
+} catch (e) {
+  console.error(e)
+}
 
 

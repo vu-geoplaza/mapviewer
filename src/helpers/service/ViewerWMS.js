@@ -1,6 +1,7 @@
 import ViewerService from './ViewerService'
 import WMSCapabilities from "ol/format/WMSCapabilities";
 import ViewerLayerWMS from "../layer/ViewerLayerWMS";
+import axios from 'axios';
 
 class ViewerWMS extends ViewerService {
   async getCapabilities(layer_names) {
@@ -8,10 +9,8 @@ class ViewerWMS extends ViewerService {
     const me = this;
     const parser = new WMSCapabilities();
     console.log('start get capabilities');
-    return fetch(url + '?request=GetCapabilities&service=WMS',).then(function (response) {
-      return response.text();
-    }).then(function (text) {
-      const result = parser.read(text);
+    return axios.get(url + '?request=GetCapabilities&service=WMS',).then(function (response) {
+      const result = parser.read(response.data);
       if (layer_names.length === 0) {
         for (const layer of result.Capability.Layer.Layer) {
           me.layers.push(new ViewerLayerWMS({

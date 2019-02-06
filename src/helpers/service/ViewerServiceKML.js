@@ -1,16 +1,15 @@
 import ViewerService from "./ViewerService";
 import ViewerLayerKML from "../layer/ViewerLayerKML";
+import axios from 'axios';
 
 // static/kloosters_1200.kml
 class ViewerServiceKML extends ViewerService {
   async getCapabilities(layer_names) {
     const VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
     var me=this;
-    return fetch(me.url).then(function (response) {
-      return response.text();
-    }).then(function (text) {
+    return axios.get(me.url).then(function (response) {
       const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(text,"text/xml");
+      const xmlDoc = parser.parseFromString(response.data,"text/xml");
       console.log(xmlDoc);
       const name = xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
       if (layer_names.length===0){

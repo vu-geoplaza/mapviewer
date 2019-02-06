@@ -2,6 +2,7 @@ import ViewerService from './ViewerService'
 import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import {optionsFromCapabilities} from "ol/source/WMTS";
 import ViewerLayerWMTS from "../layer/ViewerLayerWMTS";
+import axios from 'axios';
 
 const VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
 
@@ -13,10 +14,8 @@ class ViewerWMTS extends ViewerService {
      const me = this;
     service.layers=[];
     const parser = new WMTSCapabilities();
-    return fetch(url + '?request=GetCapabilities&service=WMTS').then(function (response) {
-      return response.text();
-    }).then(function (text) {
-      const result = parser.read(text);
+    return axios.get(url + '?request=GetCapabilities&service=WMTS').then(function (response) {
+      const result = parser.read(response.data);
       for (const layer of result.Contents.Layer) {
         //console.log(layer);
         const crs = [];

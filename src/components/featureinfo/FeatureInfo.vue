@@ -20,6 +20,7 @@
 
 <script>
   import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
+  import axios from 'axios';
 
   export default {
     name: "FeatureInfo",
@@ -64,7 +65,7 @@
               let url = layer.getSource().getGetFeatureInfoUrl(
                 coordinate, viewResolution, viewProjection,
                 {'INFO_FORMAT': 'text/html'});
-              fetch(url).then(result => {
+              axios.get(url).then(result => {
                 me.addItem(
                   {
                     title: layer.get('label'),
