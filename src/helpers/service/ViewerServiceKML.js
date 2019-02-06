@@ -4,35 +4,26 @@ import axios from 'axios';
 
 // static/kloosters_1200.kml
 class ViewerServiceKML extends ViewerService {
-  async getCapabilities(layer_names) {
+  async getCapabilities() {
     const VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
-    var me=this;
+    var me = this;
     return axios.get(me.url).then(function (response) {
+      const layers = [];
       const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(response.data,"text/xml");
-      console.log(xmlDoc);
+      const xmlDoc = parser.parseFromString(response.data, "text/xml");
       const name = xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
-      if (layer_names.length===0){
-        me.layers.push(new ViewerLayerKML({
-          name: name,
-          extent_lonlat: null,
-          title: name,
-          legend_img: '',
-          available_crs: VIEWER_CRS,
-        }));
-      } else {
-        me.layers[0].name = name;
-        me.layers[0].extent_lonlat = null;
-        me.layers[0].title = name;
-        me.layers[0].legend_img = '';
-        me.layers[0].available_crs = VIEWER_CRS;        
-      }
-
+      layers.push(new ViewerLayerKML({
+        name: name,
+        extent_lonlat: null,
+        title: name,
+        legend_img: '',
+        available_crs: VIEWER_CRS,
+      }));
       // maybe try to construct a legend here? or calculate the extent
-
-      return me;
+      return layers;
     });
   };
+
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {

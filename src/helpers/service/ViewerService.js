@@ -40,13 +40,13 @@ class ViewerService {
     return me;
   };
 
-  async getCapabilities(layer_names) {
-    // get overwritten in all the subclasses;
-    return this;
+  async getCapabilities() {
+    // gets overwritten in all the subclasses;
+    return [];
   };
 
   setLayers(layers) {
-    // get overwritten in all the subclasses;
+    // gets overwritten in all the subclasses;
   };
   mergeLayers(layers,clayers) {
     const complayers=[];
