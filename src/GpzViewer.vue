@@ -13,7 +13,7 @@
         </b-col>
       </b-row>
       <!--<FileLoader />-->
-      <ServiceLoader />?
+      <ServiceLoader />
     </b-container>
 </template>
 

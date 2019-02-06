@@ -48,7 +48,7 @@ export const dataHelper = {
       }
     }
     const mapdata= {
-      CRS: view.getProjection().getCode(),
+      crs: view.getProjection().getCode(),
       bbox: transformExtent( view.calculateExtent(), view.getProjection(), 'EPSG:4326'),
       services: services
     };

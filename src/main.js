@@ -24,7 +24,8 @@ Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 
 export const GpzEventBus = new Vue();
-const datafile=document.getElementById("gpz").dataset.configfile
+const datafile=document.getElementById("gpz").dataset.configfile;
+const adminmode=document.getElementById("gpz").dataset.adminmode;
 fetch(datafile)
   .then(function (response) {
     return response.json();
@@ -35,6 +36,11 @@ fetch(datafile)
     config.readJSON(json);
     console.log(config);
     Vue.prototype.$config = config;
+    if (adminmode==="1") {
+      Vue.prototype.$adminmode = true;
+    } else {
+      Vue.prototype.$adminmode = false;
+    }
 
     /* eslint-disable no-new */
     new Vue({
