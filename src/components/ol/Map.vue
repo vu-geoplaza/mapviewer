@@ -2,21 +2,17 @@
 
 <script>
   import 'ol/ol.css';
-  import {Map, transform} from 'ol';
+  import Map from 'ol/Map';
   import TileLayer from 'ol/layer/Tile';
   import OSM from 'ol/source/OSM';
-  import {register} from 'ol/proj/proj4'
   import {
     BRT,
-    base4326,
-    setView
-  } from "@/helpers/layerHelpers";
-  import ViewerService from '@/helpers/service/ViewerService'
+    base4326
+  } from "@/helpers/ViewerBaseLayers";
   import {GpzEventBus} from '@/main.js';
   import {transformExtent} from "ol/proj";
   import View from "ol/View";
-  import ViewerWMS from '@/helpers/service/ViewerWMS'
-  import ViewerWMTS from '@/helpers/service/ViewerWMTS'
+
   // Add a simple extension to enable layer lookup by layer id
   if (Map.prototype.getLayerByLid === undefined) {
     Map.prototype.getLayerByLid = function (id) {

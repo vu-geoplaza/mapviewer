@@ -143,6 +143,7 @@
   }
 
   .scroll {
+    top: 0px;
     max-height: 80vh;
     overflow-y: auto;
   }

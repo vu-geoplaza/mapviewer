@@ -14,5 +14,6 @@
 <style>
   .list {
     background-color: ivory;
+    margin: 0px;
   }
 </style>

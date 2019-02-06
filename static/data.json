@@ -52,7 +52,7 @@
       ]
     },
     {
-      "url": "http://geoplaza.vu.nl/ows/kerken?",
+      "url": "https://geoplaza.vu.nl/ows/kerken?",
       "type": "wms",
       "layers": [
         {

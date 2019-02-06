@@ -1,5 +1,3 @@
-import ViewerLayer from '../layer/ViewerLayer';
-
 class ViewerService {
   type = '';
   url = '';
