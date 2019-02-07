@@ -1,7 +1,7 @@
 <template>
   <b-nav-item-dropdown text="projection">
     <b-dropdown-item v-on:click="switchProjection(item.code)" v-for="(item, index) in items" :index="index" :key="index" :item="item">
-      {{ item.name }}&nbsp;{{ item.active }}
+      {{ item.name }}&nbsp;<span v-if="item.active">*</span>
     </b-dropdown-item>
   </b-nav-item-dropdown>
 </template>
@@ -37,20 +37,19 @@
           if (crs==='EPSG:28992') { name='Amersfoort / RD New' }
           if (crs==='EPSG:3857') { name='WGS 84 / Pseudo-Mercator' }
           if (crs==='EPSG:4326') { name='World Geodetic System 1984' }
-          let active='';
-          if (crs===current){ active='*' }
+          let active=false;
+          if (crs===current){ active=true }
 
           this.items.push({name: name, code: crs, active: active});
         }
       },
       switchProjection(crs) {
         GpzEventBus.$emit('change-projection', crs);
+        var i=0;
         for (const item in this.items){
-          if (item.code===crs) {
-            item.active='*'
-          } else {
-            item.active=''
-          }
+          this.items[i].active=false;
+          if (item.code===crs) { this.items[i]=true }
+          i++;
         }
         console.log('switch to' + crs);
       }

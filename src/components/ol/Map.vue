@@ -3,11 +3,10 @@
 <script>
   import 'ol/ol.css';
   import Map from 'ol/Map';
-  import TileLayer from 'ol/layer/Tile';
-  import OSM from 'ol/source/OSM';
   import {
+    OSMstandard,
     BRT,
-    base4326
+    base4326, CartoLight
   } from "@/helpers/ViewerBaseLayers";
   import {GpzEventBus} from '@/main.js';
   import {transformExtent} from "ol/proj";
@@ -137,10 +136,8 @@
       setBaseLayer(crs) {
         console.log('set base layer');
         if (crs === 'EPSG:3857') {
-          this.map.addLayer(new TileLayer({
-            source: new OSM(),
-            type: 'base'
-          }));
+          this.map.addLayer(OSMstandard());
+          this.map.addLayer(CartoLight());
         } else if (crs === 'EPSG:28992') {
           this.map.addLayer(BRT());
         } else if (crs === 'EPSG:4326') {

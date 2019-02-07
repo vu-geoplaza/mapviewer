@@ -7,6 +7,7 @@
 
     <b-collapse is-nav id="nav_collapse">
       <ProjectionSwitcher/>
+      <BaseLayerSwitcher/>
       <ZoomToExtent/>
         <b-navbar-nav v-if="admminmode">
           <b-nav-item v-b-modal.servicemodal>add service</b-nav-item>
@@ -26,10 +27,11 @@
   import ZoomToExtent from './ZoomToExtent'
   import FileLoader from '@/components/file/FileLoader'
   import FileSaver from '@/components/file/FileSaver'
+  import BaseLayerSwitcher from "@/components/baselayerswitcher/BaseLayerSwitcher";
 
   export default {
     name: "NavBar",
-    components: {ProjectionSwitcher, ZoomToExtent, FileLoader, FileSaver},
+    components: {BaseLayerSwitcher, ProjectionSwitcher, ZoomToExtent, FileLoader, FileSaver},
     data() {
       return {
         admminmode: this.$adminmode
