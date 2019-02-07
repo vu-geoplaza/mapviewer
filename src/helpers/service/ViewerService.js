@@ -14,7 +14,7 @@ class ViewerService {
   };
   async getServiceInstance(crs) {
     var me = this;
-    console.log('get service instance');
+    console.log('get service instance wtih crs: ' + crs);
     var service = await this.getCapabilities().then(function (clayers) {
       if (me.layers.length > 0) {
         me.layers = me.mergeLayers(me.layers, clayers);
@@ -23,7 +23,7 @@ class ViewerService {
       }
       var i = 0;
       for (const layer of me.layers) {
-        console.log(layer);
+        console.log('set ol with ' + me.url + ' and ' + crs);
         layer.setOL(me.url, crs);
         if (layer.ol !== false) {
           me.layers[i].ol = layer.ol;

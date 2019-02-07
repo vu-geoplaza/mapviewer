@@ -29,9 +29,10 @@ class ViewerLayer {
     if (config.zindex) this.zindex = config.zindex;
     if (config.extent_lonlat) this.extent_lonlat = config.extent_lonlat;
     if (config.available_crs) this.available_crs = config.available_crs;
+    if (config.options) this.options = config.options;
   };
-  setOL(url,crs) {
-    const ollayer=this.OLLayer(url,crs);
+  setOL(url, crs) {
+    const ollayer=this.OLLayer(url, crs);
     if (ollayer) {
       this.ol=ollayer;
       this.setCustomOLValues();

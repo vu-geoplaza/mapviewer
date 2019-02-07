@@ -18,6 +18,7 @@ class ViewerWMTS extends ViewerService {
         const crs = [];
         const options = {};
         // see: https://openlayers.org/en/latest/examples/wmts-layer-from-capabilities.html
+        let ok = false;
         for (const link of layer.TileMatrixSetLink) {
           crs.push(link.TileMatrixSet);
           // this will only work for known projections
@@ -27,18 +28,22 @@ class ViewerWMTS extends ViewerService {
               matrixSet: link.TileMatrixSet
             });
             options[link.TileMatrixSet] = o;
+            ok=true;
           }
         }
-        layers.push(new ViewerLayerWMTS({
-          name: layer.Name,
-          title: layer.Title,
-          extent_lonlat: layer.WGS84BoundingBox,
-          legend_img: `${url}?service=WMTS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${layer.Name}&version=1.3.0&SLD_VERSION=1.1.0`,
-          available_crs: crs,
-          options: options
-        }));
+        if (ok) {
+          layers.push(new ViewerLayerWMTS({
+            name: layer.Name,
+            title: layer.Title,
+            extent_lonlat: layer.WGS84BoundingBox,
+            legend_img: `${url}?service=WMTS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${layer.Name}&version=1.3.0&SLD_VERSION=1.1.0`,
+            available_crs: crs,
+            options: options
+          }));
+        }
       }
       console.log('return get capabilities');
+      console.log(layers);
       return layers;
     });
   };

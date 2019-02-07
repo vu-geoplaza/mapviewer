@@ -3,9 +3,9 @@ import TileLayer from "ol/layer/Tile";
 import WMTS from "ol/source/WMTS";
 
 class ViewerLayerWMTS extends ViewerLayer {
-  OLLayer(url,crs) {
+  OLLayer(url, crs) {
     if (typeof this.options[crs] === 'undefined') {
-      console.log(this.title + ' is not available at this CRS');
+      console.log(this.title + ' is not available at this CRS: ' + crs);
       return false;
     } else {
       return new TileLayer({

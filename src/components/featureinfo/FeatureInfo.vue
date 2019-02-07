@@ -52,14 +52,14 @@
         this.getRasterFeatureInfo(coordinate)
       },
       getRasterFeatureInfo(coordinate) {
+        // wmts featureinfo is not yet implemented: https://github.com/openlayers/openlayers/pull/2373
         var me = this;
-
         const viewResolution = (this.map.getView().getResolution());
         const viewProjection = (this.map.getView().getProjection());
         const layers = this.map.getLayers();
         //TODO: featureInfo for ArcGIS?
         layers.forEach(function (layer) {
-          if (layer.get('type') === 'wms' || layer.get('type') === 'wmts') {
+          if (layer.get('type') === 'wms') {
             if (layer.getVisible()) {
               // get source from layer
               let url = layer.getSource().getGetFeatureInfoUrl(
