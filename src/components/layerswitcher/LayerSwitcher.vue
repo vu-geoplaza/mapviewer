@@ -63,7 +63,7 @@
               id: layer.get('lid'),
               label: layer.get('label'),
               visible: layer.getVisible(),
-              opacity: layer.getOpacity(),
+              opacity: layer.getOpacity() * 100,
               legend_img: layer.get('legend_img'),
               zIndex: layer.getZIndex()
             });
@@ -82,19 +82,21 @@
          * automatically called when the items array changes.
          * Will set the zIndex of the map layers in the same order as the switcher
          *
+         * Would be better to just update the changed layer, but don't know how
+         *
          * @param val
          * @param oldVal
          */
         handler: function (val, oldVal) {
           if (!this.init) { // don't run on initializing the switcher itself, might mess up the order when asynchronously adding layers
-            console.log('items handler tripped')
+            console.log('items handler tripped');
             var zindex = 100;
             for (const item of val) {
-              const l = this.map.getLayerByLid(item.id);
+              const l = this.map.getLayerByLid(item.id); // or bind the layer object to the switcher?
+              l.setOpacity(item.opacity/100);
               l.setVisible(item.visible);
               l.setZIndex(zindex);
               zindex--;
-              console.log('ls update layer ' + l.get('title'));
             }
             this.map.updateSize();
           }

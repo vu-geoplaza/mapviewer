@@ -6,8 +6,11 @@
         <b-btn v-b-toggle="'layercard' + index" variant="info" class="layerbutton">{{ item.label }}</b-btn>
         <input type="checkbox" :id="'checkbox' + index" v-model="item.visible" />
       </b-card-header>
-      <b-collapse :id="'layercard' + index">
+      <b-collapse :id="'layercard' + index" v-model="show">
         <b-card-body>
+          <p class="card-text">
+            <vue-slider :ref="'slider' + index" v-model="item.opacity" v-bind="slideoptions"></vue-slider>
+          </p>
           <p class="card-text">
             <img alt="legend" :src="item.legend_img"/>
           </p>
@@ -19,11 +22,30 @@
 
 <script>
   import {ElementMixin, HandleDirective} from "vue-slicksort";
+  import vueSlider from 'vue-slider-component';
 
   export default {
+    components: {
+      vueSlider
+    },
     mixins: [ElementMixin],
     directives: {handle: HandleDirective},
     props: ['item', 'index'],
+    data () {
+      return{
+        slideoptions: {
+        },
+        show: false
+      }
+    },
+    watch: {
+      show (val) {
+        if (val) {
+          // https://github.com/NightCatSama/vue-slider-component#exceptions
+          this.$nextTick(() => this.$refs['slider' + this.index].refresh());
+        }
+      }
+    },
   }
 </script>
 

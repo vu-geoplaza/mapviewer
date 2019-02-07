@@ -100,7 +100,7 @@
         {
           "id": "96a92862-62a9-424c-8cec-c1dd5f14d64c",
           "title": "bodemkaart50000",
-          "label": "bodemkaart50000",
+          "label": "bodemkaart (WMTS)",
           "visible": false,
           "opacity": 0.8,
           "zindex": 89
@@ -108,7 +108,7 @@
         {
           "id": "4dcf00b2-2531-431c-b78e-ad7e0a03273f",
           "title": "geomorfologischekaart50000",
-          "label": "geomorfologischekaart50000",
+          "label": "geomorfologischekaart (WMTS)",
           "visible": false,
           "opacity": 0.8,
           "zindex": 88
