@@ -36,7 +36,8 @@ class ViewerWMTS extends ViewerService {
             name: layer.Name,
             title: layer.Title,
             extent_lonlat: layer.WGS84BoundingBox,
-            legend_img: `${url}?service=WMTS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=${layer.Name}&version=1.3.0&SLD_VERSION=1.1.0`,
+            // I think this is never defined
+            legend_img: '',
             available_crs: crs,
             options: options
           }));
