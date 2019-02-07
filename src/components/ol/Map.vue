@@ -47,7 +47,7 @@
         });
         let crs = this.map.getView().getProjection().getCode();
         console.log('adding service with ' + crs);
-        service.getServiceInstance(crs).then(function (serviceData) {
+        service.getInstance(crs).then(function (serviceData) {
           for (const layer of serviceData.layers) {
             console.log('add layer ' + layer.title);
             me.calcAvailableCRS(layer.available_crs);
@@ -112,7 +112,7 @@
       addLayers(mapdata) {
         var me = this;
         for (const service of mapdata.services) {
-          service.getServiceInstance(mapdata.crs).then(function (serviceData) {
+          service.getInstance(mapdata.crs).then(function (serviceData) {
             for (const layer of serviceData.layers) {
               console.log('add layer '+layer.title);
               me.calcAvailableCRS(layer.available_crs);

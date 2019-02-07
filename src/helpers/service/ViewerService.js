@@ -1,6 +1,23 @@
 class ViewerService {
+  /**
+   * The type of service (e.g. wms, wmts, kml, etc.)
+   *
+   * @type {string}
+   */
   type = '';
+
+  /**
+   * The URL of the service endpoint or the data file
+   *
+   * @type {string}
+   */
   url = '';
+
+  /**
+   * The layers this service provides
+   *
+   * @type {Array}
+   */
   layers = [];
 
   constructor(config) {
@@ -12,7 +29,14 @@ class ViewerService {
     }
     console.log(this);
   };
-  async getServiceInstance(crs) {
+
+  /**
+   * Taking a ViewerService object get all layer properties from the service endpoint/datafile
+   *
+   * @param crs
+   * @returns {Promise<ViewerService>}
+   */
+  async getInstance(crs) {
     var me = this;
     console.log('get service instance wtih crs: ' + crs);
     var service = await this.getCapabilities().then(function (clayers) {
@@ -38,14 +62,32 @@ class ViewerService {
     return me;
   };
 
+  /**
+   * Retrieve all layers from the Service Url/data file
+   *
+   * @returns {Promise<Array>}
+   */
   async getCapabilities() {
     // gets overwritten in all the subclasses;
     return [];
   };
-
+  /**
+   * Set layer properties from config
+   *
+   * @param layers
+   */
   setLayers(layers) {
     // gets overwritten in all the subclasses;
   };
+
+  /**
+   * Merge the layers array retrieved by getCapabilities with the layers array of the config.
+   * Overrides the default layer properties with the ones provided in the config.
+   *
+   * @param layers
+   * @param clayers
+   * @returns {Array}
+   */
   mergeLayers(layers,clayers) {
     const complayers=[];
     const compare = this.compareByTitle(layers, clayers);
@@ -55,15 +97,25 @@ class ViewerService {
       if (index > -1) {
         const lyr=clayers[cindex];
         lyr.id = layers[index].id;
-        lyr.label = layers[index].label
+        lyr.label = layers[index].label;
         lyr.visible = layers[index].visible;
         lyr.opacity = layers[index].opacity;
-        lyr.zindex = layers[index].zindex
+        lyr.zindex = layers[index].zindex;
         complayers.push(lyr);
       }
     }
     return complayers;
   };
+
+  /**
+   * Given 2 arrays of Objects with a property 'title' this returns 2 arrays:
+   * t1: all titles of arr1 as t1[<title>]=<index of arr1>
+   * t2: all titles of arr2 that are also in arr1 as t2[<title>]=<index of arr2>
+   *
+   * @param arr1 @type {Array}
+   * @param arr2 @type {Array}
+   * @returns {{t1: Array, t2: Array}}
+   */
   compareByTitle(arr1, arr2) {
     //hmmm
     let i = 0;

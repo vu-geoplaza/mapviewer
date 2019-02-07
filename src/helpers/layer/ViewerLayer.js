@@ -1,18 +1,68 @@
 const uuidv4 = require('uuid/v4');
 
 class ViewerLayer {
+  /**
+   * @type {string}
+   */
   id = uuidv4();
+
+  /**
+   * @type {string}
+   */
   title = '';
+
+  /**
+   * @type {string}
+   */
   name = '';
+
+  /**
+   * @type {string}
+   */
   label = '';
+
+  /**
+   * @type {number}
+   */
   opacity = 0.8;
+
+  /**
+   * @type {boolean}
+   */
   visible = false;
+
+  /**
+   * @type {number}
+   */
   zindex = null;
+
   // Will be set by capabilities parser:
+
+  /**
+   * @type {Array}
+   */
   extent_lonlat = null;
+
+  /**
+   * @type {string}
+   */
   legend_img = '';
+
+  /**
+   * @type {Array}
+   */
   available_crs = [];
+
+  /**
+   * WMTS Layer options
+   *
+   * @type {Object}
+   */
   options = null;
+
+  /**
+   * @type {OL.layer Object}
+   */
   ol = null;
 
   constructor(config) {
@@ -42,6 +92,23 @@ class ViewerLayer {
       return false;
     }
   };
+
+  /**
+   * Set this.ollayer property
+   *
+   * @param url @type {string}
+   * @param crs @type {string}
+   * @returns {boolean, ol.layer Object}
+   */
+  OLLayer(url, crs){
+    return false;
+  }
+
+  /**
+   *
+   * Set the custom values on OL layer
+   *
+   */
   setCustomOLValues(){
     this.ol.set('lid',this.id);
     this.ol.set('name', this.name);
