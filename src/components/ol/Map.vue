@@ -6,7 +6,7 @@
   import {
     OSMstandard,
     BRT,
-    base4326, CartoLight
+    base4326, CartoLight, Luchtfoto
   } from "@/helpers/ViewerBaseLayers";
   import {GpzEventBus} from '@/main.js';
   import {transformExtent} from "ol/proj";
@@ -140,19 +140,24 @@
           this.map.addLayer(CartoLight());
         } else if (crs === 'EPSG:28992') {
           this.map.addLayer(BRT());
+          this.map.addLayer(Luchtfoto());
         } else if (crs === 'EPSG:4326') {
           this.map.addLayer(base4326());
         }
       },
       removeBaseLayers() {
-        var me = this;
-        this.map.getLayers().forEach(function (layer) {
+        const layers=this.map.getLayers();
+        var to_remove=[];
+        layers.forEach(function (layer) {
           if (layer != undefined) {
             if (layer.get('type') === 'base') {
-              me.map.removeLayer(layer);
+              to_remove.push(layer);
             }
           }
         });
+        for (const layer of to_remove){
+          this.map.removeLayer(layer);
+        }
       }
     }
   }

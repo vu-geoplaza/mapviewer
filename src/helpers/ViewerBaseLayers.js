@@ -31,7 +31,7 @@ export function CartoLight() {
     visible: false,
     source: new XYZ({
       url: 'http://{1-4}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-      attributions: [new Attribution({html: ['&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>, created by <a href="http://geoplaza.vu.nl/cms">VU Geoplaza</a>']})]
+      attributions: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>, created by <a href="http://geoplaza.vu.nl/cms">VU Geoplaza</a>'
     })
 
   })
@@ -72,6 +72,44 @@ export function BRT() {
     })
   })
 }
+
+export function Luchtfoto() {
+// Geldigheidsgebied van het tiling schema in RD-coördinaten:
+  var projectionExtent = BRT_EXTENT;
+  var projection = new Projection({code: 'EPSG:28992', units: 'm', extent: projectionExtent});
+// Resoluties (pixels per meter) van de zoomniveaus:
+  var resolutions = BRT_RESOLUTIONS;
+  //var size = ol.extent.getWidth(projectionExtent) / 256;
+// Er zijn 15 (0 tot 14) zoomniveaus beschikbaar van de WMTS-service voor de BRT-Achtergrondkaart:
+  var matrixIds = new Array(15);
+  for (var z = 0; z < 15; ++z) {
+    matrixIds[z] = 'EPSG:28992:' + z;
+  }
+  return new TileLayer({
+    type: 'base',
+    opacity: 1.0,
+    zIndex: 1,
+    visible: false,
+    code: 'lucht',
+    name: 'Luchtfoto 25cm',
+    source: new WMTS({
+      attributions: 'Kaartgegevens: &copy; <a href="https://www.kadaster.nl">Kadaster</a>',
+      url: 'https://geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts?',
+      layer: 'Actueel_ortho25',
+      matrixSet: 'EPSG:28992',
+      format: 'image/png',
+      projection: projection,
+      tileGrid: new WMTSTileGrid({
+        origin: getTopLeft(projectionExtent),
+        resolutions: resolutions,
+        matrixIds: matrixIds
+      }),
+      style: 'default',
+      wrapX: false
+    })
+  })
+}
+
 
 export function base4326() {
   return new TileLayer({

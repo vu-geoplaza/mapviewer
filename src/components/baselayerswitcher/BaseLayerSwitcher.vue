@@ -1,6 +1,6 @@
 <template>
   <b-nav-item-dropdown text="base layer">
-    <b-dropdown-item v-on:click="switchbaseLayer(item.code)" v-for="(item, index) in items" :index="index" :key="index"
+    <b-dropdown-item v-on:click="switchBaseLayer(item.code)" v-for="(item, index) in items" :index="index" :key="index"
                      :item="item">
       {{ item.name }}&nbsp;<span v-if="item.active">*</span>
     </b-dropdown-item>
@@ -46,8 +46,26 @@
           }
         });
         this.items=items;
+      },
+      switchBaseLayer: function (code) {
+        this.map.getLayers().forEach(function (layer) {
+          if (layer.get('type') === 'base') {
+            if (layer.get('code') === code) {
+              layer.setVisible(true);
+            } else {
+              layer.setVisible(false);
+            }
+          }
+        });
+        for (const i in this.items) {
+          if (this.items[i].code === code) {
+            this.items[i].active = true;
+          } else {
+            this.items[i].active = false;
+          }
+        }
       }
-    },
+    }
   }
 
 </script>
