@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import ProjectionSwitcher from "@/components/ProjectionSwitcher/ProjectionSwitcher";
+  import ProjectionSwitcher from "@/components/projectionswitcher/ProjectionSwitcher";
   import ZoomToExtent from './ZoomToExtent'
   import FileLoader from '@/components/file/FileLoader'
   import FileSaver from '@/components/file/FileSaver'

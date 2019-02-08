@@ -76,22 +76,22 @@
       initMap: function () {
         var me = this;
         // create a map object, do not bind it to the DOM yet.
-        const mapdata=this.$config;
-        console.log('init map crs: ' + mapdata.crs);
+        const config=this.$config;
+        console.log('init map crs: ' + config.crs);
         const view = new View({
-          projection: mapdata.crs
+          projection: config.crs
         });
 
         this.map = new Map({
           view: view,
         });
-        this.map.available_crs = [mapdata.crs];
+        this.map.available_crs = [config.crs];
 
-        view.fit(transformExtent(mapdata.bbox, 'EPSG:4326', view.getProjection()), this.map.getSize());
+        view.fit(transformExtent(config.bbox, 'EPSG:4326', view.getProjection()), this.map.getSize());
         this.map.setView(view);
 
-        this.setBaseLayer(mapdata.crs);
-        this.addLayers(mapdata);
+        this.setBaseLayer(config.crs);
+        this.addLayers(config);
 
       },
 
@@ -108,10 +108,10 @@
         this.map.setView(view);
         this.setBaseLayer(crs);
       },
-      addLayers(mapdata) {
+      addLayers(config) {
         var me = this;
-        for (const service of mapdata.services) {
-          service.getInstance(mapdata.crs).then(function (serviceData) {
+        for (const service of config.services) {
+          service.getInstance(config.crs).then(function (serviceData) {
             for (const layer of serviceData.layers) {
               console.log('add layer '+layer.title);
               me.calcAvailableCRS(layer.available_crs);

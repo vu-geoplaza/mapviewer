@@ -13,8 +13,8 @@
       methods: {
           savedata() {
             //alert( encodeURIComponent( btoa( JSON.stringify(ViewerDataHelper.olmapToConfigData(this.map))) ) );
-            var mapdata = JSON.stringify(ViewerDataHelper.olmapToConfigData(this.map), null, 2);
-            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(mapdata);
+            var config = JSON.stringify(ViewerDataHelper.olmapToConfigData(this.map), null, 2);
+            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(config);
             var downloadAnchorNode = document.createElement('a');
             downloadAnchorNode.setAttribute("href", dataStr);
             downloadAnchorNode.setAttribute("download", "gpz_map.json");

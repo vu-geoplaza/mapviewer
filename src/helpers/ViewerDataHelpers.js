@@ -47,11 +47,11 @@ export const ViewerDataHelper = {
         });
       }
     }
-    const mapdata= {
+    const config= {
       crs: view.getProjection().getCode(),
       bbox: transformExtent( view.calculateExtent(), view.getProjection(), 'EPSG:4326'),
       services: services
     };
-    return mapdata
+    return config
   }
 };
