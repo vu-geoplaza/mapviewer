@@ -1,8 +1,8 @@
 import {transformExtent} from "ol/proj";
 
-export const dataHelper = {
+export const ViewerDataHelper = {
   /**
-   * Translate an OpenLayers map object to a mapdata object
+   * Translate an OpenLayers map object to a ViewerConfig object that can be written to a json file
    *
    * @param olmap
    */

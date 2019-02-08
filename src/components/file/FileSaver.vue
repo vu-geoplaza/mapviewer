@@ -6,14 +6,14 @@
 
 <script>
   import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
-  import {dataHelper} from "@/helpers/dataHelpers";
+  import {ViewerDataHelper} from "@/helpers/ViewerDataHelpers";
     export default {
       name: "FileSaver",
       mixins: [Mapable],
       methods: {
           savedata() {
-            //alert( encodeURIComponent( btoa( JSON.stringify(dataHelper.olmapToConfigData(this.map))) ) );
-            var mapdata = JSON.stringify(dataHelper.olmapToConfigData(this.map), null, 2);
+            //alert( encodeURIComponent( btoa( JSON.stringify(ViewerDataHelper.olmapToConfigData(this.map))) ) );
+            var mapdata = JSON.stringify(ViewerDataHelper.olmapToConfigData(this.map), null, 2);
             var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(mapdata);
             var downloadAnchorNode = document.createElement('a');
             downloadAnchorNode.setAttribute("href", dataStr);
