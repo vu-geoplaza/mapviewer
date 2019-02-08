@@ -8,7 +8,7 @@
   import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
   import {transformExtent} from "ol/proj";
     export default {
-      name: "ZoomToExtent",
+      name: "FitExtent",
       mixins: [Mapable],
       methods: {
         zoomExtent() {
