@@ -22,7 +22,7 @@ export const ViewerDataHelper = {
           zindex: layer.getZIndex()
         };
         let url='';
-        if(type==='kml') {
+        if(type==='kml'||type==='gpx') {
           url=layer.getSource().getUrl();
         } else {
           url=layer.getSource().getUrls()[0];

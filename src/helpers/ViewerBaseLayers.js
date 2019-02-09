@@ -20,6 +20,7 @@ export function BingRoad(){
     type: 'base',
     name: 'Bing Road',
     code: "broad",
+    zIndex: 1,
     visible: false,
     preload: Infinity,
     source: new BingMaps({
@@ -35,7 +36,8 @@ export function OSMstandard() {
     source: new OSM(),
     type: 'base',
     code: 'osm',
-    name: 'OpenStreetMap standard'
+    name: 'OpenStreetMap standard',
+    zIndex: 1
   })
 }
 
@@ -44,6 +46,7 @@ export function CartoLight() {
     type: 'base',
     name: 'Carto-light',
     code: 'light',
+    zIndex: 1,
     visible: false,
     source: new XYZ({
       url: 'http://{1-4}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',

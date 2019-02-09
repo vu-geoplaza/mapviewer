@@ -2,6 +2,7 @@ import ViewerWMS from './service/ViewerWMS'
 import ViewerWMTS from './service/ViewerWMTS'
 import ViewerServiceTileArcGIS from "./service/ViewerServiceTileArcGIS";
 import ViewerServiceKML from "./service/ViewerServiceKML";
+import ViewerServiceGPX from "./service/ViewerServiceGPX";
 
 class ViewerConfig {
   crs='EPSG:3857';
@@ -22,11 +23,12 @@ class ViewerConfig {
       }
     }
   };
-  getService(service) {
-    if (service.type==='wms') return new ViewerWMS(service);
-    if (service.type==='wmts') return new ViewerWMTS(service);
-    if (service.type==='arcgis_image'||service.type==='arcgis_tile') return new ViewerServiceTileArcGIS(service);
-    if (service.type==='kml') return new ViewerServiceKML(service);
+  getService(service_config) {
+    if (service_config.type==='wms') return new ViewerWMS(service_config);
+    if (service_config.type==='wmts') return new ViewerWMTS(service_config);
+    if (service_config.type==='arcgis_image'||service_config.type==='arcgis_tile') return new ViewerServiceTileArcGIS(service_config);
+    if (service_config.type==='kml') return new ViewerServiceKML(service_config);
+    if (service_config.type==='gpx') return new ViewerServiceGPX(service_config);
   }
 }
 
