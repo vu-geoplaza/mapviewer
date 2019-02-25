@@ -11,6 +11,7 @@
   import {GpzEventBus} from '@/main.js';
   import {transformExtent} from "ol/proj";
   import View from "ol/View";
+  import VectorLayer from "ol/layer/Vector";
 
   // Add a simple extension to enable layer lookup by layer id
   if (Map.prototype.getLayerByLid === undefined) {
@@ -104,9 +105,17 @@
           projection: crs
         });
         view.fit(extent, {size: this.map.getSize(), nearest: true});
-
+        this.clearVectorLayers();
         this.map.setView(view);
         this.setBaseLayer(crs);
+      },
+      clearVectorLayers() {
+        var layers = this.map.getLayers();
+        layers.forEach(function (layer) {
+          if (layer instanceof VectorLayer) { // should set a generic vector/tile type
+            layer.getSource().clear();
+          }
+        });
       },
       addLayers(config) {
         var me = this;

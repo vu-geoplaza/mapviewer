@@ -34,6 +34,7 @@
     data () {
       return{
         slideoptions: {
+          tooltip: 'hover'
         },
         show: false
       }

@@ -87,6 +87,14 @@ class ViewerLayer {
     if (ollayer) {
       this.ol=ollayer;
       this.setCustomOLValues();
+      /*
+      if (this.extent_lonlat === null){
+        // just gets infinity on a gpx layer
+        const extent=this.ol.getSource().getExtent();
+        console.log(extent);
+        this.ol.set('extent_lonlat',extent);
+      }
+      */
       return true;
     } else {
       return false;

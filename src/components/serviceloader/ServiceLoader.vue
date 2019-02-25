@@ -32,6 +32,10 @@
             text: "WMTS"
           },
           {
+            value: "gpx",
+            text: "GPX"
+          },
+          {
             value: "kml",
             text: "KML"
           },
