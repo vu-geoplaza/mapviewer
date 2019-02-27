@@ -1,7 +1,7 @@
 <template>
   <div id="feature-info">
-    <b-card v-show='toggle' no-body class="mb-1">
-      <b-card-header header-tag="header" class="p-1">
+    <b-card class="mb-1" no-body v-show='toggle'>
+      <b-card-header class="p-1" header-tag="header">
         <a @click='toggle = !toggle' class="fa-pull-left">
           <font-awesome-icon icon="arrow-right"/>
         </a>
@@ -9,7 +9,7 @@
       </b-card-header>
       <b-card-body>
         <b-tabs>
-          <b-tab v-for="(item, index) in items" :key="index" :title="item.title" class="scroll">
+          <b-tab :key="index" :title="item.title" class="scroll" v-for="(item, index) in items">
             <span v-html="item.content"></span>
           </b-tab>
         </b-tabs>
@@ -21,6 +21,7 @@
 <script>
   import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
   import axios from 'axios';
+  import {proxyscript} from "@/helpers/proxy";
 
   export default {
     name: "FeatureInfo",
@@ -51,7 +52,7 @@
         this.getVectorFeatureInfo(pixel);
         this.getRasterFeatureInfo(coordinate)
       },
-      getRasterFeatureInfo(coordinate) {
+      getRasterFeatureInfo(coordinate, proxied) {
         // wmts featureinfo is not yet implemented: https://github.com/openlayers/openlayers/pull/2373
         var me = this;
         const viewResolution = (this.map.getView().getResolution());
@@ -65,6 +66,10 @@
               let url = layer.getSource().getGetFeatureInfoUrl(
                 coordinate, viewResolution, viewProjection,
                 {'INFO_FORMAT': 'text/html'});
+              if (proxied){
+                  const p=encodeURIComponent(url);
+                  url= proxyscript + '?url=' + p;
+              }
               axios.get(url).then(result => {
                 me.addItem(
                   {
@@ -74,6 +79,9 @@
                   }
                 );
               }, error => {
+                if (!proxied){
+                  me.getRasterFeatureInfo(coordinate, true)
+                }
                 console.error(error);
               });
             }

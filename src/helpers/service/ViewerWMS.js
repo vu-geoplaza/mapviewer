@@ -2,13 +2,20 @@ import ViewerService from './ViewerService'
 import WMSCapabilities from "ol/format/WMSCapabilities";
 import ViewerLayerWMS from "../layer/ViewerLayerWMS";
 import axios from 'axios';
+import {proxyscript} from "@/helpers/proxy";
 
 class ViewerWMS extends ViewerService {
-  async getCapabilities() {
+  async getCapabilities(proxied) {
+    var me=this;
     const url = this.url.substring(0, this.url.indexOf('?'));
     const parser = new WMSCapabilities();
     const layers=[];
-    return axios.get(url + '?request=GetCapabilities&service=WMS',).then(function (response) {
+    let requrl=url + '?request=GetCapabilities&service=WMS';
+    if (proxied) {
+      const p=encodeURIComponent(url + '?request=GetCapabilities&service=WMS');
+      requrl= proxyscript + '?url=' + p;
+    }
+    return axios.get(requrl).then(function (response) {
       const result = parser.read(response.data);
       for (const layer of result.Capability.Layer.Layer) {
         layers.push(new ViewerLayerWMS({
@@ -20,6 +27,14 @@ class ViewerWMS extends ViewerService {
         }));
       }
       return layers;
+    }).catch(function (error) {
+      console.error(error);
+      if (!proxied) {
+        console.log('retry request via proxy');
+        return me.getCapabilities(true);
+      } else {
+        return [];
+      }
     });
   };
   setLayers(layers) {
