@@ -34,17 +34,7 @@ function getParam(name) {
     return decodeURIComponent(name[1]);
 }
 
-var datafile = getParam('datafile');
-if (typeof datafile === 'undefined') {
-  datafile = document.getElementById("gpz").dataset.configfile;
-}
-
-
-axios.get(datafile).then(function (response) {
-  // make app config accessible for all components
-  const config = new ViewerConfig();
-  config.readJSON(response.data);
-
+function init(config){
   Vue.prototype.$config = config;
   if (adminmode === "1") {
     Vue.prototype.$adminmode = true;
@@ -58,10 +48,58 @@ axios.get(datafile).then(function (response) {
     components: {GpzViewer},
     template: '<GpzViewer/>'
   });
-}).catch(function (error) {
-  console.error(error);
-  document.getElementById("gpz").innerHTML = "<h4>Could not load map config: " + error.message + "</h4>";
-  // or just start the viewer with no layers?
-});
+}
+
+function initWithDatafile(datafile) {
+  axios.get(datafile).then(function (response) {
+    // make app config accessible for all components
+    const config = new ViewerConfig();
+    config.readJSON(response.data);
+    init(config);
+  }).catch(function (error) {
+    console.error(error);
+    document.getElementById("gpz").innerHTML = "<h4>Could not load map config: " + error.message + "</h4>";
+    // or just start the viewer with no layers?
+  });
+}
+
+function initWithUrl(url, type, crs){
+  if (typeof type==='undefined'){
+    type='wms';
+  }
+  if (typeof crs==='undefined'){
+    crs='EPSG:3857'
+  }
+  const config = new ViewerConfig();
+  config.readJSON({
+    crs: crs,
+    services: [
+      {
+        url: url,
+        type: type
+      }
+    ]
+  });
+  init(config);
+}
+
+
+// datafile in parameters
+var datafile = getParam('datafile');
+// datafile as data tag on div gpz or url(s) as get parameters
+if (typeof datafile === 'undefined') {
+  var url=getParam('url');
+  var type=getParam('type');
+  var crs=getParam('crs');
+  if (typeof url==='undefined') {
+    datafile = document.getElementById("gpz").dataset.configfile;
+    initWithDatafile(datafile);
+  } else {
+    initWithUrl(url, type, crs);
+  }
+} else {
+  initWithDatafile(datafile);
+}
+
 
 
