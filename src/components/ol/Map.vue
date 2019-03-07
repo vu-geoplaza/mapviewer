@@ -56,13 +56,20 @@
         });
       });
 
+      // refreshes the map when the user goes back to an inactive browser tab
+      document.addEventListener('visibilitychange', function(){
+        if (!document.hidden) {
+          setTimeout( function() { me.map.renderSync();}, 200);
+
+        }
+      });
+
       // resize the map, so it fits to parent
       console.log('map mounted');
       window.setTimeout(() => {
         console.log('set target');
         var div=document.getElementById('ol-map-container');
         this.map.setTarget(div);
-        this.map.updateSize();
         // fit to view
         this.map.getView().fit(transformExtent(this.$config.bbox, 'EPSG:4326', this.map.getView().getProjection()), {size: [div.clientWidth,div.clientHeight], nearest: true});
       }, 200);
