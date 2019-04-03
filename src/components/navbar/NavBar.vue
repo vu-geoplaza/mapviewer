@@ -15,7 +15,9 @@
       <b-navbar-nav v-if="admminmode">
         <FileSaver/>
       </b-navbar-nav>
-
+      <b-navbar-nav>
+        <b-nav-item v-b-modal.infomodal>info</b-nav-item>
+      </b-navbar-nav>
     </b-collapse>
 
   </b-navbar>
@@ -28,10 +30,11 @@
   import FileLoader from '@/components/file/FileLoader'
   import FileSaver from '@/components/file/FileSaver'
   import BaseLayerSwitcher from "@/components/baselayerswitcher/BaseLayerSwitcher";
+  import InfoModal from "@/components/infomodal/InfoModal"
 
   export default {
     name: "NavBar",
-    components: {BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver},
+    components: {BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver, InfoModal},
     mounted() {
       this.set_title()
     },

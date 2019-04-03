@@ -17,6 +17,7 @@
 
       <!--<FileLoader />-->
       <ServiceLoader />
+      <InfoModal />
     </b-container>
 </template>
 
@@ -27,6 +28,7 @@
   import FeatureInfo from "./components/featureinfo/FeatureInfo";
   import NavBar from "./components/navbar/NavBar";
   import ServiceLoader from "./components/serviceloader/ServiceLoader";
+  import InfoModal from "./components/infomodal/InfoModal";
 
   export default {
     mounted: function () {
@@ -35,6 +37,7 @@
     },
     name: 'GpzViewer',
     components: {
+      InfoModal,
       ServiceLoader,
       NavBar,
       FeatureInfo,
