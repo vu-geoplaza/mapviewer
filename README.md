@@ -27,4 +27,4 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ```
 npm run build
 ```
-And copy the files in the `dist`-directort to your webserver.
+And copy the files in the `dist`-directory to your webserver.
