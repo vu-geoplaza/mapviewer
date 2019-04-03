@@ -49,6 +49,8 @@ export const ViewerDataHelper = {
     }
     const config= {
       crs: view.getProjection().getCode(),
+      title: '',
+      url: '#',
       bbox: transformExtent( view.calculateExtent(), view.getProjection(), 'EPSG:4326'),
       services: services
     };

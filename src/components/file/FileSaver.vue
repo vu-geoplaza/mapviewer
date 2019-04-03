@@ -13,7 +13,10 @@
       methods: {
           savedata() {
             //alert( encodeURIComponent( btoa( JSON.stringify(ViewerDataHelper.olmapToConfigData(this.map))) ) );
-            var config = JSON.stringify(ViewerDataHelper.olmapToConfigData(this.map), null, 2);
+            const data=ViewerDataHelper.olmapToConfigData(this.map);
+            data.title = this.$config.title;
+            data.url = this.$config.url;
+            var config = JSON.stringify(data, null, 2);
             var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(config);
             var downloadAnchorNode = document.createElement('a');
             downloadAnchorNode.setAttribute("href", dataStr);
