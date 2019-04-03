@@ -39,7 +39,7 @@
       GpzEventBus.$on('change-projection', crs => {
         this.reProject(crs)
       });
-      var me=this;
+      const me = this;
       GpzEventBus.$on('add-service', options => {
         const service = this.$config.getService({
           type: options.type,
@@ -59,8 +59,12 @@
       // refreshes the map when the user goes back to an inactive browser tab
       document.addEventListener('visibilitychange', function(){
         if (!document.hidden) {
-          setTimeout( function() { me.map.renderSync();}, 200);
-
+          //setTimeout( function() { me.map.renderSync();}, 200);
+          //renderSync is not enough, force source reload?
+          console.log('refresh layers');
+          me.map.getLayers().forEach(function (layer) {
+            layer.changed();
+          });
         }
       });
 

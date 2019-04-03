@@ -1,4 +1,6 @@
 {
+  "title": "demo layers",
+  "url": "https://geoplaza.vu.nl/projects/viewer/",
   "crs": "EPSG:28992",
   "bbox": [
     3.606000077361753,
