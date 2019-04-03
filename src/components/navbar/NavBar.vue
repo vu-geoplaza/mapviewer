@@ -9,14 +9,14 @@
       <ProjectionSwitcher/>
       <BaseLayerSwitcher/>
       <FitExtent/>
+      <b-navbar-nav>
+        <b-nav-item v-b-modal.infomodal>info</b-nav-item>
+      </b-navbar-nav>
       <b-navbar-nav v-if="admminmode">
         <b-nav-item v-b-modal.servicemodal>add service</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav v-if="admminmode">
         <FileSaver/>
-      </b-navbar-nav>
-      <b-navbar-nav>
-        <b-nav-item v-b-modal.infomodal>info</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
 

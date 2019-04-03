@@ -2,11 +2,11 @@
   <b-modal id="infomodal" size="lg" title="Layers shown on this map">
     <b-row>
       <b-col md="12">
-      <ul v-for="service in services" :key="service">
+      <ul v-for="service in services">
         <li>
           <b>{{service.type}}</b>: {{service.url}}
         </li>
-        <ul v-for="layer in service.layers" :key="layer">
+        <ul v-for="layer in service.layers">
           <li>
             {{layer.title}}
           </li>

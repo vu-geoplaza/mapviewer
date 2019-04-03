@@ -1,86 +1,14 @@
 {
+  "crs": "EPSG:28992",
   "title": "demo layers",
   "url": "https://geoplaza.vu.nl/projects/viewer/",
-  "crs": "EPSG:28992",
   "bbox": [
-    3.606000077361753,
-    52.231208628716644,
-    6.242718827361754,
-    52.66809900471276
+    4.403006738638631,
+    52.18423132526065,
+    5.484002925652704,
+    52.56191773100419
   ],
   "services": [
-    {
-      "url": "https://geodata.nationaalgeoregister.nl/bestandbodemgebruik2015/ows?",
-      "type": "wms",
-      "layers": [
-        {
-          "id": "2ef1fd77-db88-426d-b24b-8ed41daeb379",
-          "title": "bbg2015_hoofdgroep",
-          "label": "bodemgebruik: bbg2015_hoofdgroep",
-          "visible": false,
-          "opacity": 0.8,
-          "zindex": 96
-        },
-        {
-          "id": "d9d85d30-4d4b-442b-b0b1-c6b70511689f",
-          "title": "bbg2015",
-          "label": "bodemgebruik: bbg2015",
-          "visible": false,
-          "opacity": 0.8,
-          "zindex": 99
-        }
-      ]
-    },
-    {
-      "url": "https://geodata.nationaalgeoregister.nl/inspire/sr/ows?",
-      "type": "wms",
-      "layers": [
-        {
-          "id": "0aea803a-ee83-4ac9-b98f-9308d5e8aadb",
-          "title": "Coastline",
-          "label": "Zeegebieden: Coastline",
-          "visible": true,
-          "opacity": 0.8,
-          "zindex": 100
-        },
-        {
-          "id": "063fd152-e770-40ae-b322-591f24c2a66e",
-          "title": "InterTidalArea",
-          "label": "Zeegebieden: InterTidalArea",
-          "visible": false,
-          "opacity": 0.8,
-          "zindex": 98
-        }
-      ]
-    },
-    {
-      "url": "https://geoplaza.vu.nl/ows/kerken?",
-      "type": "wms",
-      "layers": [
-        {
-          "id": "5c55c1d5-42cf-43c0-ad3d-de8deb009486",
-          "title": "Stijl",
-          "label": "Kerken: Stijl",
-          "visible": true,
-          "opacity": 0.8,
-          "zindex": 97
-        }
-      ]
-    },
-    {
-      "url": "static/kloosters_1200.kml",
-      "type": "kml",
-      "layers": [
-        {
-          "id": "96ce83cb-30d9-4e31-b024-49092cba6d4d",
-          "title": "Kloosters in 1200",
-          "label": "Kloosters in 1200 (kml)",
-          "visible": true,
-          "opacity": 0.8,
-          "zindex": 95
-        }
-      ]
-    },
     {
       "url": "https://tiles.arcgis.com/tiles/y59l2kue2wCNNoZS/arcgis/rest/services/25_Amsterdam1_img/MapServer/tile/{z}/{y}/{x}",
       "type": "arcgis_tile",
@@ -91,7 +19,7 @@
           "label": "25 Amsterdam1.img (arcrest)",
           "visible": true,
           "opacity": 0.8,
-          "zindex": 94
+          "zindex": 93
         }
       ]
     },
@@ -105,7 +33,7 @@
           "label": "bodemkaart50000",
           "visible": false,
           "opacity": 0.8,
-          "zindex": 89
+          "zindex": 92
         },
         {
           "id": "4dcf00b2-2531-431c-b78e-ad7e0a03273f",
@@ -113,7 +41,93 @@
           "label": "geomorfologischekaart50000",
           "visible": false,
           "opacity": 0.8,
-          "zindex": 88
+          "zindex": 91
+        }
+      ]
+    },
+    {
+      "url": "https://geodata.nationaalgeoregister.nl/inspire/sr/ows?",
+      "type": "wms",
+      "layers": [
+        {
+          "id": "0aea803a-ee83-4ac9-b98f-9308d5e8aadb",
+          "title": "Coastline",
+          "label": "Zeegebieden: Coastline",
+          "visible": true,
+          "opacity": 0.8,
+          "zindex": 99
+        },
+        {
+          "id": "063fd152-e770-40ae-b322-591f24c2a66e",
+          "title": "InterTidalArea",
+          "label": "Zeegebieden: InterTidalArea",
+          "visible": false,
+          "opacity": 0.8,
+          "zindex": 97
+        }
+      ]
+    },
+    {
+      "url": "https://geoplaza.vu.nl/ows/kerken?",
+      "type": "wms",
+      "layers": [
+        {
+          "id": "5c55c1d5-42cf-43c0-ad3d-de8deb009486",
+          "title": "Stijl",
+          "label": "Kerken: Stijl",
+          "visible": true,
+          "opacity": 0.8,
+          "zindex": 96
+        }
+      ]
+    },
+    {
+      "url": "https://geodata.nationaalgeoregister.nl/bestandbodemgebruik2015/ows?",
+      "type": "wms",
+      "layers": [
+        {
+          "id": "2ef1fd77-db88-426d-b24b-8ed41daeb379",
+          "title": "bbg2015_hoofdgroep",
+          "label": "bodemgebruik: bbg2015_hoofdgroep",
+          "visible": false,
+          "opacity": 0.8,
+          "zindex": 95
+        },
+        {
+          "id": "d9d85d30-4d4b-442b-b0b1-c6b70511689f",
+          "title": "bbg2015",
+          "label": "bodemgebruik: bbg2015",
+          "visible": false,
+          "opacity": 0.8,
+          "zindex": 98
+        }
+      ]
+    },
+    {
+      "url": "static/kloosters_1200.kml",
+      "type": "kml",
+      "layers": [
+        {
+          "id": "96ce83cb-30d9-4e31-b024-49092cba6d4d",
+          "title": "Kloosters in 1200",
+          "label": "Kloosters in 1200 (kml)",
+          "visible": true,
+          "opacity": 0.8,
+          "zindex": 94
+        }
+      ]
+    },
+    {
+      "url": "static/w-law-noordhollandpad.gpx",
+      "type": "gpx",
+      "layers": [
+        {
+          "id": "40045471-e568-4b9f-a6e3-a5cbb0762b84",
+          "title": "w-law-noordhollandpad.gpx",
+          "label": "w-law-noordhollandpad.gpx",
+          "visible": true,
+          "opacity": 0.8,
+          "zindex": 100
         }
       ]
     }
