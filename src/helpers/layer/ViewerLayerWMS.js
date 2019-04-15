@@ -7,7 +7,7 @@ class ViewerLayerWMS extends ViewerLayer {
     return new TileLayer({
       source: new TileWMS({
         url: url,
-        params: {'LAYERS': this.name},
+        params: {'LAYERS': this.name, 'TILED': true},
         transition: 0,
 
       }),
