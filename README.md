@@ -1,6 +1,8 @@
 # gpz_viewer
 
-> The New Geoplaza Map Viewer!
+The New Geoplaza Map Viewer! 
+
+Build with OpenLayers, Vue.js and Bootstrap-Vue.
 
 ## Build Setup
 
@@ -19,3 +21,10 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## Build for production
+
+```
+npm run build
+```
+And copy the files in the `dist`-directory to your webserver.
