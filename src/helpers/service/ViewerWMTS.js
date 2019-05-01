@@ -24,7 +24,7 @@ class ViewerWMTS extends ViewerService {
           // this will only work for known projections
           if (VIEWER_CRS.indexOf(link.TileMatrixSet) > -1) {
             const o = optionsFromCapabilities(result, {
-              layer: layer.Title,
+              layer: layer.Identifier,
               matrixSet: link.TileMatrixSet
             });
             options[link.TileMatrixSet] = o;
