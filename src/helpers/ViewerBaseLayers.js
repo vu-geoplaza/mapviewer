@@ -33,6 +33,7 @@ export function BingRoad(){
 
 export function OSMstandard() {
   return new TileLayer({
+    preload: Infinity,
     source: new OSM(),
     type: 'base',
     code: 'osm',
@@ -43,6 +44,7 @@ export function OSMstandard() {
 
 export function CartoLight() {
   return new TileLayer({
+    preload: Infinity,
     type: 'base',
     name: 'Carto-light',
     code: 'light',
@@ -69,6 +71,7 @@ export function BRT() {
     matrixIds[z] = 'EPSG:28992:' + z;
   }
   return new TileLayer({
+    preload: Infinity,
     type: 'base',
     opacity: 1.0,
     zIndex: 1,
@@ -105,6 +108,7 @@ export function Luchtfoto() {
     matrixIds[z] = 'EPSG:28992:' + z;
   }
   return new TileLayer({
+    preload: Infinity,
     type: 'base',
     opacity: 1.0,
     zIndex: 1,
@@ -132,6 +136,7 @@ export function Luchtfoto() {
 
 export function base4326() {
   return new TileLayer({
+    preload: Infinity,
     zIndex: 1,
     type: 'base',
     code: 'aho',
