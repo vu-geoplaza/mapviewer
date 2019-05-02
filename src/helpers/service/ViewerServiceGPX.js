@@ -1,11 +1,11 @@
 import ViewerService from "./ViewerService";
 import axios from 'axios';
 import ViewerLayerGPX from "../layer/ViewerLayerGPX";
+import {ALLOWED_VIEWER_CRS} from "@/main"
 
 // static/kloosters_1200.kml
 class ViewerServiceGPX extends ViewerService {
   async getCapabilities() {
-    const VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
     var me = this;
     return axios.get(me.url).then(function (response) {
       const layers = [];
@@ -29,7 +29,7 @@ class ViewerServiceGPX extends ViewerService {
         extent_lonlat: extent,
         title: me.url.substr(me.url.lastIndexOf('/') + 1),
         legend_img: '',
-        available_crs: VIEWER_CRS,
+        available_crs: ALLOWED_VIEWER_CRS,
       }));
       // maybe try to construct a legend here? or calculate the extent
       return layers;

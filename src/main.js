@@ -29,6 +29,8 @@ Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 
 export const GpzEventBus = new Vue();
+export const ALLOWED_VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
+
 const adminmode = document.getElementById("gpz").dataset.adminmode;
 
 function getParam(name) {

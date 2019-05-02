@@ -3,6 +3,7 @@ import ViewerService from "./ViewerService";
 import ViewerLayerXYZArcGIS from "../layer/ViewerLayerXYZArcGIS";
 import {transformExtent} from "ol/proj";
 import axios from 'axios';
+import {ALLOWED_VIEWER_CRS} from "@/main"
 
 class ViewerServiceTileArcGIS extends ViewerService {
   constructor(props) {
@@ -11,7 +12,6 @@ class ViewerServiceTileArcGIS extends ViewerService {
   };
 
   async getCapabilities() {
-    const VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
     const url = this.url;
     var me = this;
     return axios.get(url + '?f=json').then(function (response) {
@@ -27,7 +27,7 @@ class ViewerServiceTileArcGIS extends ViewerService {
             extent_lonlat: extent_lonlat,
             title: layer.name,
             legend_img: '', // see https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer/legend?f=json
-            available_crs: VIEWER_CRS // at least I think so
+            available_crs: ALLOWED_VIEWER_CRS // at least I think so
           };
           if (me.type = 'arcgis_tile') {
             layers.push(new ViewerLayerXYZArcGIS(options));

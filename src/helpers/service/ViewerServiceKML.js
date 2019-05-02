@@ -1,11 +1,11 @@
 import ViewerService from "./ViewerService";
 import ViewerLayerKML from "../layer/ViewerLayerKML";
 import axios from 'axios';
+import {ALLOWED_VIEWER_CRS} from "@/main"
 
 // static/kloosters_1200.kml
 class ViewerServiceKML extends ViewerService {
   async getCapabilities() {
-    const VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
     var me = this;
     return axios.get(me.url).then(function (response) {
       const layers = [];
@@ -17,7 +17,7 @@ class ViewerServiceKML extends ViewerService {
         extent_lonlat: null,
         title: name,
         legend_img: '',
-        available_crs: VIEWER_CRS,
+        available_crs: ALLOWED_VIEWER_CRS,
       }));
       // maybe try to construct a legend here? or calculate the extent
       return layers;

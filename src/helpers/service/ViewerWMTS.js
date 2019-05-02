@@ -3,8 +3,8 @@ import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import {optionsFromCapabilities} from "ol/source/WMTS";
 import ViewerLayerWMTS from "../layer/ViewerLayerWMTS";
 import axios from 'axios';
+import {ALLOWED_VIEWER_CRS} from "@/main"
 
-const VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
 
 class ViewerWMTS extends ViewerService {
   async getCapabilities() {
@@ -22,7 +22,7 @@ class ViewerWMTS extends ViewerService {
         for (const link of layer.TileMatrixSetLink) {
           crs.push(link.TileMatrixSet);
           // this will only work for known projections
-          if (VIEWER_CRS.indexOf(link.TileMatrixSet) > -1) {
+          if (ALLOWED_VIEWER_CRS.indexOf(link.TileMatrixSet) > -1) {
             const o = optionsFromCapabilities(result, {
               layer: layer.Identifier,
               matrixSet: link.TileMatrixSet
