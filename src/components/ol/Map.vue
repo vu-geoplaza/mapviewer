@@ -8,7 +8,7 @@
     BRT,
     base4326, CartoLight, Luchtfoto, BingRoad
   } from "@/helpers/ViewerBaseLayers";
-  import {GpzEventBus} from '@/main.js';
+  import {GpzEventBus,ALLOWED_VIEWER_CRS} from '@/main.js';
   import {transformExtent} from "ol/proj";
   import View from "ol/View";
   import VectorLayer from "ol/layer/Vector";
@@ -141,13 +141,12 @@
         }
       },
       calcAvailableCRS(arr_crs) {
-        const allowedCRS = ['EPSG:28992', 'EPSG:3857', 'EPSG:4326'];
         if (this.map.available_crs.length <= 1) {
-          this.map.available_crs = allowedCRS;
+          this.map.available_crs = ALLOWED_VIEWER_CRS;
         }
         const new_arr = [];
         for (const crs of this.map.available_crs) {
-          if ((arr_crs.indexOf(crs) > -1) && (new_arr.indexOf(crs) === -1) && (allowedCRS.indexOf(crs) > -1)) {
+          if ((arr_crs.indexOf(crs) > -1) && (new_arr.indexOf(crs) === -1) && (ALLOWED_VIEWER_CRS.indexOf(crs) > -1)) {
             new_arr.push(crs);
           }
         }
