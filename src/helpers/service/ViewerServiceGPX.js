@@ -20,8 +20,6 @@ class ViewerServiceGPX extends ViewerService {
           parseFloat(bounds.getAttribute('minlat')),
           parseFloat(bounds.getAttribute('maxlon')),
           parseFloat(bounds.getAttribute('maxlat'))
-
-
         ];
       }
       layers.push(new ViewerLayerGPX({
