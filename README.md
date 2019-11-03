@@ -24,6 +24,8 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ## Build for production
 
+Make sure the `assetsPublicPath` in `config/index.js` is correct for your website.
+
 ```
 npm run build
 ```

@@ -3,10 +3,10 @@
   "title": "demo layers",
   "url": "https://geoplaza.vu.nl/projects/viewer/",
   "bbox": [
-    4.403006738638631,
-    52.18423132526065,
-    5.484002925652704,
-    52.56191773100419
+    4.178080032326394,
+    52.15766739943118,
+    5.7009904277084384,
+    52.586104748698396
   ],
   "services": [
     {
@@ -55,27 +55,13 @@
           "label": "Zeegebieden: Coastline",
           "visible": true,
           "opacity": 0.8,
-          "zindex": 99
+          "zindex": 98
         },
         {
           "id": "063fd152-e770-40ae-b322-591f24c2a66e",
           "title": "InterTidalArea",
           "label": "Zeegebieden: InterTidalArea",
           "visible": false,
-          "opacity": 0.8,
-          "zindex": 97
-        }
-      ]
-    },
-    {
-      "url": "https://geoplaza.vu.nl/ows/kerken?",
-      "type": "wms",
-      "layers": [
-        {
-          "id": "5c55c1d5-42cf-43c0-ad3d-de8deb009486",
-          "title": "Stijl",
-          "label": "Kerken: Stijl",
-          "visible": true,
           "opacity": 0.8,
           "zindex": 96
         }
@@ -99,7 +85,7 @@
           "label": "bodemgebruik: bbg2015",
           "visible": false,
           "opacity": 0.8,
-          "zindex": 98
+          "zindex": 97
         }
       ]
     },
@@ -125,6 +111,20 @@
           "id": "40045471-e568-4b9f-a6e3-a5cbb0762b84",
           "title": "w-law-noordhollandpad.gpx",
           "label": "w-law-noordhollandpad.gpx",
+          "visible": true,
+          "opacity": 0.8,
+          "zindex": 99
+        }
+      ]
+    },
+    {
+      "url": "static/2019-9.gpx",
+      "type": "gpx",
+      "layers": [
+        {
+          "id": "2de67a30-4c97-4133-bc8b-50fda29ceb59",
+          "title": "2019-9.gpx",
+          "label": "2019-9.gpx",
           "visible": true,
           "opacity": 0.8,
           "zindex": 100
