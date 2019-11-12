@@ -58,6 +58,22 @@ export function CartoLight() {
   })
 }
 
+export function OpenTopo() {
+  return new TileLayer({
+    preload: Infinity,
+    type: 'base',
+    name: 'OpenTopo',
+    code: 'opentopo',
+    zIndex: 1,
+    visible: false,
+    source: new XYZ({
+      url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png',
+      attributions: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, map style &copy; <a href="https://opentopomap.org/">OpenTopo</a>'
+    })
+
+  })
+}
+
 export function BRT() {
 // Geldigheidsgebied van het tiling schema in RD-coördinaten:
   var projectionExtent = BRT_EXTENT;

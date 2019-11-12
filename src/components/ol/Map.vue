@@ -6,7 +6,7 @@
   import {
     OSMstandard,
     BRT,
-    base4326, CartoLight, Luchtfoto, BingRoad
+    base4326, CartoLight, Luchtfoto, BingRoad, OpenTopo
   } from "@/helpers/ViewerBaseLayers";
   import {GpzEventBus,ALLOWED_VIEWER_CRS} from '@/main.js';
   import {transformExtent} from "ol/proj";
@@ -158,6 +158,7 @@
           this.map.addLayer(OSMstandard());
           this.map.addLayer(CartoLight());
           this.map.addLayer(BingRoad());
+          this.map.addLayer(OpenTopo());
         } else if (crs === 'EPSG:28992') {
           this.map.addLayer(BRT());
           this.map.addLayer(Luchtfoto());
