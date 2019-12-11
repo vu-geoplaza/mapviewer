@@ -29,8 +29,10 @@ Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 
 export const GpzEventBus = new Vue();
+// Projections supported by the Viewer. A projection will only be available if all layers support it.
 export const ALLOWED_VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
 
+// Admin mode adds add services and Save config options to the viewer
 const adminmode = document.getElementById("gpz").dataset.adminmode;
 
 function getParam(name) {
@@ -54,6 +56,7 @@ function init(config){
   });
 }
 
+// get the viewer config from an online json file
 function initWithDatafile(datafile) {
   axios.get(datafile).then(function (response) {
     // make app config accessible for all components
@@ -67,6 +70,7 @@ function initWithDatafile(datafile) {
   });
 }
 
+// build a viewer config with one single url
 function initWithUrl(url, type, crs){
   if (typeof type==='undefined'){
     type='wms';
