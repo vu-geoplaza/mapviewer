@@ -31,10 +31,23 @@ export function BingRoad(){
   })
 }
 
-export function OSMstandard() {
+export function OSMstandardOrg() {
   return new TileLayer({
     preload: Infinity,
     source: new OSM(),
+    type: 'base',
+    code: 'osm',
+    name: 'OpenStreetMap standard',
+    zIndex: 1
+  })
+}
+
+export function OSMstandard() {
+  return new TileLayer({
+    preload: Infinity,
+    source: new XYZ({
+      url: 'https://gpzmaps.labs.vu.nl/osm/{z}/{x}/{y}.png'
+    }),
     type: 'base',
     code: 'osm',
     name: 'OpenStreetMap standard',
