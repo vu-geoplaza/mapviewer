@@ -3,6 +3,7 @@ import ViewerWMTS from './service/ViewerWMTS'
 import ViewerServiceTileArcGIS from "./service/ViewerServiceTileArcGIS";
 import ViewerServiceKML from "./service/ViewerServiceKML";
 import ViewerServiceGPX from "./service/ViewerServiceGPX";
+import ViewerServiceGeoJSON from "./service/ViewerServiceGeoJSON";
 
 class ViewerConfig {
   title = '';
@@ -35,6 +36,7 @@ class ViewerConfig {
     if (service_config.type === 'arcgis_image' || service_config.type === 'arcgis_tile') return new ViewerServiceTileArcGIS(service_config);
     if (service_config.type === 'kml') return new ViewerServiceKML(service_config);
     if (service_config.type === 'gpx') return new ViewerServiceGPX(service_config);
+    if (service_config.type === 'geojson') return new ViewerServiceGeoJSON(service_config);
   }
 }
 
