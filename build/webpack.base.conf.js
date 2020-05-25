@@ -12,7 +12,7 @@ require('babel-polyfill');
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: ["babel-polyfill", './src/main.js']
+    app: ["babel-polyfill", './src/gpz.js']
   },
   output: {
     path: config.build.assetsRoot,

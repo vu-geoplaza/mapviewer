@@ -28,10 +28,6 @@ Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
 
-export const GpzEventBus = new Vue();
-// Projections supported by the Viewer. A projection will only be available if all layers support it.
-export const ALLOWED_VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
-
 // Admin mode adds add services and Save config options to the viewer
 const adminmode = document.getElementById("gpz").dataset.adminmode;
 

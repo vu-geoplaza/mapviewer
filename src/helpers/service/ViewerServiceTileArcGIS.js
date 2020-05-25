@@ -3,7 +3,7 @@ import ViewerService from "./ViewerService";
 import ViewerLayerXYZArcGIS from "../layer/ViewerLayerXYZArcGIS";
 import {transformExtent} from "ol/proj";
 import axios from 'axios';
-import {ALLOWED_VIEWER_CRS} from "@/main"
+import {ALLOWED_VIEWER_CRS} from "@/shared"
 
 class ViewerServiceTileArcGIS extends ViewerService {
   constructor(props) {

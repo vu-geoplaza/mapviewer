@@ -25,12 +25,12 @@
 </template>
 
 <script>
-  import ProjectionSwitcher from "@/components/projectionswitcher/ProjectionSwitcher";
+  import ProjectionSwitcher from "@/components/shared/projectionswitcher/ProjectionSwitcher";
   import FitExtent from '../fitextent/FitExtent'
-  import FileLoader from '@/components/file/FileLoader'
-  import FileSaver from '@/components/file/FileSaver'
-  import BaseLayerSwitcher from "@/components/baselayerswitcher/BaseLayerSwitcher";
-  import InfoModal from "@/components/infomodal/InfoModal"
+  import FileLoader from '@/components/gpz/file/FileLoader'
+  import FileSaver from '@/components/gpz/file/FileSaver'
+  import BaseLayerSwitcher from "@/components/shared/baselayerswitcher/BaseLayerSwitcher";
+  import InfoModal from "@/components/gpz/infomodal/InfoModal"
 
   export default {
     name: "NavBar",

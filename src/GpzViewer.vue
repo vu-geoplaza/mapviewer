@@ -22,13 +22,13 @@
 </template>
 
 <script>
-  import LayerSwitcher from './components/layerswitcher/LayerSwitcher'
-  import GpzMap from './components/ol/Map'
-  import { GpzEventBus } from './main.js'
-  import FeatureInfo from "./components/featureinfo/FeatureInfo";
-  import NavBar from "./components/navbar/NavBar";
-  import ServiceLoader from "./components/serviceloader/ServiceLoader";
-  import InfoModal from "./components/infomodal/InfoModal";
+  import LayerSwitcher from './components/gpz/layerswitcher/LayerSwitcher'
+  import GpzMap from './components/shared/ol/Map'
+  import { GpzEventBus } from './shared'
+  import FeatureInfo from "./components/gpz/featureinfo/FeatureInfo";
+  import NavBar from "./components/shared/navbar/NavBar";
+  import ServiceLoader from "./components/gpz/serviceloader/ServiceLoader";
+  import InfoModal from "./components/gpz/infomodal/InfoModal";
 
   export default {
     mounted: function () {

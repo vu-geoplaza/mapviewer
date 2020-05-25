@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import {GpzEventBus} from '@/main.js';
+  import {GpzEventBus} from '@/shared';
   export default {
     name: "ServiceLoader",
     data() {

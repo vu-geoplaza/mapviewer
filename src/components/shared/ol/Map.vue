@@ -8,7 +8,7 @@
     BRT,
     base4326, CartoLight, Luchtfoto, BingRoad, OpenTopo
   } from "@/helpers/ViewerBaseLayers";
-  import {GpzEventBus,ALLOWED_VIEWER_CRS} from '@/main.js';
+  import {GpzEventBus,ALLOWED_VIEWER_CRS} from '@/shared';
   import {transformExtent} from "ol/proj";
   import View from "ol/View";
   import VectorLayer from "ol/layer/Vector";

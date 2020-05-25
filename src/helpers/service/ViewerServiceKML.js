@@ -1,7 +1,7 @@
 import ViewerService from "./ViewerService";
 import ViewerLayerKML from "../layer/ViewerLayerKML";
 import axios from 'axios';
-import {ALLOWED_VIEWER_CRS} from "@/main"
+import {ALLOWED_VIEWER_CRS} from "@/shared"
 
 // static/kloosters_1200.kml
 class ViewerServiceKML extends ViewerService {

@@ -9,7 +9,7 @@
 
 <script>
   import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
-  import {GpzEventBus} from '@/main.js';
+  //import {GpzEventBus} from '@/../../../../main';
 
   export default {
     name: "BaseLayerSwitcher",

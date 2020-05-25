@@ -1,4 +1,4 @@
-import { GpzEventBus } from '../main.js'
+import { GpzEventBus } from '@/shared'
 
 /**
  * Mixin, which binds the OL map to the target component.

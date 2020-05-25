@@ -1,7 +1,7 @@
 import ViewerService from "./ViewerService";
 import axios from 'axios';
 import ViewerLayerGPX from "../layer/ViewerLayerGPX";
-import {ALLOWED_VIEWER_CRS} from "@/main"
+import {ALLOWED_VIEWER_CRS} from "@/shared"
 
 // static/kloosters_1200.kml
 class ViewerServiceGPX extends ViewerService {
