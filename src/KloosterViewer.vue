@@ -1,47 +1,31 @@
 <template>
+  <b-container id="app" fluid>
+    <div id="ol-map-container" ref="gpzmap">
+      <OlMap/>
+    </div>
+    <NavBar/>
+    <b-row class="main-row">
+      <b-col md="4" lg="3">
+        <!--LayerSwitcher-->
+      </b-col>
+    </b-row>
 
-    <b-container id="app" fluid>
-      <div id="ol-map-container" ref="gpzmap"><OlMap /></div>
-      <NavBar />
-      <b-row class="main-row">
-        <b-col md="4" lg="3">
-          <LayerSwitcher/>
-        </b-col>
-      </b-row>
-
-      <b-row align-v="end">
-        <b-col class="rb-col p-0" offset-md="6" md="6">
-          <FeatureInfo/>
-        </b-col>
-      </b-row>
-
-      <!--<FileLoader />-->
-      <ServiceLoader />
-      <InfoModal />
-    </b-container>
+  </b-container>
 </template>
 
 <script>
-  import LayerSwitcher from './components/gpz/layerswitcher/LayerSwitcher'
   import OlMap from './components/shared/ol/Map'
-  import { SharedEventBus } from './shared'
-  import FeatureInfo from "./components/gpz/featureinfo/FeatureInfo";
+  import {SharedEventBus} from './shared'
   import NavBar from "./components/shared/navbar/NavBar";
-  import ServiceLoader from "./components/gpz/serviceloader/ServiceLoader";
-  import InfoModal from "./components/gpz/infomodal/InfoModal";
 
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
       console.log('app mounted')
     },
-    name: 'GpzViewer',
+    name: 'KloosterViewer',
     components: {
-      InfoModal,
-      ServiceLoader,
       NavBar,
-      FeatureInfo,
-      LayerSwitcher,
       OlMap
     },
   }
@@ -66,11 +50,13 @@
     top: 0px;
     left: 0px;
   }
+
   #app .main-row {
     position: relative;
     top: 0;
     height: 0px;
   }
+
   #app .container {
     max-width: 100%;
   }

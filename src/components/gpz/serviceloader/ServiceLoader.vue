@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import {GpzEventBus} from '@/shared';
+  import {SharedEventBus} from '@/shared';
   export default {
     name: "ServiceLoader",
     data() {
@@ -56,7 +56,7 @@
       handleOk() {
         if (this.selected!==null){
           console.log('add service' + this.serviceurl );
-          GpzEventBus.$emit('add-service', {url: this.serviceurl, type: this.selected});
+          SharedEventBus.$emit('add-service', {url: this.serviceurl, type: this.selected});
         }
       }
     }

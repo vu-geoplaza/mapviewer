@@ -1,4 +1,4 @@
-import { GpzEventBus } from '@/shared'
+import { SharedEventBus } from '@/shared'
 
 /**
  * Mixin, which binds the OL map to the target component.
@@ -11,7 +11,7 @@ export const Mapable = {
     }
   },
   created: function () {
-    GpzEventBus.$on('ol-map-mounted', (olMap) => {
+    SharedEventBus.$on('ol-map-mounted', (olMap) => {
       // make the OL map accesible in this component
       this.map = olMap;
 

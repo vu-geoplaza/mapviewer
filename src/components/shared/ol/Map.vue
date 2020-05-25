@@ -8,7 +8,7 @@
     BRT,
     base4326, CartoLight, Luchtfoto, BingRoad, OpenTopo
   } from "@/helpers/ViewerBaseLayers";
-  import {GpzEventBus,ALLOWED_VIEWER_CRS} from '@/shared';
+  import {SharedEventBus,ALLOWED_VIEWER_CRS} from '@/shared';
   import {transformExtent} from "ol/proj";
   import View from "ol/View";
   import VectorLayer from "ol/layer/Vector";
@@ -27,7 +27,7 @@
   }
 
   export default {
-    name: 'GpzMap',
+    name: 'OlMap',
     data() {
       return {
         map: Object
@@ -35,12 +35,12 @@
     },
     mounted() {
       // Send the event 'ol-map-mounted' with the OL map as payload
-      GpzEventBus.$emit('ol-map-mounted', this.map);
-      GpzEventBus.$on('change-projection', crs => {
+      SharedEventBus.$emit('ol-map-mounted', this.map);
+      SharedEventBus.$on('change-projection', crs => {
         this.reProject(crs)
       });
       const me = this;
-      GpzEventBus.$on('add-service', options => {
+      SharedEventBus.$on('add-service', options => {
         const service = this.$config.getService({
           type: options.type,
           url: options.url

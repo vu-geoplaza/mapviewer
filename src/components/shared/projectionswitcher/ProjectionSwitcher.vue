@@ -8,7 +8,7 @@
 
 <script>
   import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
-  import {GpzEventBus} from '@/shared';
+  import {SharedEventBus} from '@/shared';
 
   export default {
     name: "ProjectionSwitcher",
@@ -44,7 +44,7 @@
         }
       },
       switchProjection(crs) {
-        GpzEventBus.$emit('change-projection', crs);
+        SharedEventBus.$emit('change-projection', crs);
         var i=0;
         for (const item in this.items){
           this.items[i].active=false;
