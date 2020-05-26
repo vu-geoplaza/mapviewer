@@ -8,6 +8,7 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 import {faArrowLeft, faArrowRight, faLayerGroup} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import ViewerConfig from './helpers/ViewerConfig'
+//import regeneratorRuntime from "regenerator-runtime";
 import axios from 'axios'
 
 import {register} from 'ol/proj/proj4'

@@ -37,7 +37,8 @@
       // Send the event 'ol-map-mounted' with the OL map as payload
       SharedEventBus.$emit('ol-map-mounted', this.map);
       SharedEventBus.$on('change-projection', crs => {
-        this.reProject(crs)
+        this.$config.setCrs(crs);
+        this.reProject(crs);
       });
       const me = this;
       SharedEventBus.$on('add-service', options => {
@@ -103,6 +104,7 @@
         this.map.setView(view);
 
         this.setBaseLayer(config.crs);
+        console.log('start adding layers');
         this.addLayers(config);
 
       },
@@ -131,6 +133,7 @@
       addLayers(config) {
         var me = this;
         for (const service of config.services) {
+          console.log(service);
           service.getInstance(config.crs).then(function (serviceData) {
             for (const layer of serviceData.layers) {
               console.log('add layer '+layer.title);

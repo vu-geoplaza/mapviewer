@@ -4,6 +4,7 @@ import ViewerServiceTileArcGIS from "./service/ViewerServiceTileArcGIS";
 import ViewerServiceKML from "./service/ViewerServiceKML";
 import ViewerServiceGPX from "./service/ViewerServiceGPX";
 import ViewerServiceGeoJSON from "./service/ViewerServiceGeoJSON";
+import ViewerServiceKloosters from "./service/ViewerServiceKloosters";
 
 class ViewerConfig {
   title = '';
@@ -16,6 +17,11 @@ class ViewerConfig {
     53.640264162792946
   ]; // Nederland
   services = [];
+
+  setCrs(crs) {
+    console.log('setcrs');
+    this.crs=crs;
+  }
 
   readJSON(json) {
     if (json.crs) this.crs = json.crs;
@@ -37,6 +43,10 @@ class ViewerConfig {
     if (service_config.type === 'kml') return new ViewerServiceKML(service_config);
     if (service_config.type === 'gpx') return new ViewerServiceGPX(service_config);
     if (service_config.type === 'geojson') return new ViewerServiceGeoJSON(service_config);
+    if (service_config.type === 'kloosters') {
+      console.log('*** klooster service')
+      return new ViewerServiceKloosters(service_config);
+    }
   }
 }
 

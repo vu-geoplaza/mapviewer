@@ -12,8 +12,8 @@ require('babel-polyfill');
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    kloosters: ['./src/kloosters.js'],
-    gpz: ['./src/gpz.js']
+    kloosters: ["babel-polyfill", './src/kloosters.js'],
+    gpz: ["babel-polyfill", './src/gpz.js']
   },
   output: {
     path: config.build.assetsRoot,

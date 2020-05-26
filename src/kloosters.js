@@ -15,6 +15,7 @@ library.add(faArrowLeft, faArrowRight, faLayerGroup);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
+import KloosterConfig from "@/helpers/kloosters/KloosterConfig";
 
 
 Vue.use(BootstrapVue);
@@ -29,7 +30,7 @@ function getParam(name) {
 
 function init(config){
   Vue.prototype.$adminmode = false;
-  Vue.prototype.$config = config;
+  Vue.prototype.$config = config; // might it be wiser to just use a global variable for this?
 
   /* eslint-disable no-new */
   new Vue({
@@ -39,15 +40,39 @@ function init(config){
   });
 }
 
-init({
-  "crs": "EPSG:28992",
-  "title": "kloosterkaart",
-  "url": "https://geoplaza.vu.nl/projects/viewer/",
-  "bbox": [
-    4.178080032326394,
-    52.15766739943118,
-    5.7009904277084384,
-    52.586104748698396
-  ],
-  "services":[]
+let config = new KloosterConfig(); // default settings
+
+config.readJSON({ services: [{
+  url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getGeoJSON.php',
+  type: 'kloosters',
+  klooster_options : {
+    //"symbols": symbols,
+    "filter": {},
+    "selected_id": '',
+    "year_start": 1200,
+    "year_end": 1200,
+    "data": "" //geojson
+  },
+  layers: [{
+    "id": "kloosters",
+    "title": "kloosters",
+    "label": "kloosters",
+    "visible": true,
+    "opacity": 1.0,
+    "zindex": 93
+  }]
+}]});
+
+console.log('get data');
+var bodyFormData = new FormData();
+bodyFormData.set('begin', config.services[0].klooster_options.year_start);
+bodyFormData.set('end', config.services[0].klooster_options.year_end);
+axios.post(config.services[0].url, bodyFormData).then(function (response) {
+  console.log('response finished');
+  //config.services[0].klooster_options.data = JSON.stringify(response.data); // kan vast handiger
+  config.services[0].klooster_options.data = response.data;
+  init(config);
+}).catch(function (error) {
+  console.error(error);
+  document.getElementById("gpz").innerHTML = "<h4>Could not load data: " + error.message + "</h4>";
 });
