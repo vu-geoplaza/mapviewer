@@ -126,7 +126,7 @@
         var layers = this.map.getLayers();
         layers.forEach(function (layer) {
           if (layer instanceof VectorLayer) { // should set a generic vector/tile type
-            layer.getSource().clear();
+            layer.getSource().refresh();
           }
         });
       },
