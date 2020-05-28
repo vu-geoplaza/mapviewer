@@ -1,5 +1,4 @@
 import ViewerService from "./ViewerService";
-import axios from 'axios';
 import ViewerLayerKloosters from "../layer/ViewerLayerKloosters";
 import {ALLOWED_VIEWER_CRS} from "@/shared"
 import ViewerConfig from "@/helpers/ViewerConfig";
@@ -26,7 +25,6 @@ class ViewerServiceKloosters extends ViewerService {
         title: 'kloosters',
         legend_img: '',
         available_crs: ALLOWED_VIEWER_CRS,
-        data: this.klooster_options.data,
       }));
       return layers;
   };

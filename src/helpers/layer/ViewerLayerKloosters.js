@@ -5,47 +5,61 @@ import GeoJSON from "ol/format/GeoJSON";
 import {symbols} from '@/helpers/kloosters/KloosterSymbols'
 import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
-import CircleStyle from "ol/style/Circle";
 import Fill from "ol/style/Fill";
 import Stroke from "ol/style/Stroke";
 import Text from "ol/style/Text";
-
+import axios from 'axios';
 import Vue from 'vue'
+import {SharedEventBus} from "@/shared";
 
 class ViewerLayerKloosters extends ViewerLayer {
   config=Vue.prototype.$config;
   constructor(props) {
     super(props);
-    this.data = props.data;
-
     this.styleCache = [];
   };
 
   OLLayer(url, crs) {
-    var me = this;
-    let source = new VectorSource({
-      loader: function () {
-        // better to do the post request here?
-        console.log('***** vectorloader');
-        let format = new GeoJSON;
-        let features = format.readFeatures(me.data, {
-          dataProjection: 'EPSG:4326',
-          featureProjection: me.config.crs
-        });
-        this.addFeatures(features);
+    let me = this;
+    let vectorReader=function(data){
+      let format = new GeoJSON;
+      let features = format.readFeatures(data, {
+        dataProjection: 'EPSG:4326',
+        featureProjection: me.config.crs
+      });
+      for (var i = 0, len = features.length; i < len; i++) {
+        if (features[i].get('type') == 'klooster') {
+          source.addFeature(features[i]);
+        }
       }
-      //projection: crs
-    });
+      SharedEventBus.$emit('kloostersource-loaded', features);
+    };
+    let source= new VectorSource({
+      loader: function () {
+        console.log('***** vectorloader');
+        let params={
+          filter: me.config.klooster.filter,
+          begin: me.config.klooster.year_start,
+          end: me.config.klooster.year_end
+        };
+
+        return axios.post(url, params).then(function (response) {
+          console.log('response finished');
+          vectorReader(response.data)
+        }).catch(function (error) {
+          console.error(error);
+          document.getElementById("gpz").innerHTML = "<h4>Could not load data: " + error.message + "</h4>";
+        });
+      }
+    })
 
     return new VectorLayer({
       source: source,
-      //style: gpxStyle,
-
       style: function (feature, resolution) {
         var language = me.config.klooster.language;
         var orde = feature.get('ordenaam');
         var type = feature.get('type');
-        const labelZoomLevel = 100;
+        const labelResolutionLevel = 30;
         const iconExt = '.svg';
 
         if (language == 'nl') {
@@ -55,7 +69,7 @@ class ViewerLayerKloosters extends ViewerLayer {
         }
 
         var uq = orde;
-        if (resolution < labelZoomLevel) {
+        if (resolution < labelResolutionLevel) {
           uq = uq + '_' + naam;
         }
 
@@ -82,14 +96,12 @@ class ViewerLayerKloosters extends ViewerLayer {
                 color: '#fff', width: 2
               }),
               offsetY: 25,
-              text: resolution < labelZoomLevel ? naam : ''
+              text: resolution < labelResolutionLevel ? naam : ''
             })
           });
           return [me.styleCache[uq]];
         }
       },
-
-
       type: 'kloosters',
       visible: true,
       opacity: 1,

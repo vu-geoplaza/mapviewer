@@ -6,10 +6,11 @@
     <NavBar/>
     <b-row class="main-row">
       <b-col md="4" lg="3">
-        <!--LayerSwitcher-->
+        <LegendFilter/>
       </b-col>
     </b-row>
 
+    <YearFilter/>
   </b-container>
 </template>
 
@@ -17,6 +18,8 @@
   import OlMap from './components/shared/ol/Map'
   import {SharedEventBus} from './shared'
   import NavBar from "./components/shared/navbar/NavBar";
+  import YearFilter from "./components/kloosters/yearfilter/YearFilter";
+  import LegendFilter from "./components/kloosters/legendfilter/LegendFilter";
 
   export default {
     mounted: function () {
@@ -26,7 +29,9 @@
     name: 'KloosterViewer',
     components: {
       NavBar,
-      OlMap
+      OlMap,
+      YearFilter,
+      LegendFilter
     },
   }
 </script>
@@ -39,7 +44,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 14px;
-    text-align: center;
     color: #2c3e50;
     width: 100%;
     height: 100%;
@@ -50,7 +54,9 @@
     top: 0px;
     left: 0px;
   }
-
+  #app .yearfilter {
+    bottom: 20px;
+  }
   #app .main-row {
     position: relative;
     top: 0;
@@ -81,7 +87,7 @@
     float: right;
   }
 
-  #app .layerswitcher {
+  #app .legendfilter {
     background-color: azure;
     z-index: 1000;
     opacity: 0.95;

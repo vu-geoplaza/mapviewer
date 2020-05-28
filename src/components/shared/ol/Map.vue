@@ -34,13 +34,17 @@
       }
     },
     mounted() {
+      const me = this;
       // Send the event 'ol-map-mounted' with the OL map as payload
       SharedEventBus.$emit('ol-map-mounted', this.map);
+      SharedEventBus.$on('change-vector-data', function() {
+        me.clearVectorLayers();
+      });
       SharedEventBus.$on('change-projection', crs => {
         this.$config.setCrs(crs);
         this.reProject(crs);
       });
-      const me = this;
+
       SharedEventBus.$on('add-service', options => {
         const service = this.$config.getService({
           type: options.type,

@@ -34,8 +34,8 @@
         console.log('ínit proj switcher');
         for (const crs of this.map.available_crs) {
           let name=crs;
-          if (crs==='EPSG:28992') { name='Amersfoort / RD New' }
-          if (crs==='EPSG:3857') { name='WGS 84 / Pseudo-Mercator' }
+          if (crs==='EPSG:28992') { name='Rijksdriehoekstelsel' }
+          if (crs==='EPSG:3857') { name='Web Mercator (OSM/Bing)' }
           if (crs==='EPSG:4326') { name='World Geodetic System 1984' }
           let active=false;
           if (crs===current){ active=true }

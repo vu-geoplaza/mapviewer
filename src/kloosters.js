@@ -8,8 +8,6 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 import {faArrowLeft, faArrowRight, faLayerGroup} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
-import axios from 'axios'
-
 library.add(faArrowLeft, faArrowRight, faLayerGroup);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
@@ -42,17 +40,11 @@ function init(config){
 
 let config = new KloosterConfig(); // default settings
 
-config.readJSON({ services: [{
-  url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getGeoJSON.php',
+config.readJSON({
+  title: 'Kloosterkaart',
+  services: [{
+  url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getGeoJSON2.php',
   type: 'kloosters',
-  klooster_options : {
-    //"symbols": symbols,
-    "filter": {},
-    "selected_id": '',
-    "year_start": 1200,
-    "year_end": 1200,
-    "data": "" //geojson
-  },
   layers: [{
     "id": "kloosters",
     "title": "kloosters",
@@ -62,17 +54,4 @@ config.readJSON({ services: [{
     "zindex": 93
   }]
 }]});
-
-console.log('get data');
-var bodyFormData = new FormData();
-bodyFormData.set('begin', config.services[0].klooster_options.year_start);
-bodyFormData.set('end', config.services[0].klooster_options.year_end);
-axios.post(config.services[0].url, bodyFormData).then(function (response) {
-  console.log('response finished');
-  //config.services[0].klooster_options.data = JSON.stringify(response.data); // kan vast handiger
-  config.services[0].klooster_options.data = response.data;
-  init(config);
-}).catch(function (error) {
-  console.error(error);
-  document.getElementById("gpz").innerHTML = "<h4>Could not load data: " + error.message + "</h4>";
-});
+init(config);
