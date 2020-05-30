@@ -12,16 +12,17 @@
       </b-card-header>
       <b-card-body class="p-0 scroll">
         <b-list-group horizontal="md" flush>
-          <b-list-group-item v-for="(item, index) in regels" :index="index" :key="index" :item="item" class="p-1" v-bind:class="{ notpresent: regels_np[index] }">
+          <b-list-group-item v-for="(regel, index) in regels" :index="index" :key="index" :item="regel" class="p-1"
+                             v-bind:class="{ hide: !regels[index].present }">
             <b-card-header header-tag="header" class="p-2">
-              {{ item }}
+              {{ regel.nl }}
             </b-card-header>
             <b-list-group class="row-fluid">
-              <b-list-group-item v-for="(item2, index2) in orden[index]" :index="index2" :key="index2" :item="item2"
+              <b-list-group-item v-for="(orde_index, index2) in regels[index].orde_index" :index="index2" :key="index2" :item="orden[orde_index].nl"
                                  class="p-1 col-lg-6 col-md-12 col-xs-12 col-sm-12 clearfix"
-                                 v-bind:class="{ notpresent: orden_np[index][index2] }">
-                <b-img :src="symbols[index][index2]"/>
-                {{ item2 }}
+                                 :class="{ hide: !orden[orde_index].present }">
+                <b-img :src="orden[orde_index].symbol"/>
+                {{ orden[orde_index].nl }}
               </b-list-group-item>
             </b-list-group>
           </b-list-group-item>
@@ -32,85 +33,89 @@
 </template>
 
 <script>
-  import {symbolsCat, symbols} from '@/helpers/kloosters/KloosterSymbols'
-  import {Mapable} from "@/mixins/mapable";
-  import {SharedEventBus} from "@/shared";
+    import {symbolsCat, symbols} from '@/helpers/kloosters/KloosterSymbols'
+    import {Mapable} from "@/mixins/mapable";
+    import {SharedEventBus} from "@/shared";
 
-  export default {
-    name: "LegendFilter",
-    mixins: [Mapable],
-    data: function () {
-      return {
-        regels: [],
-        regels_np: [],
-        regels_en: [],
-        orden: [],
-        orden_np: [],
-        orden_en: [],
-        symbols: [],
-        toggle: true
-      }
-    },
-    mounted: function () {
-      console.log('init legendfilter');
-      this.init();
-      var me = this;
-      SharedEventBus.$on('kloostersource-loaded', (features) => {
-        me.present(features);
-        this.$forceUpdate();
-      });
-    },
-    methods: {
-      present: function (features) {
-        let tmp = [];
-        features.forEach(function (feature) {
-          if (typeof tmp[feature.get('ordenaam')] == 'undefined') {
-            tmp.push(feature.get('ordenaam'));
-          }
-        });
-        console.log(tmp);
-        let n = 0;
-        for (var i = 0; i < this.orden.length; i++) {
-          this.orden_np[i] = [];
-          this.regels_np[i]=true;
-          for (var j = 0; j < this.orden[i].length; j++) {
-            if (tmp.includes(this.orden[i][j])) {
-              this.regels_np[i]=false;
-              this.orden_np[i][j] = false;
-            } else {
-              this.orden_np[i][j] = true;
+    export default {
+        name: "LegendFilter",
+        mixins: [Mapable],
+        data: function () {
+            return {
+                regels: [{
+                    nl: '',
+                    en: '',
+                    orde_index: [],
+                    present: false,
+                    selected: true
+                }],
+                orden: [{
+                    nl: '',
+                    en: '',
+                    symbol: '',
+                    present: false,
+                    selected: true
+                }],
+                toggle: true
             }
-          }
-        }
-        console.log(this.orden_np);
-      },
-      init: function () {
-        let r = 0;
-        for (const regel in symbolsCat.data) {
-          this.regels[r] = regel;
-          this.regels_en[r] = symbolsCat.translation[regel];
-          this.regels_np[r]=true;
-          let o = 0;
-          for (const orde in symbolsCat.data[regel]) {
-            if (typeof this.orden[r] == 'undefined') {
-              this.orden[r] = [];
-              this.orden_np[r] = [];
-              this.orden_en[r] = [];
-              this.symbols[r] = [];
+        },
+        mounted: function () {
+            console.log('init legendfilter');
+            this.init();
+            var me = this;
+            SharedEventBus.$on('kloostersource-loaded', (features) => {
+                me.present(features);
+                this.$forceUpdate();
+            });
+        },
+        methods: {
+            present: function (features) {
+                let tmp = [];
+                features.forEach(function (feature) {
+                    if (typeof tmp[feature.get('ordenaam')] == 'undefined') {
+                        tmp.push(feature.get('ordenaam'));
+                    }
+                });
+                let n = 0;
+                for (var i = 0; i < this.orden.length; i++) {
+                    if (tmp.includes(this.orden[i].nl)) {
+                        this.orden[i].present=true;
+                    } else {
+                        this.orden[i].present=false;
+                    }
+                }
+                console.log('**** present');
+                console.log(this.orden);
+            },
+            init: function () {
+                let regel_index = 0;
+                let orde_index = 0;
+                for (const regel in symbolsCat.data) {
+                    this.regels[regel_index] = {
+                        nl: regel,
+                        en: symbolsCat.translation[regel],
+                        present: true,
+                        selected: true,
+                        orde_index: []
+                    };
+                    for (const orde in symbolsCat.data[regel]) {
+                        this.regels[regel_index].orde_index.push(orde_index);
+                        this.orden[orde_index] = {
+                            nl: orde,
+                            en: symbolsCat.data[regel][orde].en,
+                            present: false,
+                            symbol: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbolsCat.data[regel][orde].symbol + '.svg',
+                            selected: true
+                        };
+                        orde_index++;
+                    }
+                    regel_index++;
+                }
+                this.$forceUpdate();
+                console.log(this.orden);
             }
-            this.orden[r][o] = orde;
-            this.orden_np[r][o] = true;
-            this.orden_en[r][o] = symbolsCat.data[regel][orde].en;
-            this.symbols[r][o] = 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbolsCat.data[regel][orde].symbol + '.svg';
-            o = o + 1;
-          }
-          r = r + 1;
         }
-        this.$forceUpdate();
-        console.log(this.orden);
-      }
     }
-  }
 </script>
 
 <style scoped>
@@ -120,7 +125,7 @@
     flex-direction: row;
   }
 
-  .notpresent {
+  .hide {
     display: none;
   }
 
