@@ -66,8 +66,9 @@
             console.log('init legendfilter');
             this.init();
             var me = this;
-            SharedEventBus.$on('kloostersource-loaded', (features) => {
-                me.present(features);
+            SharedEventBus.$on('kloostersource-loaded', () => {
+                console.log(this.$config.klooster.data)
+                me.present(this.$config.klooster.data.geojson.features);
                 this.$forceUpdate();
             });
         },
@@ -92,8 +93,8 @@
             present: function (features) {
                 let tmp = [];
                 features.forEach(function (feature) {
-                    if (typeof tmp[feature.get('ordenaam')] == 'undefined') {
-                        tmp.push(feature.get('ordenaam'));
+                    if (typeof tmp[feature.properties.ordenaam] == 'undefined') {
+                        tmp.push(feature.properties.ordenaam);
                     }
                 });
                 let n = 0;
