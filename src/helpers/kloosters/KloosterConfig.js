@@ -2,7 +2,7 @@ import ViewerConfig from "@/helpers/ViewerConfig";
 
 class KloosterConfig extends  ViewerConfig {
   klooster = {
-    language: "nl",
+    language: "en",
     //"filter": ['benedictijnen', 'benedictinessen'],
     filter: [],
     selected_id: '',

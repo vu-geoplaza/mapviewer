@@ -4,7 +4,7 @@ import ViewerServiceTileArcGIS from "./service/ViewerServiceTileArcGIS";
 import ViewerServiceKML from "./service/ViewerServiceKML";
 import ViewerServiceGPX from "./service/ViewerServiceGPX";
 import ViewerServiceGeoJSON from "./service/ViewerServiceGeoJSON";
-import ViewerServiceKloosters from "./service/ViewerServiceKloosters";
+import ViewerServiceKloosters from "./kloosters/ViewerServiceKloosters";
 
 class ViewerConfig {
   title = '';
@@ -43,10 +43,7 @@ class ViewerConfig {
     if (service_config.type === 'kml') return new ViewerServiceKML(service_config);
     if (service_config.type === 'gpx') return new ViewerServiceGPX(service_config);
     if (service_config.type === 'geojson') return new ViewerServiceGeoJSON(service_config);
-    if (service_config.type === 'kloosters') {
-      console.log('*** klooster service')
-      return new ViewerServiceKloosters(service_config);
-    }
+    if (service_config.type === 'kloosters') return new ViewerServiceKloosters(service_config);
   }
 }
 

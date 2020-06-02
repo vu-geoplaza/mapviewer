@@ -1,4 +1,4 @@
-import ViewerLayer from "./ViewerLayer";
+import ViewerLayer from "../layer/ViewerLayer";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";

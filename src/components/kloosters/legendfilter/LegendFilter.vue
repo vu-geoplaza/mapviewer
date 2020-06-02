@@ -5,7 +5,8 @@
     </a>
     <b-card v-show='toggle' visible no-body class="p-0">
       <b-card-header header-tag="header" class="p-2">
-        <span class="widget-header-text">Legenda</span>
+        <span class="widget-header-text" v-if="language==='nl'">Legenda</span>
+        <span class="widget-header-text" v-if="language==='en'">Legend</span>
         <a @click='toggle = !toggle' class="pull-right">
           <font-awesome-icon icon="arrow-left"/>
         </a>
@@ -15,7 +16,10 @@
           <b-list-group-item v-for="(regel, index) in regels" :index="index" :key="index" :item="regel" class="p-1"
                              v-bind:class="{ dim: !regels[index].present }">
             <b-card-header header-tag="header" class="p-2">
-              <b-btn v-b-toggle="'regelcard' + index" variant="info" class="regelbutton" v-on:click="regel_select(index)">{{ regel.nl }}</b-btn>
+              <b-btn v-b-toggle="'regelcard' + index" variant="info" class="regelbutton" v-on:click="regel_select(index)">
+                <span v-if="language === 'nl'">{{ regel.nl }}</span>
+                <span v-if="language === 'en'">{{ regel.en }}</span>
+              </b-btn>
             </b-card-header>
             <b-collapse :id="'regelcard' + index" v-model="regels[index].selected">
               <b-list-group class="row-fluid">
@@ -24,7 +28,8 @@
                                    class="p-1 col-lg-6 col-md-12 col-xs-12 col-sm-6 clearfix"
                                    :class="{ hide: !orden[orde_index].present }">
                   <b-img :src="orden[orde_index].symbol"/>
-                  {{ orden[orde_index].nl }}
+                  <span v-if="language === 'nl'">{{ orden[orde_index].nl }}</span>
+                  <span v-if="language === 'en'">{{ orden[orde_index].en }}</span>
                 </b-list-group-item>
               </b-list-group>
             </b-collapse>
@@ -37,14 +42,13 @@
 
 <script>
     import {symbolsCat, symbols} from '@/helpers/kloosters/KloosterSymbols'
-    import {Mapable} from "@/mixins/mapable";
     import {SharedEventBus} from "@/shared";
 
     export default {
         name: "LegendFilter",
-        mixins: [Mapable],
         data: function () {
             return {
+                language:  this.$config.klooster.language,
                 regels: [{
                     nl: '',
                     en: '',
@@ -71,6 +75,10 @@
                 me.present(this.$config.klooster.data.geojson.features);
                 this.$forceUpdate();
             });
+          SharedEventBus.$on('change-language', () => {
+            this.language=this.$config.klooster.language;
+            //this.$forceUpdate();
+          });
         },
         watch: {
         },

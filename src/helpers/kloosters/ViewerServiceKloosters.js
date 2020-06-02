@@ -1,5 +1,5 @@
-import ViewerService from "./ViewerService";
-import ViewerLayerKloosters from "../layer/ViewerLayerKloosters";
+import ViewerService from "../service/ViewerService";
+import ViewerLayerKloosters from "./ViewerLayerKloosters";
 import {ALLOWED_VIEWER_CRS} from "@/shared"
 import ViewerConfig from "@/helpers/ViewerConfig";
 

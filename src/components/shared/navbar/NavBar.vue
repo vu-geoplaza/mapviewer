@@ -18,6 +18,9 @@
       <b-navbar-nav v-if="admminmode">
         <FileSaver/>
       </b-navbar-nav>
+      <b-navbar-nav v-if="title === 'Kloosterkaart'">
+        <LanguageSwitcher/>
+      </b-navbar-nav>
     </b-collapse>
 
   </b-navbar>
@@ -31,10 +34,11 @@
   import FileSaver from '@/components/gpz/file/FileSaver'
   import BaseLayerSwitcher from "@/components/shared/baselayerswitcher/BaseLayerSwitcher";
   import InfoModal from "@/components/gpz/infomodal/InfoModal"
+  import LanguageSwitcher from "@/components/kloosters/languageswitcher/LanguageSwitcher";
 
   export default {
     name: "NavBar",
-    components: {BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver, InfoModal},
+    components: {LanguageSwitcher, BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver, InfoModal},
     mounted() {
       this.set_title()
     },
