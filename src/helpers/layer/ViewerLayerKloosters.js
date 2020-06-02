@@ -28,8 +28,10 @@ class ViewerLayerKloosters extends ViewerLayer {
         featureProjection: me.config.crs
       });
       for (var i = 0, len = features.length; i < len; i++) {
-        if (features[i].get('type') == 'klooster') {
-          source.addFeature(features[i]);
+        if (features[i].get('type') == 'klooster') { // should loose this in the php
+          if (me.config.klooster.filter.includes(features[i].get('orde'))||(me.config.klooster.filter.length==0)){
+            source.addFeature(features[i]);
+          }
         }
       }
       SharedEventBus.$emit('kloostersource-loaded', features);
@@ -42,16 +44,20 @@ class ViewerLayerKloosters extends ViewerLayer {
           begin: me.config.klooster.year_start,
           end: me.config.klooster.year_end
         };
-
-        return axios.post(url, params).then(function (response) {
-          console.log('response finished');
-          vectorReader(response.data)
-        }).catch(function (error) {
-          console.error(error);
-          document.getElementById("gpz").innerHTML = "<h4>Could not load data: " + error.message + "</h4>";
-        });
+        if (me.config.klooster.data.year_start==me.config.klooster.year_start&&me.config.klooster.data.year_end==me.config.klooster.year_end){
+          vectorReader(me.config.klooster.data.features);
+        } else {
+          return axios.post(url, params).then(function (response) {
+            console.log('response finished');
+            me.config.klooster.data.features=response.data;
+            vectorReader(me.config.klooster.data.features)
+          }).catch(function (error) {
+            console.error(error);
+            document.getElementById("gpz").innerHTML = "<h4>Could not load data: " + error.message + "</h4>";
+          });
+        }
       }
-    })
+    });
 
     return new VectorLayer({
       source: source,
