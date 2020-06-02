@@ -38,7 +38,7 @@ class ViewerLayerKloosters extends ViewerLayer {
       loader: function () {
         console.log('***** vectorloader');
         let params={
-          filter: me.config.klooster.filter,
+          filter: [],
           begin: me.config.klooster.year_start,
           end: me.config.klooster.year_end
         };
@@ -59,7 +59,7 @@ class ViewerLayerKloosters extends ViewerLayer {
         var language = me.config.klooster.language;
         var orde = feature.get('ordenaam');
         var type = feature.get('type');
-        const labelResolutionLevel = 30;
+        const labelResolutionLevel = 5;
         const iconExt = '.svg';
 
         if (language == 'nl') {
@@ -83,11 +83,14 @@ class ViewerLayerKloosters extends ViewerLayer {
           } else {
             symbol = 'square_white';
           }
+          if (this.$config.klooster.filter.includes(orde)){
+            // hide
+          }
           me.styleCache[uq] = new Style({
             image: new Icon({
               scale: iconscale,
               src: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbol + iconExt,
-              opacity: 0.85
+              opacity: 0.80
             }),
             text: new Text({
               font: '14px Calibri,sans-serif',

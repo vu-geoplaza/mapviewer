@@ -13,18 +13,21 @@
       <b-card-body class="p-0 scroll">
         <b-list-group horizontal="md" flush>
           <b-list-group-item v-for="(regel, index) in regels" :index="index" :key="index" :item="regel" class="p-1"
-                             v-bind:class="{ hide: !regels[index].present }">
+                             v-bind:class="{ dim: !regels[index].present }">
             <b-card-header header-tag="header" class="p-2">
-              {{ regel.nl }}
+              <b-btn v-b-toggle="'regelcard' + index" variant="info" class="regelbutton" v-on:click="regel_select(index)">{{ regel.nl }}</b-btn>
             </b-card-header>
-            <b-list-group class="row-fluid">
-              <b-list-group-item v-for="(orde_index, index2) in regels[index].orde_index" :index="index2" :key="index2" :item="orden[orde_index].nl"
-                                 class="p-1 col-lg-6 col-md-12 col-xs-12 col-sm-12 clearfix"
-                                 :class="{ hide: !orden[orde_index].present }">
-                <b-img :src="orden[orde_index].symbol"/>
-                {{ orden[orde_index].nl }}
-              </b-list-group-item>
-            </b-list-group>
+            <b-collapse :id="'regelcard' + index" v-model="regels[index].selected">
+              <b-list-group class="row-fluid">
+                <b-list-group-item v-for="(orde_index, index2) in regels[index].orde_index" :index="index2"
+                                   :key="index2" :item="orden[orde_index].nl"
+                                   class="p-1 col-lg-6 col-md-12 col-xs-12 col-sm-6 clearfix"
+                                   :class="{ hide: !orden[orde_index].present }">
+                  <b-img :src="orden[orde_index].symbol"/>
+                  {{ orden[orde_index].nl }}
+                </b-list-group-item>
+              </b-list-group>
+            </b-collapse>
           </b-list-group-item>
         </b-list-group>
       </b-card-body>
@@ -68,7 +71,24 @@
                 this.$forceUpdate();
             });
         },
+        watch: {
+        },
         methods: {
+            regel_select: function(index){
+                this.regels[index].selected=!this.regels[index].selected;
+                this.$config.klooster.filter=[];
+                for (let i = 0; i < this.regels.length; i++) {
+                    for (let j = 0; j < this.regels[i].orde_index.length; j++) {
+                        let orde_index = this.regels[i].orde_index[j];
+                        if (this.regels[i].selected) {
+                            this.$config.klooster.filter.push(this.orden[orde_index].nl);
+                        }
+                    }
+                }
+                console.log('update filter');
+                console.log(this.$config.klooster.filter);
+                SharedEventBus.$emit('change-vector-data');
+            },
             present: function (features) {
                 let tmp = [];
                 features.forEach(function (feature) {
@@ -77,15 +97,24 @@
                     }
                 });
                 let n = 0;
-                for (var i = 0; i < this.orden.length; i++) {
+
+                for (let i = 0; i < this.orden.length; i++) {
                     if (tmp.includes(this.orden[i].nl)) {
-                        this.orden[i].present=true;
+                        this.orden[i].present = true;
                     } else {
-                        this.orden[i].present=false;
+                        this.orden[i].present = false;
                     }
                 }
-                console.log('**** present');
-                console.log(this.orden);
+                for (let i = 0; i < this.regels.length; i++) {
+                    this.regels[i].present = false;
+                    for (let j = 0; j < this.regels[i].orde_index.length; j++) {
+                        let orde_index = this.regels[i].orde_index[j];
+                        if (this.orden[orde_index].present) {
+                            this.regels[i].present = true;
+                            break;
+                        }
+                    }
+                }
             },
             init: function () {
                 let regel_index = 0;
@@ -112,7 +141,6 @@
                     regel_index++;
                 }
                 this.$forceUpdate();
-                console.log(this.orden);
             }
         }
     }
@@ -127,6 +155,10 @@
 
   .hide {
     display: none;
+  }
+
+  .dim {
+    opacity: 0.5;
   }
 
   ul {
@@ -156,5 +188,10 @@
     overflow-y: auto;
   }
 
+  .regelbutton {
+    width: 100%;
+  }
 
+  .card-header {
+  }
 </style>
