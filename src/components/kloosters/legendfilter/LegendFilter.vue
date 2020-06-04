@@ -12,28 +12,13 @@
         </a>
       </b-card-header>
       <b-card-body class="p-0 scroll">
-        <b-list-group horizontal="md" flush>
-          <b-list-group-item v-for="(regel, index) in regels" :index="index" :key="index" :item="regel" class="p-1"
-                             v-bind:class="{ dim: !regels[index].present }">
-            <b-card-header header-tag="header" class="p-2">
-              <b-btn v-b-toggle="'regelcard' + index" variant="info" class="regelbutton" v-on:click="regel_select(index)">
-                <span v-if="language === 'nl'">{{ regel.nl }}</span>
-                <span v-if="language === 'en'">{{ regel.en }}</span>
-              </b-btn>
-            </b-card-header>
-            <b-collapse :id="'regelcard' + index" v-model="regels[index].selected">
-              <b-list-group class="row-fluid">
-                <b-list-group-item v-for="(orde_index, index2) in regels[index].orde_index" :index="index2"
-                                   :key="index2" :item="orden[orde_index].nl"
-                                   class="p-1 col-lg-6 col-md-12 col-xs-12 col-sm-6 clearfix"
-                                   :class="{ hide: !orden[orde_index].present }">
-                  <b-img :src="orden[orde_index].symbol"/>
-                  <span v-if="language === 'nl'">{{ orden[orde_index].nl }}</span>
-                  <span v-if="language === 'en'">{{ orden[orde_index].en }}</span>
-                </b-list-group-item>
-              </b-list-group>
-            </b-collapse>
-          </b-list-group-item>
+        <b-list-group horizontal="md" flush v-model="regels">
+          <RegelItem v-for="(regel, index) in regels" v-bind:index="index" v-bind:key="index" v-bind:regel="regel"
+                     v-bind:language="language" v-bind:regels="regels">
+            <OrdeItem v-for="(orde_index, index2) in regel.orde_index" v-bind:index="index2"
+                      v-bind:key="orde_index" v-bind:orde="orden[orde_index]" v-bind:present="orden[orde_index].present"
+                      v-bind:language="language"/>
+          </RegelItem>
         </b-list-group>
       </b-card-body>
     </b-card>
@@ -41,134 +26,122 @@
 </template>
 
 <script>
-    import {symbolsCat, symbols} from '@/helpers/kloosters/KloosterSymbols'
-    import {SharedEventBus} from "@/shared";
+  import {symbolsCat, symbols} from '@/helpers/kloosters/KloosterSymbols'
+  import {SharedEventBus} from "@/shared";
+  import OrdeItem from "@/components/kloosters/legendfilter/OrdeItem";
+  import RegelItem from "@/components/kloosters/legendfilter/RegelItem";
 
-    export default {
-        name: "LegendFilter",
-        data: function () {
-            return {
-                language:  this.$config.klooster.language,
-                regels: [{
-                    nl: '',
-                    en: '',
-                    orde_index: [],
-                    present: false,
-                    selected: true
-                }],
-                orden: [{
-                    nl: '',
-                    en: '',
-                    symbol: '',
-                    present: false,
-                    selected: true
-                }],
-                toggle: true
-            }
-        },
-        mounted: function () {
-            console.log('init legendfilter');
-            this.init();
-            var me = this;
-            SharedEventBus.$on('kloostersource-loaded', () => {
-                console.log(this.$config.klooster.data)
-                me.present(this.$config.klooster.data.geojson.features);
-                this.$forceUpdate();
-            });
-          SharedEventBus.$on('change-language', () => {
-            this.language=this.$config.klooster.language;
-            //this.$forceUpdate();
-          });
-        },
-        watch: {
-        },
-        methods: {
-            regel_select: function(index){
-                this.regels[index].selected=!this.regels[index].selected;
-                this.$config.klooster.filter=[];
-                for (let i = 0; i < this.regels.length; i++) {
-                    for (let j = 0; j < this.regels[i].orde_index.length; j++) {
-                        let orde_index = this.regels[i].orde_index[j];
-                        if (this.regels[i].selected) {
-                            this.$config.klooster.filter.push(this.orden[orde_index].nl);
-                        }
-                    }
-                }
-                console.log('update filter');
-                console.log(this.$config.klooster.filter);
-                SharedEventBus.$emit('change-vector-data');
-            },
-            present: function (features) {
-                let tmp = [];
-                features.forEach(function (feature) {
-                    if (typeof tmp[feature.properties.ordenaam] == 'undefined') {
-                        tmp.push(feature.properties.ordenaam);
-                    }
-                });
-                let n = 0;
-
-                for (let i = 0; i < this.orden.length; i++) {
-                    if (tmp.includes(this.orden[i].nl)) {
-                        this.orden[i].present = true;
-                    } else {
-                        this.orden[i].present = false;
-                    }
-                }
-                for (let i = 0; i < this.regels.length; i++) {
-                    this.regels[i].present = false;
-                    for (let j = 0; j < this.regels[i].orde_index.length; j++) {
-                        let orde_index = this.regels[i].orde_index[j];
-                        if (this.orden[orde_index].present) {
-                            this.regels[i].present = true;
-                            break;
-                        }
-                    }
-                }
-            },
-            init: function () {
-                let regel_index = 0;
-                let orde_index = 0;
-                for (const regel in symbolsCat.data) {
-                    this.regels[regel_index] = {
-                        nl: regel,
-                        en: symbolsCat.translation[regel],
-                        present: true,
-                        selected: true,
-                        orde_index: []
-                    };
-                    for (const orde in symbolsCat.data[regel]) {
-                        this.regels[regel_index].orde_index.push(orde_index);
-                        this.orden[orde_index] = {
-                            nl: orde,
-                            en: symbolsCat.data[regel][orde].en,
-                            present: false,
-                            symbol: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbolsCat.data[regel][orde].symbol + '.svg',
-                            selected: true
-                        };
-                        orde_index++;
-                    }
-                    regel_index++;
-                }
-                this.$forceUpdate();
-            }
+  export default {
+    name: "LegendFilter",
+    components: {RegelItem, OrdeItem},
+    data: function () {
+      return {
+        language: this.$config.klooster.language,
+        regels: [{
+          nl: '',
+          en: '',
+          orde_index: [],
+          present: false,
+          selected: true
+        }],
+        orden: [{
+          nl: '',
+          en: '',
+          symbol: '',
+          present: false,
+          selected: true
+        }],
+        changed: true,
+        toggle: true
+      }
+    },
+    mounted: function () {
+      console.log('init legendfilter');
+      this.init();
+      var me = this;
+      SharedEventBus.$on('kloostersource-loaded', () => {
+        me.present(this.$config.klooster.data.geojson.features);
+        me.changed = !me.changed;
+        me.$forceUpdate(); // todo: should be posible without a forceupdate
+      });
+      SharedEventBus.$on('change-language', () => {
+        this.language = this.$config.klooster.language;
+      });
+    },
+    watch: {},
+    methods: {
+      present: function (features) {
+        let tmp = [];
+        features.forEach(function (feature) {
+          if (typeof tmp[feature.properties.ordenaam] == 'undefined') {
+            tmp.push(feature.properties.ordenaam);
+          }
+        });
+        let n = 0;
+        for (let i = 0; i < this.orden.length; i++) {
+          if (tmp.includes(this.orden[i].nl)) {
+            this.orden[i].present = true;
+          } else {
+            this.orden[i].present = false;
+          }
         }
+        for (let i = 0; i < this.regels.length; i++) {
+          this.regels[i].present = false;
+          for (let j = 0; j < this.regels[i].orde_index.length; j++) {
+            let orde_index = this.regels[i].orde_index[j];
+            if (this.orden[orde_index].present) {
+              this.regels[i].present = true;
+              break;
+            }
+          }
+        }
+      },
+      init: function () {
+        let regel_index = 0;
+        let orde_index = 0;
+        for (const regel in symbolsCat.data) {
+          this.regels[regel_index] = {
+            nl: regel,
+            en: symbolsCat.translation[regel],
+            present: true,
+            selected: true,
+            orde_index: []
+          };
+          for (const orde in symbolsCat.data[regel]) {
+            this.regels[regel_index].orde_index.push(orde_index);
+            this.orden[orde_index] = {
+              nl: orde,
+              en: symbolsCat.data[regel][orde].en,
+              present: false,
+              symbol: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbolsCat.data[regel][orde].symbol + '.svg',
+              selected: true
+            };
+            orde_index++;
+          }
+          regel_index++;
+        }
+        //this.$forceUpdate();
+      },
+      regel_select: function (index) {
+        this.regels[index].selected = !this.regels[index].selected;
+        this.$config.klooster.filter=[];
+        for (let i = 0; i < this.regels.length; i++) {
+          for (let j = 0; j < this.regels[i].orde_index.length; j++) {
+            let orde_index = this.regels[i].orde_index[j];
+            if (this.regels[i].selected) {
+              this.$config.klooster.filter.push(this.orden[orde_index].nl);
+            }
+          }
+        }
+        console.log('update filter');
+        SharedEventBus.$emit('change-vector-data');
+      }
     }
+  }
 </script>
 
 <style scoped>
-  .row-fluid {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-  }
 
-  .hide {
-    display: none;
-  }
-
-  .dim {
-    opacity: 0.5;
-  }
 
   ul {
     list-style-type: none;
@@ -197,10 +170,5 @@
     overflow-y: auto;
   }
 
-  .regelbutton {
-    width: 100%;
-  }
 
-  .card-header {
-  }
 </style>

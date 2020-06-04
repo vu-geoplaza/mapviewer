@@ -11,6 +11,9 @@
     </b-row>
 
     <YearFilter/>
+    <KloosterList />
+    <KloosterInfo />
+    <InfoModal />
   </b-container>
 </template>
 
@@ -20,7 +23,9 @@
   import NavBar from "./components/shared/navbar/NavBar";
   import YearFilter from "./components/kloosters/yearfilter/YearFilter";
   import LegendFilter from "./components/kloosters/legendfilter/LegendFilter";
-
+  import KloosterInfo from "./components/kloosters/kloosterinfo/KloosterInfo";
+  import KloosterList from "./components/kloosters/kloosterlist/KloosterList";
+  import InfoModal from "./components/gpz/infomodal/InfoModal";
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
@@ -31,7 +36,10 @@
       NavBar,
       OlMap,
       YearFilter,
-      LegendFilter
+      LegendFilter,
+      KloosterInfo,
+      KloosterList,
+      InfoModal
     },
   }
 </script>

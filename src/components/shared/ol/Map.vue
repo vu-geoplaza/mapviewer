@@ -37,6 +37,8 @@
       const me = this;
       // Send the event 'ol-map-mounted' with the OL map as payload
       SharedEventBus.$emit('ol-map-mounted', this.map);
+
+      // Some events triggered by the Vue app:
       SharedEventBus.$on('change-language', function() {
         // we might need to force a label change
         me.clearVectorLayers();
@@ -48,7 +50,6 @@
         this.$config.setCrs(crs);
         this.reProject(crs);
       });
-
       SharedEventBus.$on('add-service', options => {
         const service = this.$config.getService({
           type: options.type,

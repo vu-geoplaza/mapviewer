@@ -20,6 +20,7 @@
       </b-navbar-nav>
       <b-navbar-nav v-if="title === 'Kloosterkaart'">
         <LanguageSwitcher/>
+        <b-nav-item v-b-modal.kloosterlistmodal>list</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
 
@@ -35,10 +36,11 @@
   import BaseLayerSwitcher from "@/components/shared/baselayerswitcher/BaseLayerSwitcher";
   import InfoModal from "@/components/gpz/infomodal/InfoModal"
   import LanguageSwitcher from "@/components/kloosters/languageswitcher/LanguageSwitcher";
+  import KloosterList from "@/components/kloosters/kloosterlist/KloosterList";
 
   export default {
     name: "NavBar",
-    components: {LanguageSwitcher, BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver, InfoModal},
+    components: {LanguageSwitcher, BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver, InfoModal, KloosterList},
     mounted() {
       this.set_title()
     },
