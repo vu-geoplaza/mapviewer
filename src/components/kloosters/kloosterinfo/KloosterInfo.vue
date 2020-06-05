@@ -7,7 +7,7 @@
       <b-img v-bind:src="photo_url" fluid rounded center alt=" "></b-img>
     </b-row>
     <b-row align-h="center">
-      <b-col>{{ photo_caption }}</b-col>
+      <span><i>{{ photo_caption }}</i></span>
     </b-row>
     <b-row>
       <b-col md="12">
@@ -56,7 +56,7 @@
         this.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
           const title = layer.get('label'); // is this kloosters
           if (title=='kloosters'){
-            me.showKloosterInfo(feature.get('klooster_id'));
+            me.showKloosterInfo(feature.getId());
           }
         });
       },
