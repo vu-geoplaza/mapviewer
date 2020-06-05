@@ -30,6 +30,7 @@ class ViewerLayerKloosters extends ViewerLayer {
       });
       for (var i = 0, len = features.length; i < len; i++) {
           if (klooster_config.filter.includes(features[i].get('ordenaam'))||(klooster_config.filter.length==0)){
+            features[i].setId(features[i].get("klooster_id"));
             source.addFeature(features[i]);
         }
       }
