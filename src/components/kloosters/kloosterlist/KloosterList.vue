@@ -20,7 +20,6 @@
 <script>
     import {SharedEventBus} from "@/shared";
     import {Mapable} from "@/mixins/mapable";
-    import Point from "ol/geom/Point";
 
     export default {
         name: "KloosterList",
@@ -72,7 +71,6 @@
 
                 this.items = [];
                 let me = this;
-                console.log(features);
                 features.forEach(function (feature) {
                     if (me.$config.klooster.language === 'en') {
                         me.items.push({label: feature.get('TIE'), id: feature.getId()});

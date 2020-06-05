@@ -24,8 +24,8 @@
        */
       onMapBound() {
         var me = this;
-        //me.initSwitcher();
         me.map.getLayers().on('change:length', function () {
+            // a layer was added or removed
           me.initSwitcher(me.map.getView().getProjection().getCode());
         });
       },

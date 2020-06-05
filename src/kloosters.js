@@ -4,14 +4,6 @@
 import Vue from 'vue'
 import KloosterViewer from "@/KloosterViewer";
 
-import {library} from '@fortawesome/fontawesome-svg-core'
-import {faArrowLeft, faArrowRight, faLayerGroup} from '@fortawesome/free-solid-svg-icons'
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
-
-library.add(faArrowLeft, faArrowRight, faLayerGroup);
-
-Vue.component('font-awesome-icon', FontAwesomeIcon);
-
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
 import KloosterConfig from "@/helpers/kloosters/KloosterConfig";
 

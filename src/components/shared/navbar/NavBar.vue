@@ -22,6 +22,7 @@
         <LanguageSwitcher/>
         <b-nav-item v-b-modal.kloosterlistmodal>list</b-nav-item>
       </b-navbar-nav>
+      <GeoLocation/>
     </b-collapse>
 
   </b-navbar>
@@ -37,10 +38,11 @@
   import InfoModal from "@/components/gpz/infomodal/InfoModal"
   import LanguageSwitcher from "@/components/kloosters/languageswitcher/LanguageSwitcher";
   import KloosterList from "@/components/kloosters/kloosterlist/KloosterList";
+  import GeoLocation from "@/components/shared/geolocation/GeoLocation";
 
   export default {
     name: "NavBar",
-    components: {LanguageSwitcher, BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver, InfoModal, KloosterList},
+    components: {LanguageSwitcher, BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver, InfoModal, KloosterList, GeoLocation},
     mounted() {
       this.set_title()
     },

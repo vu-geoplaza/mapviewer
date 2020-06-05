@@ -1,0 +1,71 @@
+<template>
+  <b-navbar-nav>
+  <b-nav-item href="#" @click="geoLocate()">
+      my location
+  </b-nav-item>
+  </b-navbar-nav>
+</template>
+
+<script>
+    import {Mapable} from "@/mixins/mapable";
+    import Geolocation from "ol/Geolocation";
+    import Style from "ol/style/Style";
+    import Circle from "ol/style/Circle";
+    import Fill from "ol/style/Fill";
+    import Stroke from "ol/style/Stroke";
+    import Point from "ol/geom/Point";
+    import VectorLayer from "ol/layer/Vector";
+    import VectorSource from "ol/source/Vector";
+    import Feature from "ol/Feature";
+
+  //zoom to user's location
+    export default {
+        name: "GeoLocation",
+        mixins: [Mapable],
+        methods: {
+            geoLocate: function() {
+                let centered=false;
+                let view=this.map.getView();
+                let geolocation = new Geolocation({
+                    // take the projection to use from the map's view
+                    projection: view.getProjection(),
+                    tracking: true
+                });
+                var positionFeature = new Feature();
+                positionFeature.setStyle(new Style({
+                    image: new Circle({
+                        radius: 6,
+                        fill: new Fill({
+                            color: '#3399CC'
+                        }),
+                        stroke: new Stroke({
+                            color: '#fff',
+                            width: 2
+                        })
+                    })
+                }));
+                new VectorLayer({
+                    map: this.map,
+                    source: new VectorSource({
+                        features: [positionFeature]
+                    })
+                });
+                geolocation.on('change', function(evt) {
+                    let coordinates = geolocation.getPosition();
+                    positionFeature.setGeometry(coordinates ?
+                        new Point(coordinates) : null);
+                    if (!centered) {
+                        view.setCenter(coordinates);
+                        view.setZoom(15);
+                        centered=true;
+                    }
+                });
+            }
+        }
+
+  }
+</script>
+
+<style scoped>
+
+</style>
