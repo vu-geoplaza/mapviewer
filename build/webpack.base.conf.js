@@ -13,7 +13,7 @@ module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
     kloosters: ["babel-polyfill", './src/kloosters.js'],
-    gpz: ["babel-polyfill", './src/gpz.js']
+    //gpz: ["babel-polyfill", './src/gpz.js']
   },
   output: {
     path: config.build.assetsRoot,
