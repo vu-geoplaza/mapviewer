@@ -1,8 +1,8 @@
 <template>
-  <b-navbar-nav>
-  <b-nav-item href="#" @click="geoLocate()">
-      my location
-  </b-nav-item>
+  <b-navbar-nav class="ml-auto">
+    <b-nav-item href="#" @click="geoLocate()" right>
+        my location
+    </b-nav-item>
   </b-navbar-nav>
 </template>
 

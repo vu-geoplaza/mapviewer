@@ -44,7 +44,7 @@
         },
         methods: {
             getFeaturesFromMap: function () {
-                return this.map.getLayerByLid('kloosters').getSource().getFeatures();
+                return this.map.getLayerByLid('kloosters_by_year').getSource().getFeatures();
             },
             setTitle: function() {
                 if (this.language==='nl') {
@@ -81,7 +81,7 @@
                 me.items.sort(compare);
             },
             getFeatureById: function (id) {
-                return this.map.getLayerByLid('kloosters').getSource().getFeatureById(id);
+                return this.map.getLayerByLid('kloosters_by_year').getSource().getFeatureById(id);
             },
             selectKlooster: function (id) {
                 // get feature

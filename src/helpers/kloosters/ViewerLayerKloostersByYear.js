@@ -12,7 +12,7 @@ import axios from 'axios';
 import Vue from 'vue'
 import {SharedEventBus} from "@/shared";
 
-class ViewerLayerKloosters extends ViewerLayer {
+class ViewerLayerKloostersByYear extends ViewerLayer {
 
   constructor(props) {
     super(props);
@@ -113,7 +113,7 @@ class ViewerLayerKloosters extends ViewerLayer {
           return [me.styleCache[uq]];
         }
       },
-      type: 'kloosters',
+      type: 'kloosters_by_year',
       visible: true,
       opacity: 1,
       zIndex: 93,
@@ -121,5 +121,5 @@ class ViewerLayerKloosters extends ViewerLayer {
   }
 }
 
-export default ViewerLayerKloosters;
+export default ViewerLayerKloostersByYear;
 

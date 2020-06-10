@@ -18,7 +18,7 @@ function getParam(name) {
     return decodeURIComponent(name[1]);
 }
 
-function init(config){
+function init(config) {
   Vue.prototype.$adminmode = false;
   Vue.prototype.$config = config; // might it be wiser to just use a global variable for this?
 
@@ -30,20 +30,66 @@ function init(config){
   });
 }
 
+let mode = 'by_year';
 let config = new KloosterConfig(); // default settings
-
-config.readJSON({
-  title: 'Kloosterkaart',
-  services: [{
-  url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getGeoJSON2.php',
-  type: 'kloosters',
-  layers: [{
-    "id": "kloosters",
-    "title": "kloosters",
-    "label": "kloosters",
-    "visible": true,
-    "opacity": 1.0,
-    "zindex": 93
-  }]
-}]});
+if (typeof getParam('year') === 'string') {
+  config.klooster.year_start = parseInt(getParam('year'));
+  config.klooster.year_end = config.klooster.year_start;
+}
+if (typeof getParam('mode') === 'string') {
+  if (getParam('mode') === 'all') {
+    mode = 'all';
+  }
+}
+if (mode === 'all') {
+  config.readJSON({
+    title: 'Kloosterlocaties',
+    services: [{
+      url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getGeoJSONAll.php',
+      type: 'kloosters_all',
+      layers: [
+        {
+          "id": "kloosters_all",
+          "title": "kloosters_all",
+          "label": "kloosters_all",
+          "visible": true,
+          "opacity": 1.0,
+          "zindex": 93
+        },
+        {
+          "id": "kapittels",
+          "title": "kapittels",
+          "label": "kapittels",
+          "visible": true,
+          "opacity": 1.0,
+          "zindex": 92
+        },
+        {
+          "id": "uithoven",
+          "title": "uithoven",
+          "label": "uithoven",
+          "visible": true,
+          "opacity": 1.0,
+          "zindex": 91
+        },
+      ]
+    }]
+  });
+} else {
+  config.readJSON({
+    title: 'Kloosterkaart',
+    services: [{
+      url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getGeoJSON2.php',
+      type: 'kloosters_by_year',
+      layers: [{
+        "id": "kloosters_by_year",
+        "title": "kloosters_by_year",
+        "label": "kloosters_by_year",
+        "visible": true,
+        "opacity": 1.0,
+        "zindex": 93
+      }]
+    }]
+  });
+}
 init(config);
