@@ -44,14 +44,20 @@ if (typeof getParam('mode') === 'string') {
 if (mode === 'all') {
   config.readJSON({
     title: 'Kloosterlocaties',
+    bbox: [
+      2.946307507057729,
+      50.53321086134227,
+      7.708880749245228,
+      53.84820079687907
+    ],
     services: [{
       url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getGeoJSONAll.php',
       type: 'kloosters_all',
       layers: [
         {
-          "id": "kloosters_all",
-          "title": "kloosters_all",
-          "label": "kloosters_all",
+          "id": "kloosters",
+          "title": "kloosters",
+          "label": "kloosters",
           "visible": true,
           "opacity": 1.0,
           "zindex": 93
@@ -78,6 +84,12 @@ if (mode === 'all') {
 } else {
   config.readJSON({
     title: 'Kloosterkaart',
+    bbox: [
+      2.946307507057729,
+      50.53321086134227,
+      7.708880749245228,
+      53.84820079687907
+    ],
     services: [{
       url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getGeoJSON2.php',
       type: 'kloosters_by_year',

@@ -4,14 +4,18 @@
       <OlMap/>
     </div>
     <NavBar/>
-    <b-row class="main-row">
+    <b-row class="main-row" v-if="title === 'Kloosterkaart'">
       <b-col md="4" lg="3">
         <LegendFilter/>
       </b-col>
     </b-row>
-
-    <YearFilter/>
-    <KloosterList />
+    <b-row class="main-row" v-if="title === 'Kloosterlocaties'">
+      <b-col md="4" lg="3">
+        <LayerSwitcher/>
+      </b-col>
+    </b-row>
+    <YearFilter v-if="title === 'Kloosterkaart'"/>
+    <KloosterList v-if="title === 'Kloosterkaart'"/>
     <KloosterInfo />
     <InfoModal />
   </b-container>
@@ -26,6 +30,8 @@
   import KloosterInfo from "./components/kloosters/kloosterinfo/KloosterInfo";
   import KloosterList from "./components/kloosters/kloosterlist/KloosterList";
   import InfoModal from "./components/gpz/infomodal/InfoModal";
+  import KloosterMapMode from "@/components/kloosters/kloostermapmode/KloosterMapMode";
+  import LayerSwitcher from "@/components/gpz/layerswitcher/LayerSwitcher";
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
@@ -39,7 +45,14 @@
       LegendFilter,
       KloosterInfo,
       KloosterList,
-      InfoModal
+      InfoModal,
+      KloosterMapMode,
+      LayerSwitcher
+    },
+    data() {
+      return {
+        title: this.$config.title,
+      }
     },
   }
 </script>

@@ -1,10 +1,10 @@
 import ViewerService from "../service/ViewerService";
-import ViewerLayerKloostersByYear from "./ViewerLayerKloostersByYear";
+import ViewerLayerKloosterLocaties from './ViewerLayerKloosterLocaties'
 import {ALLOWED_VIEWER_CRS} from "@/shared"
 import ViewerConfig from "@/helpers/ViewerConfig";
 
 // static/kloosters_1200.kml
-class ViewerServiceKloosters extends ViewerService {
+class ViewerServiceKloostersAll extends ViewerService {
   constructor(props) {
     super(props);
     console.log("props");
@@ -15,29 +15,32 @@ class ViewerServiceKloosters extends ViewerService {
   async getCapabilities() {
     console.log('get klooster capabilities')
     const layers = [];
-    const extent = [ // netherlands for now
-      3.076515, 50.296118, 7.685279, 53.582500
-    ];
+    const extent = [
+      -1.86027801047121,
+      49.854107444730744,
+      12.20222198952879,
+      54.35672339723146
+    ]; // Nederland
     // add kapittels and uithoven later?
-    layers.push(new ViewerLayerKloostersAll({
-      name: 'kloostersall',
+    layers.push(new ViewerLayerKloosterLocaties({
+      name: 'kloosters',
       extent_lonlat: extent,
-      title: 'kloostersall',
-      legend_img: '',
+      title: 'kloosters',
+      legend_img: 'https://geoplaza.vu.nl/projects/kloosters/svg/circle_m_0.svg',
       available_crs: ALLOWED_VIEWER_CRS,
     }));
-    layers.push(new ViewerLayerKapittels({
+    layers.push(new ViewerLayerKloosterLocaties({
       name: 'kapittels',
       extent_lonlat: extent,
       title: 'kapittels',
-      legend_img: '',
+      legend_img: 'https://geoplaza.vu.nl/projects/kloosters/svg/kapittel.svg',
       available_crs: ALLOWED_VIEWER_CRS,
     }));
-    layers.push(new ViewerLayerUithoven({
+    layers.push(new ViewerLayerKloosterLocaties({
       name: 'uithoven',
       extent_lonlat: extent,
       title: 'uithoven',
-      legend_img: '',
+      legend_img: 'https://geoplaza.vu.nl/projects/kloosters/svg/house.svg',
       available_crs: ALLOWED_VIEWER_CRS,
     }));
     return layers;
@@ -46,11 +49,11 @@ class ViewerServiceKloosters extends ViewerService {
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
-      this.layers.push(new ViewerLayerKloostersByYear(l));
+      this.layers.push(new ViewerLayerKloosterLocaties(l));
     }
   };
 
 
 }
 
-export default ViewerServiceKloosters;
+export default ViewerServiceKloostersAll;

@@ -15,9 +15,12 @@ class ViewerServiceKloostersByYear extends ViewerService {
   async getCapabilities() {
       console.log('get klooster capabilities')
       const layers = [];
-      const extent = [ // netherlands for now
-        3.076515,50.296118,7.685279,53.582500
-      ];
+      const extent = [
+        -1.86027801047121,
+        49.854107444730744,
+        12.20222198952879,
+        54.35672339723146
+      ]; // Nederland
       // add kapittels and uithoven later?
       layers.push(new ViewerLayerKloostersByYear({
         name: 'kloosters_by_year',
