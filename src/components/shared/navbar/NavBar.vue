@@ -18,7 +18,7 @@
       <b-navbar-nav v-if="admminmode">
         <FileSaver/>
       </b-navbar-nav>
-      <b-navbar-nav v-if="title === 'Kloosterkaart'">
+      <b-navbar-nav v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'">
         <LanguageSwitcher/>
         <b-nav-item v-b-modal.kloosterlistmodal>list</b-nav-item>
       </b-navbar-nav>
