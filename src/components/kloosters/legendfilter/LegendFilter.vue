@@ -26,118 +26,118 @@
 </template>
 
 <script>
-  import {symbolsCat, symbols} from '@/helpers/kloosters/KloosterSymbols'
-  import {SharedEventBus} from "@/shared";
-  import OrdeItem from "@/components/kloosters/legendfilter/OrdeItem";
-  import RegelItem from "@/components/kloosters/legendfilter/RegelItem";
+    import {symbolsCat, symbols} from '@/helpers/kloosters/KloosterSymbols'
+    import {SharedEventBus} from "@/shared";
+    import OrdeItem from "@/components/kloosters/legendfilter/OrdeItem";
+    import RegelItem from "@/components/kloosters/legendfilter/RegelItem";
 
-  export default {
-    name: "LegendFilter",
-    components: {RegelItem, OrdeItem},
-    data: function () {
-      return {
-        language: this.$config.klooster.language,
-        regels: [{
-          nl: '',
-          en: '',
-          orde_index: [],
-          present: false,
-          selected: true
-        }],
-        orden: [{
-          nl: '',
-          en: '',
-          symbol: '',
-          present: false,
-          selected: true
-        }],
-        changed: true,
-        toggle: true
-      }
-    },
-    mounted: function () {
-      console.log('init legendfilter');
-      this.init();
-      var me = this;
-      SharedEventBus.$on('kloostersource-loaded', () => {
-        me.present(this.$config.klooster.data.geojson.features);
-        me.changed = !me.changed;
-        me.$forceUpdate(); // todo: should be posible without a forceupdate
-      });
-      SharedEventBus.$on('change-language', () => {
-        this.language = this.$config.klooster.language;
-      });
-    },
-    watch: {},
-    methods: {
-      present: function (features) {
-        let tmp = [];
-        features.forEach(function (feature) {
-          if (typeof tmp[feature.properties.ordenaam] == 'undefined') {
-            tmp.push(feature.properties.ordenaam);
-          }
-        });
-        let n = 0;
-        for (let i = 0; i < this.orden.length; i++) {
-          if (tmp.includes(this.orden[i].nl)) {
-            this.orden[i].present = true;
-          } else {
-            this.orden[i].present = false;
-          }
-        }
-        for (let i = 0; i < this.regels.length; i++) {
-          this.regels[i].present = false;
-          for (let j = 0; j < this.regels[i].orde_index.length; j++) {
-            let orde_index = this.regels[i].orde_index[j];
-            if (this.orden[orde_index].present) {
-              this.regels[i].present = true;
-              break;
+    export default {
+        name: "LegendFilter",
+        components: {RegelItem, OrdeItem},
+        data: function () {
+            return {
+                language: this.$config.klooster.language,
+                regels: [{
+                    nl: '',
+                    en: '',
+                    orde_index: [],
+                    present: false,
+                    selected: true
+                }],
+                orden: [{
+                    nl: '',
+                    en: '',
+                    symbol: '',
+                    present: false,
+                    selected: true
+                }],
+                changed: true,
+                toggle: true
             }
-          }
-        }
-      },
-      init: function () {
-        let regel_index = 0;
-        let orde_index = 0;
-        for (const regel in symbolsCat.data) {
-          this.regels[regel_index] = {
-            nl: regel,
-            en: symbolsCat.translation[regel],
-            present: true,
-            selected: true,
-            orde_index: []
-          };
-          for (const orde in symbolsCat.data[regel]) {
-            this.regels[regel_index].orde_index.push(orde_index);
-            this.orden[orde_index] = {
-              nl: orde,
-              en: symbolsCat.data[regel][orde].en,
-              present: false,
-              symbol: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbolsCat.data[regel][orde].symbol + '.svg',
-              selected: true
-            };
-            orde_index++;
-          }
-          regel_index++;
-        }
-        //this.$forceUpdate();
-      },
-      regel_select: function (index) {
-        this.regels[index].selected = !this.regels[index].selected;
-        this.$config.klooster.filter=[];
-        for (let i = 0; i < this.regels.length; i++) {
-          for (let j = 0; j < this.regels[i].orde_index.length; j++) {
-            let orde_index = this.regels[i].orde_index[j];
-            if (this.regels[i].selected) {
-              this.$config.klooster.filter.push(this.orden[orde_index].nl);
+        },
+        mounted: function () {
+            console.log('init legendfilter');
+            this.init();
+            var me = this;
+            SharedEventBus.$on('kloostersource-loaded', () => {
+                me.present(this.$config.klooster.data.geojson.features);
+                me.changed = !me.changed;
+                me.$forceUpdate(); // todo: should be posible without a forceupdate
+            });
+            SharedEventBus.$on('change-language', () => {
+                this.language = this.$config.klooster.language;
+            });
+        },
+        methods: {
+            present: function (features) {
+                let tmp = [];
+                features.forEach(function (feature) {
+                    if (typeof tmp[feature.properties.ordenaam] == 'undefined') {
+                        tmp.push(feature.properties.ordenaam);
+                    }
+                });
+                let n = 0;
+                for (let i = 0; i < this.orden.length; i++) {
+                    if (tmp.includes(this.orden[i].nl)) {
+                        this.orden[i].present = true;
+                    } else {
+                        this.orden[i].present = false;
+                    }
+                }
+                for (let i = 0; i < this.regels.length; i++) {
+                    this.regels[i].present = false;
+                    for (let j = 0; j < this.regels[i].orde_index.length; j++) {
+                        let orde_index = this.regels[i].orde_index[j];
+                        if (this.orden[orde_index].present) {
+                            this.regels[i].present = true;
+                            break;
+                        }
+                    }
+                }
+            },
+            init: function () {
+                let regel_index = 0;
+                let orde_index = 0;
+                for (const regel in symbolsCat.data) {
+                    this.regels[regel_index] = {
+                        nl: regel,
+                        en: symbolsCat.translation[regel],
+                        present: true,
+                        selected: true,
+                        orde_index: []
+                    };
+                    for (const orde in symbolsCat.data[regel]) {
+                        this.regels[regel_index].orde_index.push(orde_index);
+                        this.orden[orde_index] = {
+                            nl: orde,
+                            en: symbolsCat.data[regel][orde].en,
+                            present: false,
+                            symbol: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbolsCat.data[regel][orde].symbol + '.svg',
+                            selected: true
+                        };
+                        orde_index++;
+                    }
+                    regel_index++;
+                }
+                //this.$forceUpdate();
+            },
+            regel_select: function (index) {
+                console.log(this.regels[index]);
+                this.regels[index].selected = !this.regels[index].selected;
+                this.$config.klooster.filter = [];
+                for (let i = 0; i < this.regels.length; i++) {
+                    for (let j = 0; j < this.regels[i].orde_index.length; j++) {
+                        let orde_index = this.regels[i].orde_index[j];
+                        if (this.regels[i].selected) {
+                            this.$config.klooster.filter.push(this.orden[orde_index].nl);
+                        }
+                    }
+                }
+                console.log('update filter');
+                SharedEventBus.$emit('change-vector-data');
             }
-          }
         }
-        console.log('update filter');
-        SharedEventBus.$emit('change-vector-data');
-      }
     }
-  }
 </script>
 
 <style scoped>

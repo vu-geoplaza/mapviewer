@@ -12,6 +12,7 @@
     import {transformExtent} from "ol/proj";
     import View from "ol/View";
     import VectorLayer from "ol/layer/Vector";
+    import BaseLayerSwitcher from "../baselayerswitcher/BaseLayerSwitcher";
 
     // Add a simple extension to enable layer lookup by layer id
     if (Map.prototype.getLayerByLid === undefined) {
@@ -116,7 +117,7 @@
                 view.fit(transformExtent(config.bbox, 'EPSG:4326', view.getProjection()), this.map.getSize());
                 this.map.setView(view);
 
-                this.setBaseLayer(config.crs);
+                this.setBaseLayers(config.crs);
                 console.log('start adding layers');
                 this.addLayers(config);
 
@@ -133,7 +134,7 @@
                 view.fit(extent, {size: this.map.getSize(), nearest: true});
                 this.clearVectorLayers();
                 this.map.setView(view);
-                this.setBaseLayer(crs);
+                this.setBaseLayers(crs);
             },
             clearVectorLayers() {
                 var layers = this.map.getLayers();
@@ -168,7 +169,7 @@
                 }
                 this.map.available_crs = new_arr;
             },
-            setBaseLayer(crs) {
+            setBaseLayers(crs) {
                 console.log('set base layer');
                 if (crs === 'EPSG:3857') {
                     this.map.addLayer(OSMstandard());

@@ -45,8 +45,10 @@ export function OSMstandardOrg() {
 export function OSMstandard() {
   return new TileLayer({
     preload: Infinity,
+    visible: true,
     source: new XYZ({
-      url: 'https://gpzmaps.labs.vu.nl/osm/{z}/{x}/{y}.png'
+      url: 'https://gpzmaps.labs.vu.nl/osm/{z}/{x}/{y}.png',
+      attributions: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }),
     type: 'base',
     code: 'osm',
@@ -70,7 +72,7 @@ export function CartoLight() {
 
   })
 }
-
+//***** RD
 export function OpenTopo() {
   return new TileLayer({
     preload: Infinity,
@@ -102,6 +104,7 @@ export function BRT() {
   return new TileLayer({
     preload: Infinity,
     type: 'base',
+    visible: true,
     opacity: 1.0,
     zIndex: 1,
     code: 'brt',

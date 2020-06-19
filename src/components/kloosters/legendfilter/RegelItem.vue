@@ -6,7 +6,7 @@
         <span v-if="language === 'en'">{{ regel.en }}</span>
       </b-btn>
     </b-card-header>
-    <b-collapse :id="'regelcard' + index" v-model="regel.selected">
+    <b-collapse visible :id="'regelcard' + index">
       <b-list-group class="row-fluid">
         <slot />
       </b-list-group>
@@ -15,8 +15,6 @@
 </template>
 
 <script>
-  import {SharedEventBus} from "@/shared";
-  import OrdeItem from "@/components/kloosters/legendfilter/OrdeItem";
   export default {
     name: "RegelItem",
     props: ['regel', 'index', 'language', 'regels'],

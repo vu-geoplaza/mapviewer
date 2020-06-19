@@ -50,13 +50,6 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
         const name = me.name;
         const language = klooster_config.language;
         const labelResolutionLevel = 5;
-        /*
-        if (language == 'nl') {
-          var label = feature.get('TI');
-        } else {
-          var label = feature.get('TIE');
-        }
-         */
         var label = name + ': ' + feature.get('id');
 
         var uq = name;

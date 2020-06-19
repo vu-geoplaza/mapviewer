@@ -59,9 +59,8 @@
                 var me = this;
                 this.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
                     const title = layer.get('label'); // is this kloosters
-                    console.log(me.tabidx);
                     if (title == 'kloosters_by_year') {
-                        me.showKloosterInfo(feature.getId());
+                        me.showKloosterInfo(feature.get("id"));
                     } else if (title == 'kloosters') {
                         me.showKloosterInfo(feature.get("id")); // not sure, could be more than one?
                     } else if (title == 'kapittels') {
@@ -109,6 +108,7 @@
                         } else {
                             item.title = 'Kapittel';
                         }
+                        item.title = item.title + ' ' + id;
                     }
                     //open modal
                     me.addItem(item);
@@ -151,13 +151,14 @@
                         } else {
                             item.title = 'Uithof';
                         }
+                        item.title = item.title + ' ' + id;
                     }
                   me.addItem(item)
                 }, error => {
                     console.error(error);
                 });
             },
-            showKloosterInfo(id,i) {
+            showKloosterInfo(id) {
                 let item={
                     photo_url: '',
                     photo_caption: '',
@@ -187,6 +188,7 @@
                         } else {
                             item.title = 'Klooster';
                         }
+                        item.title = item.title + ' ' + id;
                     }
                     me.addItem(item);
                 }, error => {

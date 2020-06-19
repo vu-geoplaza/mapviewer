@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import LayerSwitcher from './components/gpz/layerswitcher/LayerSwitcher'
+    import LayerSwitcher from './components/shared/layerswitcher/LayerSwitcher'
     import OlMap from './components/shared/ol/Map'
     import {SharedEventBus} from './shared'
     import FeatureInfo from "./components/gpz/featureinfo/FeatureInfo";
