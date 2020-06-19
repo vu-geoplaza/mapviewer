@@ -39,7 +39,7 @@
         mixins: [Mapable],
         data: function () {
             return {
-                title: 'klooster info',
+                title: 'Info',
                 items: []
             }
         },
