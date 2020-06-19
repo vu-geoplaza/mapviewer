@@ -4,8 +4,8 @@ import ViewerServiceTileArcGIS from "./service/ViewerServiceTileArcGIS";
 import ViewerServiceKML from "./service/ViewerServiceKML";
 import ViewerServiceGPX from "./service/ViewerServiceGPX";
 import ViewerServiceGeoJSON from "./service/ViewerServiceGeoJSON";
-import ViewerServiceKloostersByYear from "./kloosters/ViewerServiceKloostersByYear";
-import ViewerServiceKloostersAll from "@/helpers/kloosters/ViewerServiceKloostersAll";
+import ViewerServiceKloostersByYear from "./kloosters/service/ViewerServiceKloostersByYear";
+import ViewerServiceKloostersAll from "./kloosters/service/ViewerServiceKloostersAll";
 
 class ViewerConfig {
   title = '';

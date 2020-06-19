@@ -1,9 +1,9 @@
 <template>
-  <b-navbar-nav class="ml-auto">
+
     <b-nav-item href="#" @click="geoLocate()" right>
         my location
     </b-nav-item>
-  </b-navbar-nav>
+
 </template>
 
 <script>
