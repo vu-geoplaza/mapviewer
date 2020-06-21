@@ -1,5 +1,11 @@
 <template>
   <div class="legendfilter">
+    <b-overlay
+      showoverlay
+      spinner-variant="primary"
+      spinner-large
+      rounded="sm"
+    >
     <a @click='toggle = !toggle' v-show='!toggle' class="open-button">
       <font-awesome-icon icon="layer-group"/>
     </a>
@@ -22,6 +28,7 @@
         </b-list-group>
       </b-card-body>
     </b-card>
+    </b-overlay>
   </div>
 </template>
 
@@ -52,7 +59,8 @@
                     selected: true
                 }],
                 changed: true,
-                toggle: true
+                toggle: true,
+                showoverlay: true
             }
         },
         mounted: function () {
@@ -60,9 +68,11 @@
             this.init();
             var me = this;
             SharedEventBus.$on('kloostersource-loaded', () => {
+                me.showoverlay=true;
                 me.present(this.$config.klooster.data.geojson.features);
                 me.changed = !me.changed;
                 me.$forceUpdate(); // todo: should be posible without a forceupdate
+                me.showoverlay=true;
             });
             SharedEventBus.$on('change-language', () => {
                 this.language = this.$config.klooster.language;
@@ -96,6 +106,7 @@
                 }
             },
             init: function () {
+                this.showoverlay=true;
                 let regel_index = 0;
                 let orde_index = 0;
                 for (const regel in symbolsCat.data) {
@@ -119,9 +130,11 @@
                     }
                     regel_index++;
                 }
+                this.showoverlay=false;
                 //this.$forceUpdate();
             },
             regel_select: function (index) {
+                this.showoverlay=true;
                 console.log(this.regels[index]);
                 this.regels[index].selected = !this.regels[index].selected;
                 this.$config.klooster.filter = [];
@@ -135,6 +148,7 @@
                 }
                 console.log('update filter');
                 SharedEventBus.$emit('change-vector-data');
+                this.showoverlay=false;
             }
         }
     }

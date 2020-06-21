@@ -76,7 +76,7 @@
     left: 0px;
   }
   #app .yearfilter {
-    bottom: 20px;
+    bottom: 30px;
   }
   #app .main-row {
     position: relative;

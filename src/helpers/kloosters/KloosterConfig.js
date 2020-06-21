@@ -5,6 +5,7 @@ class KloosterConfig extends  ViewerConfig {
     language: "en",
     //"filter": ['benedictijnen', 'benedictinessen'],
     filter: [],
+    info_url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getKloosterInfo3.php',
     selected_id: '',
     year_start: 1200,
     year_end: 1200,
