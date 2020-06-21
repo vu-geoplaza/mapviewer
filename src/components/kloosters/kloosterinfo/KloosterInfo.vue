@@ -2,8 +2,7 @@
   <b-modal ref="kloosterinfomodal" size="lg" v-bind:title="title" header-bg-variant="info" header-text-variant="light"
            ok-only>
     <b-overlay
-      showoverlay
-      spinner-variant="primary"
+      :show="showoverlay"
       spinner-large
       rounded="sm"
     >
@@ -66,11 +65,14 @@
             handleInfoClick(coordinate, pixel) {
                 this.items = [];
                 var me = this;
+                let n=0;
                 this.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
-                    const title = layer.get('label'); // is this kloosters
-                    me.showoverlay=true;
-                    me.$refs['kloosterinfomodal'].show();
-                    me.showInfo(feature.get("id"), feature.get("type"), feature.get('val')); // not sure, could be more than one?
+                    if (n<6) { // browser slow if showing many tabs
+                        me.showoverlay = true;
+                        me.$refs['kloosterinfomodal'].show();
+                        me.showInfo(feature.get("id"), feature.get("type"), feature.get('val'));
+                    }
+                    n++;
                 });
             },
             addItem(item) {
