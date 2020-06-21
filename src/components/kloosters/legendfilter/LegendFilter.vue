@@ -1,8 +1,7 @@
 <template>
   <div class="legendfilter">
     <b-overlay
-      showoverlay
-      spinner-variant="primary"
+      :show="showoverlay"
       spinner-large
       rounded="sm"
     >
@@ -13,14 +12,13 @@
       <b-card-header header-tag="header" class="p-2">
         <span class="widget-header-text" v-if="language==='nl'">Legenda</span>
         <span class="widget-header-text" v-if="language==='en'">Legend</span>
-        <a @click='toggle = !toggle' class="pull-right">
-          <font-awesome-icon icon="arrow-left"/>
-        </a>
+        <b-button-close @click='toggle = !toggle' class="pull-right">
+        </b-button-close>
       </b-card-header>
       <b-card-body class="p-0 scroll">
         <b-list-group horizontal="md" flush v-model="regels">
           <RegelItem v-for="(regel, index) in regels" v-bind:index="index" v-bind:key="index" v-bind:regel="regel"
-                     v-bind:language="language" v-bind:regels="regels">
+                     v-bind:language="language" v-bind:regels="regels" v-bind:regel_selectparent="regel_select">
             <OrdeItem v-for="(orde_index, index2) in regel.orde_index" v-bind:index="index2"
                       v-bind:key="orde_index" v-bind:orde="orden[orde_index]" v-bind:present="orden[orde_index].present"
                       v-bind:language="language"/>
@@ -68,16 +66,15 @@
             this.init();
             var me = this;
             SharedEventBus.$on('kloostersource-loaded', () => {
-                me.showoverlay=true;
                 me.present(this.$config.klooster.data.geojson.features);
                 me.changed = !me.changed;
                 me.$forceUpdate(); // todo: should be posible without a forceupdate
-                me.showoverlay=true;
             });
             SharedEventBus.$on('change-language', () => {
                 this.language = this.$config.klooster.language;
             });
         },
+        watch: {},
         methods: {
             present: function (features) {
                 let tmp = [];
@@ -134,7 +131,6 @@
                 //this.$forceUpdate();
             },
             regel_select: function (index) {
-                this.showoverlay=true;
                 console.log(this.regels[index]);
                 this.regels[index].selected = !this.regels[index].selected;
                 this.$config.klooster.filter = [];
@@ -148,7 +144,6 @@
                 }
                 console.log('update filter');
                 SharedEventBus.$emit('change-vector-data');
-                this.showoverlay=false;
             }
         }
     }
