@@ -1,7 +1,9 @@
 <template>
-  <b-nav-item href="#" @click="switchlanguage()">
-    {{language}}
-  </b-nav-item>
+
+    <b-nav-item href="#" @click="switchlanguage()" right>
+      {{language}}
+    </b-nav-item>
+
 </template>
 
 <script>

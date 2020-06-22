@@ -31,7 +31,7 @@
   import KloosterList from "./components/kloosters/kloosterlist/KloosterList";
   import InfoModal from "./components/gpz/infomodal/InfoModal";
   import KloosterMapMode from "@/components/kloosters/kloostermapmode/KloosterMapMode";
-  import LayerSwitcher from "@/components/gpz/layerswitcher/LayerSwitcher";
+  import LayerSwitcher from "@/components/shared/layerswitcher/LayerSwitcher";
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
@@ -76,7 +76,7 @@
     left: 0px;
   }
   #app .yearfilter {
-    bottom: 20px;
+    bottom: 30px;
   }
   #app .main-row {
     position: relative;

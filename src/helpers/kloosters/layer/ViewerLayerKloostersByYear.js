@@ -1,4 +1,4 @@
-import ViewerLayer from "../layer/ViewerLayer";
+import ViewerLayer from "../../layer/ViewerLayer";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
@@ -71,9 +71,9 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
         const iconExt = '.svg';
 
         if (language == 'nl') {
-          var naam = feature.get('TI');
+          var naam = feature.get('name_nl');
         } else {
-          var naam = feature.get('TIE');
+          var naam = feature.get('name_en');
         }
 
         var uq = orde;

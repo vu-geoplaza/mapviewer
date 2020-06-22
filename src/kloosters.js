@@ -7,7 +7,6 @@ import KloosterViewer from "@/KloosterViewer";
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
 import KloosterConfig from "@/helpers/kloosters/KloosterConfig";
 
-
 Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
@@ -50,6 +49,8 @@ if (mode === 'all') {
       7.708880749245228,
       53.84820079687907
     ],
+    crs: "EPSG:3857",
+    baselayer: "light",
     services: [{
       url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getGeoJSONAll.php',
       type: 'kloosters_all',
@@ -90,6 +91,8 @@ if (mode === 'all') {
       7.708880749245228,
       53.84820079687907
     ],
+    crs: "EPSG:3857",
+    baselayer: "light",
     services: [{
       url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getGeoJSON2.php',
       type: 'kloosters_by_year',

@@ -4,13 +4,14 @@ import ViewerServiceTileArcGIS from "./service/ViewerServiceTileArcGIS";
 import ViewerServiceKML from "./service/ViewerServiceKML";
 import ViewerServiceGPX from "./service/ViewerServiceGPX";
 import ViewerServiceGeoJSON from "./service/ViewerServiceGeoJSON";
-import ViewerServiceKloostersByYear from "./kloosters/ViewerServiceKloostersByYear";
-import ViewerServiceKloostersAll from "@/helpers/kloosters/ViewerServiceKloostersAll";
+import ViewerServiceKloostersByYear from "./kloosters/service/ViewerServiceKloostersByYear";
+import ViewerServiceKloostersAll from "./kloosters/service/ViewerServiceKloostersAll";
 
 class ViewerConfig {
   title = '';
   url = '';
   crs = 'EPSG:3857';
+  baselayer = '';
   bbox = [
     2.7906529317858966,
     52.1414097243633,
@@ -26,6 +27,7 @@ class ViewerConfig {
 
   readJSON(json) {
     if (json.crs) this.crs = json.crs;
+    if (json.baselayer) this.baselayer = json.baselayer;
     if (json.bbox) this.bbox = json.bbox;
     if (json.title) this.title = json.title;
     if (json.url) this.url = json.url;

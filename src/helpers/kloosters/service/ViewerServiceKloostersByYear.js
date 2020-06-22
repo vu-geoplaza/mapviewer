@@ -1,7 +1,6 @@
-import ViewerService from "../service/ViewerService";
-import ViewerLayerKloostersByYear from "./ViewerLayerKloostersByYear";
+import ViewerService from "../../service/ViewerService";
+import ViewerLayerKloostersByYear from "../layer/ViewerLayerKloostersByYear";
 import {ALLOWED_VIEWER_CRS} from "@/shared"
-import ViewerConfig from "@/helpers/ViewerConfig";
 
 // static/kloosters_1200.kml
 class ViewerServiceKloostersByYear extends ViewerService {

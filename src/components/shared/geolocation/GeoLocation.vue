@@ -1,9 +1,10 @@
 <template>
-  <b-navbar-nav class="ml-auto">
+
     <b-nav-item href="#" @click="geoLocate()" right>
+      <b-spinner v-if="showspinner" small></b-spinner>
         my location
     </b-nav-item>
-  </b-navbar-nav>
+
 </template>
 
 <script>
@@ -22,8 +23,14 @@
     export default {
         name: "GeoLocation",
         mixins: [Mapable],
+        data: function () {
+            return {
+                showspinner: false
+            }
+        },
         methods: {
             geoLocate: function() {
+                this.showspinner=true;
                 let centered=false;
                 let view=this.map.getView();
                 let geolocation = new Geolocation({
@@ -50,7 +57,9 @@
                         features: [positionFeature]
                     })
                 });
+                let me=this;
                 geolocation.on('change', function(evt) {
+                    me.showspinner=true
                     let coordinates = geolocation.getPosition();
                     positionFeature.setGeometry(coordinates ?
                         new Point(coordinates) : null);
@@ -59,6 +68,7 @@
                         view.setZoom(15);
                         centered=true;
                     }
+                    me.showspinner=false;
                 });
             }
         }

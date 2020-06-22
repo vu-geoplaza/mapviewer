@@ -19,10 +19,10 @@
   import OrdeItem from "@/components/kloosters/legendfilter/OrdeItem";
   export default {
     name: "RegelItem",
-    props: ['regel', 'index', 'language', 'regels'],
+    props: ['regel', 'index', 'language', 'regels', 'regel_selectparent'],
     methods: {
       regel_select: function(index) {
-        this.$parent.regel_select(index);
+        this.regel_selectparent(index);
       }
     }
   }

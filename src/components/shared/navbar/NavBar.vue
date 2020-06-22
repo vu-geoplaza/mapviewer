@@ -18,11 +18,13 @@
       <b-navbar-nav v-if="admminmode">
         <FileSaver/>
       </b-navbar-nav>
-      <b-navbar-nav v-if="title === 'Kloosterkaart'">
-        <LanguageSwitcher/>
+      <b-navbar-nav v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'">
         <b-nav-item v-b-modal.kloosterlistmodal>list</b-nav-item>
       </b-navbar-nav>
-      <GeoLocation/>
+      <b-navbar-nav class="ml-auto">
+        <LanguageSwitcher v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'"/>
+        <GeoLocation/>
+      </b-navbar-nav>
     </b-collapse>
 
   </b-navbar>

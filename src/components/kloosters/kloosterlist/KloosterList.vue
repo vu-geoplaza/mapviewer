@@ -73,9 +73,9 @@
                 let me = this;
                 features.forEach(function (feature) {
                     if (me.$config.klooster.language === 'en') {
-                        me.items.push({label: feature.get('TIE'), id: feature.getId()});
+                        me.items.push({label: feature.get('name_en'), id: feature.getId()});
                     } else {
-                        me.items.push({label: feature.get('TI'), id: feature.getId()});
+                        me.items.push({label: feature.get('name_nl'), id: feature.getId()});
                     }
                 });
                 me.items.sort(compare);
