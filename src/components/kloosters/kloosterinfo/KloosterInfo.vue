@@ -15,7 +15,7 @@
               <b-link v-bind:href="item.kl_url" target="_blank" center>Kloosterlijst Website</b-link>
             </b-row>
             <b-row>
-              <b-img v-bind:src="item.photo_url" fluid rounded center alt=" "></b-img>
+              <b-img v-bind:src="item.photo_url" fluid rounded center alt=" " @error="handleImageError(index)"></b-img>
             </b-row>
             <b-row align-h="center">
               <span><i>{{ item.photo_caption }}</i></span>
@@ -107,7 +107,11 @@
                 }, error => {
                     console.error(error);
                 });
-            }
+            },
+          handleImageError(index) {
+              console.log('photo not found ' + this.items[index].photo_url)
+            this.items[index].photo_url='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D';
+          }
         }
     }
 
