@@ -8,7 +8,7 @@
       <b-col md="12">
         <b-list-group horizontal="md" flush v-model="items">
           <b-list-group-item v-for="(item, index) in items" v-bind:key="index" href="#"
-                             @click="selectKlooster(item.id)">
+                             @click="selectKlooster(item.geom)">
             {{ item.label }}
           </b-list-group-item>
         </b-list-group>
@@ -71,30 +71,23 @@
 
                 this.items = [];
                 let me = this;
-                features.forEach(function (feature) {
-                    if (me.$config.klooster.language === 'en') {
-                        me.items.push({label: feature.get('name_en'), id: feature.getId()});
-                    } else {
-                        me.items.push({label: feature.get('name_nl'), id: feature.getId()});
-                    }
+                features.forEach(function (cluster) {
+                    cluster.get('features').forEach(function(feature){
+                      if (me.$config.klooster.language === 'en') {
+                        me.items.push({label: feature.get('name_en'), geom: feature.getGeometry()});
+                      } else {
+                        me.items.push({label: feature.get('name_nl'), geom: feature.getGeometry()});
+                      }
+                    });
                 });
                 me.items.sort(compare);
             },
-            getFeatureById: function (id) {
-                return this.map.getLayerByLid('kloosters_by_year').getSource().getFeatureById(id);
-            },
-            selectKlooster: function (id) {
-                // get feature
-                const feature = this.getFeatureById(id);
-                // Zoom to feature
-                this.map.getView().fit(feature.getGeometry(), {
+            selectKlooster: function (geom) {
+                this.map.getView().fit(geom, {
                     maxZoom: 15,
                     padding: [100, 100, 100, 100],
                     duration: 200
                 });
-                // Highlight feature
-
-                //closemodal
                 this.$refs['kloosterlistmodal'].hide();
 
             }
