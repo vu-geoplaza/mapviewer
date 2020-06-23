@@ -140,7 +140,13 @@
                 var layers = this.map.getLayers();
                 layers.forEach(function (layer) {
                     if (layer instanceof VectorLayer) { // should set a generic vector/tile type
-                        layer.getSource().refresh();
+                      const source=layer.getSource();
+                      if (!source.getSource()) {
+                        source.refresh();
+                      } else { // Cluster
+                        source.getSource().refresh();
+
+                      }
                     }
                 });
             },

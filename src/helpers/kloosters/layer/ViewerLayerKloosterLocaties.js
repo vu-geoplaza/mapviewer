@@ -1,6 +1,7 @@
 import ViewerLayer from "../../layer/ViewerLayer";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
+import Cluster from "ol/source/Cluster"
 import GeoJSON from "ol/format/GeoJSON";
 import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
@@ -28,8 +29,8 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
       });
       for (var i = 0, len = features.length; i < len; i++) {
         features[i].setId(features[i].get("klooster_id"));
-        source.addFeature(features[i]);
       }
+      source.addFeatures(features);
     };
     let source = new VectorSource({
       loader: function () {
@@ -43,39 +44,39 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
         });
       }
     });
+    let clusterSource = new Cluster({
+      distance: 25,
+      source: source
+    });
+
 
     return new VectorLayer({
-      source: source,
+      source: clusterSource,
       style: function (feature, resolution) {
         const name = me.name;
         const language = klooster_config.language;
-        const labelResolutionLevel = 5;
-        var label = name + ': ' + feature.get('id');
+        const features = feature.get('features');
+        const num = features.length;
+        const label = name + ': ' + features[0].get('id');
 
-        var uq = name;
-        if (resolution < labelResolutionLevel) {
-          uq = uq + '_' + label;
-        }
-
+        let uq = name + num;
         var style = me.styleCache[uq];
         if (style) {
           return [style];
         } else {
-            me.styleCache[uq] = new Style({
+          me.styleCache[uq] =
+            new Style({
               image: new Icon({
-                scale: 0.75,
+                scale: Math.sqrt(Math.sqrt(num)),
                 src: me.legend_img,
                 opacity: 0.80
               }),
               text: new Text({
                 font: '14px Calibri,sans-serif',
-                fill: new Fill({color: '#000'}),
-                stroke: new Stroke({
-                  color: '#fff', width: 2
-                }),
-                offsetY: 25,
-                text: resolution < labelResolutionLevel ? label : ''
-              })
+                fill: new Fill({color: '#fff'}),
+                offsetY: 0,
+                text: num.toString()
+              }),
             });
           return [me.styleCache[uq]];
         }

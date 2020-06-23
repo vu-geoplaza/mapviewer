@@ -66,8 +66,8 @@ export function CartoLight() {
     zIndex: 1,
     visible: false,
     source: new XYZ({
-      url: 'http://{1-4}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-      attributions: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+      url: 'https://{1-4}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+      attributions: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attribution">Carto</a>'
     })
 
   })
