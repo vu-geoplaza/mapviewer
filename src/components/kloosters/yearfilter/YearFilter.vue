@@ -38,7 +38,7 @@
           console.log('change year');
           this.$config.klooster.year_start = year;
           this.$config.klooster.year_end = year;
-          SharedEventBus.$emit('change-vector-data');
+          SharedEventBus.$emit('reload-vector-data');
         }
       },
       watch: {

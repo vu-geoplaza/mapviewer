@@ -44,7 +44,7 @@
                 // we might need to force a label change
                 me.clearVectorLayers();
             });
-            SharedEventBus.$on('change-vector-data', function () {
+            SharedEventBus.$on('reload-vector-data', function () {
                 me.clearVectorLayers();
             });
             SharedEventBus.$on('change-projection', crs => {
