@@ -11,6 +11,8 @@ import Text from "ol/style/Text";
 import axios from 'axios';
 import Vue from 'vue'
 import {SharedEventBus} from "@/shared";
+import Cluster from "ol/source/Cluster";
+import CircleStyle from "ol/style/Circle";
 
 class ViewerLayerKloostersByYear extends ViewerLayer {
 
@@ -28,12 +30,14 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
         dataProjection: 'EPSG:4326',
         featureProjection: Vue.prototype.$config.crs
       });
+      let featuresToAdd=[];
       for (var i = 0, len = features.length; i < len; i++) {
           if (klooster_config.filter.includes(features[i].get('ordenaam'))||(klooster_config.filter.length==0)){
             features[i].setId(features[i].get("klooster_id"));
-            source.addFeature(features[i]);
+            featuresToAdd.push(features[i]);
         }
       }
+      source.addFeatures(featuresToAdd);
       SharedEventBus.$emit('kloostersource-loaded');
     };
     let source= new VectorSource({
@@ -45,6 +49,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
           end: klooster_config.year_end
         };
         if (klooster_config.data.year_start==klooster_config.year_start&&klooster_config.data.year_end==klooster_config.year_end){
+          console.log('reload from config');
           vectorReader(klooster_config.data.geojson);
         } else {
           return axios.post(url, params).then(function (response) {
@@ -60,56 +65,83 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
         }
       }
     });
+    let clusterSource = new Cluster({
+      distance: 15,
+      source: source
+    });
 
     return new VectorLayer({
-      source: source,
+      source: clusterSource,
       style: function (feature, resolution) {
         var language = klooster_config.language;
-        var orde = feature.get('ordenaam');
-        var type = feature.get('type');
+        const features = feature.get('features');
+        const num = features.length;
+
+        var orde = features[0].get('ordenaam');
         const labelResolutionLevel = 5;
         const iconExt = '.svg';
 
         if (language == 'nl') {
-          var naam = feature.get('name_nl');
+          var naam = features[0].get('name_nl');
         } else {
-          var naam = feature.get('name_en');
+          var naam = features[0].get('name_en');
         }
 
-        var uq = orde;
-        if (resolution < labelResolutionLevel) {
-          uq = uq + '_' + naam;
+        var uq = num;
+        if (num==1) {
+          uq = orde+resolution;
         }
 
         var style = me.styleCache[uq];
         if (style) {
           return [style];
         } else {
-          var iconscale = 1;
-          if ((typeof symbols[orde] !== 'undefined')) {
-            var symbol = symbols[orde];
-          } else {
-            symbol = 'square_white';
-          }
-          if (klooster_config.filter.includes(orde)){
-            // hide
-          }
-          me.styleCache[uq] = new Style({
-            image: new Icon({
-              scale: iconscale,
-              src: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbol + iconExt,
-              opacity: 0.80
-            }),
-            text: new Text({
-              font: '14px Calibri,sans-serif',
-              fill: new Fill({color: '#000'}),
-              stroke: new Stroke({
-                color: '#fff', width: 2
+          if (num==1) {
+            var iconscale = 1;
+            if ((typeof symbols[orde] !== 'undefined')) {
+              var symbol = symbols[orde];
+            } else {
+              symbol = 'square_white';
+            }
+            if (klooster_config.filter.includes(orde)) {
+              // hide
+            }
+            me.styleCache[uq] = new Style({
+              image: new Icon({
+                scale: iconscale,
+                src: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbol + iconExt,
+                opacity: 0.80
               }),
-              offsetY: 25,
-              text: resolution < labelResolutionLevel ? naam : ''
-            })
-          });
+              text: new Text({
+                font: '14px Calibri,sans-serif',
+                fill: new Fill({color: '#000'}),
+                stroke: new Stroke({
+                  color: '#fff', width: 2
+                }),
+                offsetY: 25,
+                text: resolution < labelResolutionLevel ? naam : ''
+              })
+            });
+          } else {
+            me.styleCache[uq] = new Style({
+              image: new CircleStyle({
+                fill: new Fill({
+                  color: '#ff0000'
+                }),
+                radius: 8 * Math.sqrt(Math.sqrt(num)),
+                stroke: new Stroke({
+                  color: '#fff',
+                  width: 1
+                })
+              }),
+              text: new Text({
+                font: '14px Calibri,sans-serif',
+                fill: new Fill({color: '#fff'}),
+                offsetY: 0,
+                text: num.toString()
+              }),
+            });
+          }
           return [me.styleCache[uq]];
         }
       },

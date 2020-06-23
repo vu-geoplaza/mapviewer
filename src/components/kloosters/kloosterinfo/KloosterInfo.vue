@@ -101,7 +101,7 @@
         };
         let me = this;
         const language = this.$config.klooster.language;
-        const skip = ['foto', 'FO', 'id', 'photo_url', 'kl_url', 'photo_caption']; // fields left out of the table
+        const skip = ['foto', 'FO', 'id', 'photo_url', 'kl_url', 'photo_caption', 'type']; // fields left out of the table
         let paramstring = 'id=' + id + '&type=' + type + '&year=' + year + '&language=' + language;
         axios.get(this.$config.klooster.info_url + '?' + paramstring).then(result => {
           const data = result.data.features[0].properties;
