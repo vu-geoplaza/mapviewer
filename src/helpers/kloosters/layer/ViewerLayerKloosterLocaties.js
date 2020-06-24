@@ -27,9 +27,6 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
         dataProjection: 'EPSG:4326',
         featureProjection: Vue.prototype.$config.crs
       });
-      for (var i = 0, len = features.length; i < len; i++) {
-        features[i].setId(features[i].get("klooster_id"));
-      }
       source.addFeatures(features);
     };
     let source = new VectorSource({
@@ -67,7 +64,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
           me.styleCache[uq] =
             new Style({
               image: new Icon({
-                scale: Math.sqrt(Math.sqrt(num)),
+                scale: 1 + (0.2 * Math.log(num)),
                 src: me.legend_img,
                 opacity: 0.80
               }),
