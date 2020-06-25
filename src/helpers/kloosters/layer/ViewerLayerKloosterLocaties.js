@@ -27,9 +27,6 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
         dataProjection: 'EPSG:4326',
         featureProjection: Vue.prototype.$config.crs
       });
-      for (var i = 0, len = features.length; i < len; i++) {
-        features[i].setId(features[i].get("klooster_id"));
-      }
       source.addFeatures(features);
     };
     let source = new VectorSource({
@@ -49,15 +46,12 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
       source: source
     });
 
-
     return new VectorLayer({
       source: clusterSource,
       style: function (feature, resolution) {
         const name = me.name;
-        const language = klooster_config.language;
         const features = feature.get('features');
         const num = features.length;
-        const label = name + ': ' + features[0].get('id');
 
         let uq = name + num;
         var style = me.styleCache[uq];
