@@ -61,7 +61,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
           me.styleCache[uq] =
             new Style({
               image: new Icon({
-                scale: Math.sqrt(Math.sqrt(num)),
+                scale: 1 + (0.2 * Math.log(num)),
                 src: me.legend_img,
                 opacity: 0.80
               }),

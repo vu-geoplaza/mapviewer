@@ -29,7 +29,7 @@
             }
         },
         methods: {
-            geoLocate: function() {
+            geoLocate: function() { //Shouldn't this be moved to the Map.vue component?
                 this.showspinner=true;
                 let centered=false;
                 let view=this.map.getView();

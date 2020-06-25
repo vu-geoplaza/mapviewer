@@ -128,7 +128,6 @@
                     regel_index++;
                 }
                 this.showoverlay=false;
-                //this.$forceUpdate();
             },
             regel_select: function (index) {
                 console.log(this.regels[index]);
@@ -143,7 +142,7 @@
                     }
                 }
                 console.log('update filter');
-                SharedEventBus.$emit('change-vector-data');
+                SharedEventBus.$emit('reload-vector-data');
             }
         }
     }
