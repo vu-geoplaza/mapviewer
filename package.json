@@ -21,6 +21,7 @@
     "bootstrap-vue": "^2.15.0",
     "compression-webpack-plugin": "^3.1.0",
     "jquery": "^3.5.1",
+    "mobile-device-detect": "^0.4.3",
     "ol": ">6.0.0",
     "proj4": "^2.6.2",
     "uuid": "^3.4.0",
