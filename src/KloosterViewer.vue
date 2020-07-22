@@ -18,6 +18,7 @@
     <KloosterList v-if="title === 'Kloosterkaart'"/>
     <KloosterInfo />
     <InfoModal />
+    <DownloadModal />
   </b-container>
 </template>
 
@@ -32,6 +33,7 @@
   import InfoModal from "./components/gpz/infomodal/InfoModal";
   import KloosterMapMode from "@/components/kloosters/kloostermapmode/KloosterMapMode";
   import LayerSwitcher from "@/components/shared/layerswitcher/LayerSwitcher";
+  import DownloadModal from "@/components/kloosters/downloadmodal/DownloadModal";
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
@@ -46,6 +48,7 @@
       KloosterInfo,
       KloosterList,
       InfoModal,
+      DownloadModal,
       KloosterMapMode,
       LayerSwitcher
     },

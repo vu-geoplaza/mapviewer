@@ -21,6 +21,9 @@
       <b-navbar-nav v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'">
         <b-nav-item v-b-modal.kloosterlistmodal>list</b-nav-item>
       </b-navbar-nav>
+      <b-navbar-nav v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'">
+        <b-nav-item v-b-modal.downloadmodal>download</b-nav-item>
+      </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <LanguageSwitcher v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'"/>
         <GeoLocation/>
@@ -41,10 +44,11 @@
   import LanguageSwitcher from "@/components/kloosters/languageswitcher/LanguageSwitcher";
   import KloosterList from "@/components/kloosters/kloosterlist/KloosterList";
   import GeoLocation from "@/components/shared/geolocation/GeoLocation";
+  import DownloadModal from "@/components/kloosters/downloadmodal/DownloadModal";
 
   export default {
     name: "NavBar",
-    components: {LanguageSwitcher, BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver, InfoModal, KloosterList, GeoLocation},
+    components: {LanguageSwitcher, BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver, InfoModal, KloosterList, GeoLocation, DownloadModal},
     mounted() {
       this.set_title()
     },
