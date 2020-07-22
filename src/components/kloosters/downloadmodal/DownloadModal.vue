@@ -42,21 +42,6 @@
             today: new Date().toJSON().slice(0,10),
             current_url: window.location
           }
-        },
-        methods: {
-        savedata() {
-          const data=ViewerDataHelper.olmapToConfigData(this.map);
-          data.title = this.$config.title;
-          data.url = this.$config.url;
-          var config = JSON.stringify(data, null, 2);
-          var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(config);
-          var downloadAnchorNode = document.createElement('a');
-          downloadAnchorNode.setAttribute("href", dataStr);
-          downloadAnchorNode.setAttribute("download", "gpz_map.json");
-          document.body.appendChild(downloadAnchorNode); // required for firefox
-          downloadAnchorNode.click();
-          downloadAnchorNode.remove();
-        }
       }
     }
 </script>
