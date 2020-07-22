@@ -10,11 +10,11 @@
         <b-nav-item v-b-modal.infomodal>info</b-nav-item>
         <b-nav-item v-if="admminmode" v-b-modal.servicemodal>add service</b-nav-item>
         <FileSaver v-if="admminmode" />
-        <b-nav-item  v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'" v-b-modal.kloosterlistmodal>view list</b-nav-item>
-        <b-nav-item  v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'" v-b-modal.downloadmodal>download</b-nav-item>
+        <b-nav-item  v-if="showList" v-b-modal.kloosterlistmodal>view list</b-nav-item>
+        <b-nav-item  v-if="showDownload" v-b-modal.downloadmodal>download</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
-        <LanguageSwitcher v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'"/>
+        <LanguageSwitcher v-if="showLanguage"/>
         <GeoLocation/>
       </b-navbar-nav>
     </b-collapse>
@@ -46,14 +46,21 @@
         admminmode: this.$adminmode,
         title: '',
         href: '#',
-        brand: false
+        brand: false,
+        showList: false,
+        showDownload: false,
+        showLanguage: false,
       }
     },
     methods: {
       set_title() {
         if (typeof this.$config.title !== 'undefined' || this.$config.title == '') {
           this.title = this.$config.title;
-          //alert(this.title);
+          if (this.title.includes('Klooster')>-1){
+            this.showList=true;
+            this.showDownload=true;
+            this.showLanguage=true;
+          }
           this.brand = true;
         }
         if (typeof this.$config.url !== 'undefined' || this.$config.url == '') {

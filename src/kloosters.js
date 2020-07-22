@@ -42,7 +42,8 @@ if (typeof getParam('mode') === 'string') {
 }
 if (mode === 'all') {
   config.readJSON({
-    title: 'Kloosterlocaties',
+    title: 'VU Geoplaza Kloosterlocaties',
+    url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
     bbox: [
       2.946307507057729,
       50.53321086134227,
@@ -84,7 +85,8 @@ if (mode === 'all') {
   });
 } else {
   config.readJSON({
-    title: 'Kloosterkaart',
+    title: 'VU Geoplaza Kloosterkaart',
+    url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
     bbox: [
       2.946307507057729,
       50.53321086134227,

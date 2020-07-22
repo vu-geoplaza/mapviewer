@@ -29,7 +29,7 @@
                 title: '',
                 subtitle: '',
                 items: [],
-                language: this.$config.klooster.language // list of klooster names
+                language: this.$config.klooster.language, // list of klooster names
             }
         },
         mounted: function () {
@@ -80,6 +80,7 @@
                       }
                     });
                 });
+                this.title=this.title + ' (' +  me.items.length + ')';
                 me.items.sort(compare);
             },
             selectKlooster: function (geom) {
