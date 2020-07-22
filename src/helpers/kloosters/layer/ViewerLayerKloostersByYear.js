@@ -13,6 +13,7 @@ import Vue from 'vue'
 import {SharedEventBus} from "@/shared";
 import Cluster from "ol/source/Cluster";
 import CircleStyle from "ol/style/Circle";
+import { isMobile } from 'mobile-device-detect';
 
 class ViewerLayerKloostersByYear extends ViewerLayer {
 
@@ -66,8 +67,12 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
         }
       }
     });
+    let clusterDistance=0;
+    if (isMobile){
+      clusterDistance=15; //mostly because mobile devices are slower
+    }
     let clusterSource = new Cluster({
-      distance: 15,
+      distance: clusterDistance,
       source: source
     });
 
@@ -98,7 +103,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
           return [style];
         } else {
           if (num==1) {
-            var iconscale = 1;
+            var iconscale = 0.8;
             if ((typeof symbols[orde] !== 'undefined')) {
               var symbol = symbols[orde];
             } else {
@@ -129,7 +134,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
                 fill: new Fill({
                   color: '#ff0000'
                 }),
-                radius: 8 * Math.sqrt(Math.sqrt(num)),
+                radius: 7 * Math.sqrt(Math.sqrt(num)),
                 stroke: new Stroke({
                   color: '#fff',
                   width: 1
