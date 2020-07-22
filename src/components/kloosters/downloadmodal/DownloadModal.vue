@@ -4,16 +4,17 @@
       <b-col md="12">
         <p>Nederlands</p>
         <ul>
-          <li><a v-bind:href="url + 'format=json&year=' + year">Kloosters in {{ year }}</a></li>
-          <li><a v-bind:href="url_all + 'type=kloosters&language=nl'">Alle Kloosterlokaties</a></li>
-          <li><a v-bind:href="url_all + 'type=kapittels&language=nl'">Kapittels</a></li>
-          <li><a v-bind:href="url_all + 'type=uithoven&language=nl'">Uithoven</a></li>
+          <li><a v-bind:href="url + 'type=kloosters_by_year&language=nl&year=' + year">Kloosters in {{ year }}</a></li>
+          <li><a v-bind:href="url + 'type=kloosters&language=nl'">Alle Kloosterlokaties</a></li>
+          <li><a v-bind:href="url + 'type=kapittels&language=nl'">Kapittels</a></li>
+          <li><a v-bind:href="url + 'type=uithoven&language=nl'">Uithoven</a></li>
         </ul>
         <p>English</p>
         <ul>
-          <li><a v-bind:href="url_all + 'type=kloosters&language=en'">All Monastery locations</a></li>
-          <li><a v-bind:href="url_all + 'type=kapittels&language=en'">Collegiate Churches</a></li>
-          <li><a v-bind:href="url_all + 'type=uithoven&language=en'">Granges and Refuges</a></li>
+          <li><a v-bind:href="url + 'type=kloosters_by_year&language=en&year=' + year">Monasteries in {{ year }}</a></li>
+          <li><a v-bind:href="url + 'type=kloosters&language=en'">All Monastery locations</a></li>
+          <li><a v-bind:href="url + 'type=kapittels&language=en'">Collegiate Churches</a></li>
+          <li><a v-bind:href="url + 'type=uithoven&language=en'">Granges and Refuges</a></li>
         </ul>
         <p>All downloads are in GeoJSON format.</p>
         <p><b>Please use the following attribution:<br></b>
@@ -36,7 +37,6 @@
         name: "DownloadModal",
         data: function () {
           return {
-            url_all: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/download.php?',
             url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/downloadGeoJSON.php?',
             year: this.$config.klooster.year_start,
             today: new Date().toJSON().slice(0,10),
