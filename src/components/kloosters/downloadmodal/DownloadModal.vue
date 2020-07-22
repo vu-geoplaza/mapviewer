@@ -1,5 +1,5 @@
 <template>
-  <b-modal ref="downloadmodal" id="downloadmodal" size="lg" title="Download data">
+  <b-modal ref="downloadmodal" id="downloadmodal" ok-only size="lg" title="Download data">
     <b-row>
       <b-col md="12">
         <p>Nederlands</p>
@@ -15,8 +15,17 @@
           <li><a v-bind:href="url_all + 'type=kapittels&language=en'">Collegiate Churches</a></li>
           <li><a v-bind:href="url_all + 'type=uithoven&language=en'">Granges and Refuges</a></li>
         </ul>
-        <p><b>Attribution:<br></b>
+        <p>All downloads are in GeoJSON format.</p>
+        <p><b>Please use the following attribution:<br></b>
           Goudriaan, K. (2017). <i>Kloosterkaart en Kloosterlijst <span class='year'></span></i> [Data set]. Retrieved on {{ today }}, from {{ current_url }}</p>
+        <p></p>
+        <hr>
+        <p>
+          <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png"></a><br>
+          This work is licensed
+          under a <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons
+          Attribution-NonCommercial 4.0 International License</a>
+        </p>
       </b-col>
     </b-row>
   </b-modal>

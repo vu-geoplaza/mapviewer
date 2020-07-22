@@ -1,28 +1,17 @@
 <template>
   <b-navbar toggleable="md" type="dark" variant="info">
-
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
     <b-navbar-brand v-if="brand" :href="href">{{ title }}</b-navbar-brand>
-
     <b-collapse is-nav id="nav_collapse">
-      <ProjectionSwitcher/>
-      <BaseLayerSwitcher/>
-      <FitExtent/>
       <b-navbar-nav>
+        <ProjectionSwitcher/>
+        <BaseLayerSwitcher/>
+        <FitExtent/>
         <b-nav-item v-b-modal.infomodal>info</b-nav-item>
-      </b-navbar-nav>
-      <b-navbar-nav v-if="admminmode">
-        <b-nav-item v-b-modal.servicemodal>add service</b-nav-item>
-      </b-navbar-nav>
-      <b-navbar-nav v-if="admminmode">
-        <FileSaver/>
-      </b-navbar-nav>
-      <b-navbar-nav v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'">
-        <b-nav-item v-b-modal.kloosterlistmodal>list</b-nav-item>
-      </b-navbar-nav>
-      <b-navbar-nav v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'">
-        <b-nav-item v-b-modal.downloadmodal>download</b-nav-item>
+        <b-nav-item v-if="admminmode" v-b-modal.servicemodal>add service</b-nav-item>
+        <FileSaver v-if="admminmode" />
+        <b-nav-item  v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'" v-b-modal.kloosterlistmodal>view list</b-nav-item>
+        <b-nav-item  v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'" v-b-modal.downloadmodal>download</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <LanguageSwitcher v-if="title === 'Kloosterkaart'||title === 'Kloosterlocaties'"/>
@@ -76,7 +65,14 @@
   }
 </script>
 
-<style scoped>
-
+<style>
+  .nav-item:not(:first-child) {
+    border-left: 1px dotted white;
+    border-bottom: none;
+  }
+  .show .nav-item {
+    border-left: none;
+    border-bottom: 1px dotted white;
+  }
 </style>
 
