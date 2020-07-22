@@ -56,10 +56,12 @@
       set_title() {
         if (typeof this.$config.title !== 'undefined' || this.$config.title == '') {
           this.title = this.$config.title;
-          if (this.title.includes('Klooster')>-1){
-            this.showList=true;
+          if (this.$kloosterkaartmode==='all'||this.$kloosterkaartmode==='by_year'){
             this.showDownload=true;
             this.showLanguage=true;
+          }
+          if (this.$kloosterkaartmode==='by_year') {
+            this.showList = true;
           }
           this.brand = true;
         }

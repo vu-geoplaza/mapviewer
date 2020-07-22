@@ -4,18 +4,18 @@
       <OlMap/>
     </div>
     <NavBar/>
-    <b-row class="main-row" v-if="title === 'Kloosterkaart'">
+    <b-row class="main-row" v-if="mode==='by_year'">
       <b-col md="4" lg="3">
         <LegendFilter/>
       </b-col>
     </b-row>
-    <b-row class="main-row" v-if="title === 'Kloosterlocaties'">
+    <b-row class="main-row" v-if="mode==='all'">
       <b-col md="4" lg="3">
         <LayerSwitcher/>
       </b-col>
     </b-row>
-    <YearFilter v-if="title === 'Kloosterkaart'"/>
-    <KloosterList v-if="title === 'Kloosterkaart'"/>
+    <YearFilter v-if="mode==='by_year'"/>
+    <KloosterList v-if="mode==='by_year'"/>
     <KloosterInfo />
     <InfoModal />
     <DownloadModal />
@@ -37,7 +37,7 @@
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
-      console.log('app mounted')
+      console.log('app mounted');
     },
     name: 'KloosterViewer',
     components: {
@@ -55,8 +55,9 @@
     data() {
       return {
         title: this.$config.title,
+        mode: this.$kloosterkaartmode
       }
-    },
+    }
   }
 </script>
 <style>

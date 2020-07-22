@@ -40,6 +40,7 @@ if (typeof getParam('mode') === 'string') {
     mode = 'all';
   }
 }
+Vue.prototype.$kloosterkaartmode=mode;
 if (mode === 'all') {
   config.readJSON({
     title: 'VU Geoplaza Kloosterlocaties',

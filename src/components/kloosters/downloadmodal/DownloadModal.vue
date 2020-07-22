@@ -2,14 +2,14 @@
   <b-modal ref="downloadmodal" id="downloadmodal" ok-only size="lg" title="Download data">
     <b-row>
       <b-col md="12">
-        <p>Nederlands</p>
+        <h4>Beschrijvingen in het Nederlands</h4>
         <ul>
           <li><a v-bind:href="url + 'type=kloosters_by_year&language=nl&year=' + year">Kloosters in {{ year }}</a></li>
           <li><a v-bind:href="url + 'type=kloosters&language=nl'">Alle Kloosterlokaties</a></li>
           <li><a v-bind:href="url + 'type=kapittels&language=nl'">Kapittels</a></li>
           <li><a v-bind:href="url + 'type=uithoven&language=nl'">Uithoven</a></li>
         </ul>
-        <p>English</p>
+        <h4>Descriptions in English</h4>
         <ul>
           <li><a v-bind:href="url + 'type=kloosters_by_year&language=en&year=' + year">Monasteries in {{ year }}</a></li>
           <li><a v-bind:href="url + 'type=kloosters&language=en'">All Monastery locations</a></li>
