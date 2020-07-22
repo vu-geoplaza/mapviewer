@@ -39,7 +39,8 @@
     name: "NavBar",
     components: {LanguageSwitcher, BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver, InfoModal, KloosterList, GeoLocation, DownloadModal},
     mounted() {
-      this.set_title()
+      this.set_title();
+      this.set_custom();
     },
     data() {
       return {
@@ -56,18 +57,20 @@
       set_title() {
         if (typeof this.$config.title !== 'undefined' || this.$config.title == '') {
           this.title = this.$config.title;
-          if (this.$kloosterkaartmode==='all'||this.$kloosterkaartmode==='by_year'){
-            this.showDownload=true;
-            this.showLanguage=true;
-          }
-          if (this.$kloosterkaartmode==='by_year') {
-            this.showList = true;
-          }
           this.brand = true;
         }
         if (typeof this.$config.url !== 'undefined' || this.$config.url == '') {
           this.href = this.$config.url;
           //alert(this.url);
+        }
+      },
+      set_custom() {
+        if (this.$kloosterkaartmode==='all'||this.$kloosterkaartmode==='by_year'){
+          this.showDownload=true;
+          this.showLanguage=true;
+        }
+        if (this.$kloosterkaartmode==='by_year') {
+          this.showList = true;
         }
       }
     }
