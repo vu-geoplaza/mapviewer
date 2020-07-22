@@ -25,6 +25,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
     let klooster_config = Vue.prototype.$config.klooster;
     let me = this;
     let vectorReader=function(data){
+      console.log('***** vectorReader');
       let format = new GeoJSON;
       let features = format.readFeatures(data, {
         dataProjection: 'EPSG:4326',
@@ -89,7 +90,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
 
         var uq = num;
         if (num==1) {
-          uq = orde+resolution;
+          uq = orde + resolution;
         }
 
         var style = me.styleCache[uq];
