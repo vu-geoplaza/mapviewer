@@ -9,7 +9,7 @@
         <b-list-group horizontal="md" flush v-model="items">
           <b-list-group-item v-for="(item, index) in items" v-bind:key="index" href="#"
                              @click="selectKlooster(item.geom)">
-            {{ item.label }}
+            <b-img :src="item.image"/>&nbsp;{{ item.label }}
           </b-list-group-item>
         </b-list-group>
       </b-col>
@@ -20,6 +20,7 @@
 <script>
     import {SharedEventBus} from "@/shared";
     import {Mapable} from "@/mixins/mapable";
+    import {symbols, symbolsCat} from "@/helpers/kloosters/KloosterSymbols";
 
     export default {
         name: "KloosterList",
@@ -73,10 +74,16 @@
                 let me = this;
                 features.forEach(function (cluster) {
                     cluster.get('features').forEach(function(feature){
+                      const orde=feature.get('ordenaam');
+                      let symbol = 'square_white';
+                      if ((typeof symbols[orde] !== 'undefined')) {
+                        symbol = symbols[orde];
+                      }
+                      const image='https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbol + '.svg'
                       if (me.$config.klooster.language === 'en') {
-                        me.items.push({label: feature.get('name_en'), geom: feature.getGeometry()});
+                        me.items.push({label: feature.get('name_en'), geom: feature.getGeometry(), image: image});
                       } else {
-                        me.items.push({label: feature.get('name_nl'), geom: feature.getGeometry()});
+                        me.items.push({label: feature.get('name_nl'), geom: feature.getGeometry(), image: image});
                       }
                     });
                 });
