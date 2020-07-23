@@ -66,6 +66,7 @@
             this.init();
             var me = this;
             SharedEventBus.$on('kloostersource-loaded', () => {
+                console.log('update legend');
                 me.present(this.$config.klooster.data.geojson.features);
                 me.changed = !me.changed;
                 me.$forceUpdate(); // todo: should be posible without a forceupdate

@@ -1,7 +1,7 @@
 <template>
   <b-list-group-item class="p-1">
     <b-card-header header-tag="header" class="p-2" v-bind:class="{ dim: !regel.present }">
-      <b-btn v-b-toggle="'regelcard' + index" variant="info" class="regelbutton" v-on:click="regel_select(index)">
+      <b-btn v-b-toggle="'regelcard' + index" variant="info" class="regelbutton">
         <span v-if="language === 'nl'">{{ regel.nl }}</span>
         <span v-if="language === 'en'">{{ regel.en }}</span>
       </b-btn>
