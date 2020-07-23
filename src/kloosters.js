@@ -20,6 +20,7 @@ function getParam(name) {
 function init(config) {
   Vue.prototype.$adminmode = false;
   Vue.prototype.$config = config; // might it be wiser to just use a global variable for this?
+  document.title=config.title;
 
   /* eslint-disable no-new */
   new Vue({
