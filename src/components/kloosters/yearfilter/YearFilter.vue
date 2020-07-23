@@ -1,7 +1,7 @@
 <template>
   <div class="yearfilter fixed-bottom">
     <vue-slider
-      v-on:drag-end="changeYear(value)"
+      v-on:change="changeYear(value)"
       :min="min"
       :max="max"
       :interval="interval"
@@ -27,7 +27,8 @@
       return {
         slideoptions: {
           tooltip: 'always',
-          clickable: false,
+          clickable: true,
+          lazy: true //keep lazy to avoid fetching data while dragging
         },
         value: this.$config.klooster.year_start,
         interval: 1,
