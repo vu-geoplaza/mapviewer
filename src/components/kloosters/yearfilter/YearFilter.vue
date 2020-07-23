@@ -7,7 +7,7 @@
       :interval="interval"
       v-model="value"
       v-bind="slideoptions"
-      :formatter="year_str + ': {value}'"
+      :tooltip-formatter="year_str + ': {value}'"
       >
     </vue-slider>
   </div>
@@ -15,11 +15,12 @@
 
 <script>
     import {SharedEventBus} from '@/shared';
-    import vueSlider from "vue-slider-component";
+    import VueSlider from "vue-slider-component";
+    import 'vue-slider-component/theme/default.css';
 
     export default {
       components: {
-        vueSlider
+        VueSlider
       },
         name: "YearFilter",
     data() {
