@@ -5,24 +5,23 @@
         <span v-if="language === 'nl'">{{ regel.nl }}</span>
         <span v-if="language === 'en'">{{ regel.en }}</span>
       </b-btn>
+      <input type="checkbox" v-model="regel.selected" :id="'checkbox' + index" @change="regel_selectparent(index, regels)"/>
     </b-card-header>
-    <b-collapse :id="'regelcard' + index" v-model="regel.selected">
+    <b-collapse visible :id="'regelcard' + index">
       <b-list-group class="row-fluid">
-        <slot />
+        <slot/>
       </b-list-group>
     </b-collapse>
   </b-list-group-item>
 </template>
 
 <script>
-  import {SharedEventBus} from "@/shared";
-  import OrdeItem from "@/components/kloosters/legendfilter/OrdeItem";
   export default {
     name: "RegelItem",
     props: ['regel', 'index', 'language', 'regels', 'regel_selectparent'],
     methods: {
-      regel_select: function(index) {
-        this.regel_selectparent(index);
+      regel_select: function (index, regels) {
+        this.$parent.$options.methods.regel_select(index, regels)
       }
     }
   }
@@ -38,9 +37,16 @@
   .dim {
     opacity: 0.5;
   }
+
   .regelbutton {
-    width: 100%;
+
+    padding: 2px;
+    font-size: 0.9em;
+    width: -webkit-calc(100% - 20px);
+    width: -moz-calc(100% - 20px);
+    width: calc(100% - 20px);
   }
+
 
 
 </style>

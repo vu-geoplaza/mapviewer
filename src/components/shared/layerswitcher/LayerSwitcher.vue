@@ -90,6 +90,7 @@
         handler: function (val, oldVal) {
           if (!this.init) { // don't run on initializing the switcher itself, might mess up the order when asynchronously adding layers
             console.log('items handler tripped');
+            console.log(val);
             var zindex = 100;
             for (const item of val) {
               const l = this.map.getLayerByLid(item.id); // or bind the layer object to the switcher?

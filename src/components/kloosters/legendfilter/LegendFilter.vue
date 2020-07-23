@@ -129,18 +129,19 @@
                 }
                 this.showoverlay=false;
             },
-            regel_select: function (index) {
-                console.log(this.regels[index]);
-                this.regels[index].selected = !this.regels[index].selected;
+            regel_select: function (index, regels) {
+                console.log('in parent regel_select with index: ' + index);
+                console.log(this.regels[index]); // why the fuck is this undefined???? 'this' is an 'input' object??
                 this.$config.klooster.filter = [];
-                for (let i = 0; i < this.regels.length; i++) {
-                    for (let j = 0; j < this.regels[i].orde_index.length; j++) {
-                        let orde_index = this.regels[i].orde_index[j];
-                        if (this.regels[i].selected) {
+                for (let i = 0; i < regels.length; i++) {
+                    for (let j = 0; j < regels[i].orde_index.length; j++) {
+                        let orde_index = regels[i].orde_index[j];
+                        if (regels[i].selected) {
                             this.$config.klooster.filter.push(this.orden[orde_index].nl);
                         }
                     }
                 }
+                this.regels=regels;
                 console.log('update filter');
                 SharedEventBus.$emit('reload-vector-data');
             }

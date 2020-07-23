@@ -4,7 +4,7 @@
       v-on:change="changeYear(value)"
       :min="min"
       :max="max"
-      :height=10
+      :height=15
       :interval="interval"
       :marks="marks"
       v-model="value"
@@ -30,6 +30,7 @@
         slideoptions: {
           tooltip: 'always',
           clickable: true,
+          process: false,
           lazy: true //keep lazy to avoid fetching data while dragging
         },
         value: this.$config.klooster.year_start,
@@ -70,5 +71,14 @@
 <style>
   .vue-slider-mark-label {
     font-weight: bolder;
+    font-size: 0.8em;
+  }
+  .vue-slider-mark-step {
+    background-color: white;
+    opacity: 0.5;
+  }
+  .vue-slider-rail, .vue-slider-dot-tooltip, .vue-slider-dot-tooltip-inner {
+    border-color: #17a2b8;
+    background-color: #17a2b8;
   }
 </style>
