@@ -4,7 +4,9 @@
       v-on:change="changeYear(value)"
       :min="min"
       :max="max"
+      :height=10
       :interval="interval"
+      :marks="marks"
       v-model="value"
       v-bind="slideoptions"
       :tooltip-formatter="year_str + ': {value}'"
@@ -34,6 +36,7 @@
         interval: 1,
         min: 700,
         max: 1800,
+        marks: [700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800],
         year_str: 'Year',
         language: this.$config.klooster.language
       }
@@ -64,6 +67,8 @@
     }
 </script>
 
-<style scoped>
-
+<style>
+  .vue-slider-mark-label {
+    font-weight: bolder;
+  }
 </style>

@@ -80,7 +80,8 @@
     left: 0px;
   }
   #app .yearfilter {
-    bottom: 30px;
+    bottom: 55px;
+    margin: 0px 20px 0px 20px;
   }
   #app .main-row {
     position: relative;
