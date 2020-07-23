@@ -91,7 +91,11 @@
                     nearest: true
                 });
             }, 200);
-
+            this.map.on('pointermove', evt => {
+                if (!evt.dragging) {
+                    this.map.getTargetElement().style.cursor = this.map.hasFeatureAtPixel(this.map.getEventPixel(evt.originalEvent)) ? 'pointer' : '';
+                }
+            });
         },
         created() {
             console.log('map created');
