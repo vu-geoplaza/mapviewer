@@ -6,11 +6,11 @@
       <b-navbar-nav>
         <BaseLayerSwitcher/>
         <FitExtent/>
-        <b-nav-item v-b-modal.infomodal>info</b-nav-item>
+        <b-nav-item v-if="showInfo" v-b-modal.infomodal>info</b-nav-item>
+        <b-nav-item v-if="showKloosterList" v-b-modal.kloosterlistmodal>view list</b-nav-item>
+        <b-nav-item v-if="showKloosterDownload" v-b-modal.downloadmodal>download</b-nav-item>
         <b-nav-item v-if="admminmode" v-b-modal.servicemodal>add service</b-nav-item>
-        <FileSaver v-if="admminmode" />
-        <b-nav-item  v-if="showList" v-b-modal.kloosterlistmodal>view list</b-nav-item>
-        <b-nav-item  v-if="showDownload" v-b-modal.downloadmodal>download</b-nav-item>
+        <FileSaver v-if="admminmode"/>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <LanguageSwitcher v-if="showLanguage"/>
@@ -35,7 +35,17 @@
 
   export default {
     name: "NavBar",
-    components: {LanguageSwitcher, BaseLayerSwitcher, FitExtent, FileLoader, FileSaver, InfoModal, KloosterList, GeoLocation, DownloadModal},
+    components: {
+      LanguageSwitcher,
+      BaseLayerSwitcher,
+      FitExtent,
+      FileLoader,
+      FileSaver,
+      InfoModal,
+      KloosterList,
+      GeoLocation,
+      DownloadModal
+    },
     mounted() {
       this.set_title();
       this.set_custom();
@@ -46,9 +56,10 @@
         title: '',
         href: '#',
         brand: false,
-        showList: false,
-        showDownload: false,
-        showLanguage: false,
+        showInfo: true,
+        showKloosterList: true,
+        showKloosterDownload: true,
+        showLanguage: true,
       }
     },
     methods: {
@@ -63,12 +74,19 @@
         }
       },
       set_custom() {
-        if (this.$kloosterkaartmode==='all'||this.$kloosterkaartmode==='by_year'){
-          this.showDownload=true;
-          this.showLanguage=true;
+        if (this.$kloosterkaartmode === 'all' || this.$kloosterkaartmode === 'by_year') {
+          this.showKloosterDownload = true;
+          this.showLanguage = true;
+          this.showInfo = false;
+        } else {
+          this.showKloosterDownload = false;
+          this.showLanguage = false;
+          this.showInfo = true;
         }
-        if (this.$kloosterkaartmode==='by_year') {
-          this.showList = true;
+        if (this.$kloosterkaartmode === 'by_year') {
+          this.showKloosterList = true;
+        } else {
+          this.showKloosterList = false;
         }
       }
     }
@@ -80,6 +98,7 @@
     border-left: 1px dotted white;
     border-bottom: none;
   }
+
   .show .nav-item {
     border-left: none;
     border-bottom: 1px dotted white;
