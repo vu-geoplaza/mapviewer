@@ -62,7 +62,6 @@
       },
       watch: {
         value: function (val) {
-          //console.log(val);
         }
       },
     }

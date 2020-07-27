@@ -26,7 +26,6 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
     let klooster_config = Vue.prototype.$config.klooster;
     let me = this;
     let vectorReader=function(data){
-      console.log('***** vectorReader');
       let format = new GeoJSON;
       let features = format.readFeatures(data, {
         dataProjection: 'EPSG:4326',
@@ -44,7 +43,6 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
     };
     let source= new VectorSource({
       loader: function () {
-        console.log('***** vectorloader');
         let params={
           filter: [],
           begin: klooster_config.year_start,

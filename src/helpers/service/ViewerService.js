@@ -21,13 +21,11 @@ class ViewerService {
   layers = [];
 
   constructor(config) {
-    console.log(config);
     if (config.type) this.type = config.type;
     if (config.url) this.url = config.url;
     if (config.layers) {
       this.setLayers(config.layers);
     }
-    console.log(this);
   };
 
   /**

@@ -24,7 +24,6 @@
                 }
                 const view = this.map.getView();
                 let extent = toplayer.get('extent_lonlat');
-                console.log(extent);
                 if (extent !== null) {
                     view.fit(transformExtent(extent, 'EPSG:4326', view.getProjection()), this.map.getSize());
                 } else {

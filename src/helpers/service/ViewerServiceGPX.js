@@ -11,7 +11,6 @@ class ViewerServiceGPX extends ViewerService {
       const layers = [];
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(response.data, "text/xml");
-      console.log('xmlDoc.getElementsByTagName("bounds")');
       let extent = null;
       if (xmlDoc.getElementsByTagName("bounds").length > 0) {
         const bounds = xmlDoc.getElementsByTagName("bounds")[0];

@@ -82,7 +82,6 @@
             // resize the map, so it fits to parent
             console.log('map mounted');
             window.setTimeout(() => {
-                console.log('set target');
                 var div = document.getElementById('ol-map-container');
                 this.map.setTarget(div);
                 // fit to view
@@ -154,7 +153,6 @@
             addLayers(config) {
                 var me = this;
                 for (const service of config.services) {
-                    console.log(service);
                     service.getInstance(config.crs).then(function (serviceData) {
                         for (const layer of serviceData.layers) {
                             console.log('add layer ' + layer.title);

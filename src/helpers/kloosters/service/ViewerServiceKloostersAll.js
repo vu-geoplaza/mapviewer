@@ -6,13 +6,10 @@ import {ALLOWED_VIEWER_CRS} from "@/shared"
 class ViewerServiceKloostersAll extends ViewerService {
   constructor(props) {
     super(props);
-    console.log("props");
-    console.log(props);
     this.klooster_options = props.klooster_options;
   };
 
   async getCapabilities() {
-    console.log('get klooster capabilities')
     const layers = [];
     const extent = [
       -1.86027801047121,

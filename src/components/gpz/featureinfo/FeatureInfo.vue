@@ -43,7 +43,6 @@
         var me = this;
         // bind an onclick for the featureInfo
         this.map.on('singleclick', function (evt) {
-          console.log(evt);
           me.getFeatureInfo(evt.coordinate, evt.pixel);
         });
       },

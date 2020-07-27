@@ -31,9 +31,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
     };
     let source = new VectorSource({
       loader: function () {
-        console.log('***** vectorloader' + me.name);
         return axios.get(url + '?name=' + me.name).then(function (response) {
-          console.log('response finished');
           vectorReader(response.data);
         }).catch(function (error) {
           console.error(error);

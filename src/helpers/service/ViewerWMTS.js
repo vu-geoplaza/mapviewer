@@ -43,8 +43,6 @@ class ViewerWMTS extends ViewerService {
           }));
         }
       }
-      console.log('return get capabilities');
-      console.log(layers);
       return layers;
     });
   };

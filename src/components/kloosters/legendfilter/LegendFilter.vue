@@ -131,7 +131,6 @@
                 this.showoverlay=false;
             },
             regel_select: function (index, regels) {
-                console.log('in parent regel_select with index: ' + index);
                 console.log(this.regels[index]); // why the fuck is this undefined???? 'this' is an 'input' object??
                 this.$config.klooster.filter = [];
                 for (let i = 0; i < regels.length; i++) {
