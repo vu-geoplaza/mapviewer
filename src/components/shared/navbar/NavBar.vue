@@ -4,7 +4,6 @@
     <b-navbar-brand v-if="brand" :href="href" target="_blank">{{ title }}</b-navbar-brand>
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav>
-        <ProjectionSwitcher/>
         <BaseLayerSwitcher/>
         <FitExtent/>
         <b-nav-item v-b-modal.infomodal>info</b-nav-item>
@@ -24,7 +23,6 @@
 </template>
 
 <script>
-  import ProjectionSwitcher from "@/components/shared/projectionswitcher/ProjectionSwitcher";
   import FitExtent from '../fitextent/FitExtent'
   import FileLoader from '@/components/gpz/file/FileLoader'
   import FileSaver from '@/components/gpz/file/FileSaver'
@@ -37,7 +35,7 @@
 
   export default {
     name: "NavBar",
-    components: {LanguageSwitcher, BaseLayerSwitcher, ProjectionSwitcher, FitExtent, FileLoader, FileSaver, InfoModal, KloosterList, GeoLocation, DownloadModal},
+    components: {LanguageSwitcher, BaseLayerSwitcher, FitExtent, FileLoader, FileSaver, InfoModal, KloosterList, GeoLocation, DownloadModal},
     mounted() {
       this.set_title();
       this.set_custom();

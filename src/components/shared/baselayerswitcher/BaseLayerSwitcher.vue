@@ -8,13 +8,15 @@
 </template>
 
 <script>
-  import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
+  import {Mapable} from '@/mixins/mapable.js';
+  import {SharedEventBus} from "@/shared"; // makes the OL map object available to the component
   export default {
     name: "BaseLayerSwitcher",
     mixins: [Mapable],
     data() {
       return {
-        items: []
+        items: [],
+        active_projection: ''
       }
     },
     methods: {
@@ -26,13 +28,14 @@
           me.initSwitcher(me.map.getView().getProjection().getCode());
         });
         //switch it if there is a preferred baselayer
-          // Otherwise you will get the default visibility set in ViewerBaseLayers
+        // Otherwise you will get the default visibility set in ViewerBaseLayers
         if (me.$config.baselayer!==''){
           me.switchBaseLayer(me.$config.baselayer);
         }
       },
       initSwitcher() {
         const items=[]
+        let active_projection = '';
         console.log('init baselayer switcher');
         var layers = this.map.getLayers();
         layers.forEach(function (layer) {
@@ -40,20 +43,29 @@
             let active=false;
             if (layer.getVisible()){
               active=true;
+              active_projection=layer.get('projcode');
             }
             items.push({
                 active: active,
                 code: layer.get('code'),
-                name: layer.get('name')
+                name: layer.get('name'),
+                projcode: layer.get('projcode')
               })
           }
         });
         this.items=items;
+        this.active_projection = active_projection;
       },
       switchBaseLayer: function (code) {
+        let me=this;
         this.map.getLayers().forEach(function (layer) {
           if (layer.get('type') === 'base') {
             if (layer.get('code') === code) {
+              const crs=layer.get('projcode');
+              if (crs!==me.active_projection){
+                me.active_projection=crs;
+                SharedEventBus.$emit('change-projection', crs);
+              }
               layer.setVisible(true);
             } else {
               layer.setVisible(false);

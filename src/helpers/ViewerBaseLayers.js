@@ -20,6 +20,7 @@ export function BingRoad(){
     type: 'base',
     name: 'Bing Road',
     code: "broad",
+    projcode: 'EPSG:3857',
     zIndex: 1,
     visible: false,
     preload: Infinity,
@@ -37,6 +38,7 @@ export function OSMstandardOrg() {
     source: new OSM(),
     type: 'base',
     code: 'osm',
+    projcode: 'EPSG:3857',
     name: 'OpenStreetMap standard',
     zIndex: 1
   })
@@ -52,6 +54,7 @@ export function OSMstandard() {
     }),
     type: 'base',
     code: 'osm',
+    projcode: 'EPSG:3857',
     name: 'OpenStreetMap standard',
     zIndex: 1
   })
@@ -63,6 +66,7 @@ export function CartoLight() {
     type: 'base',
     name: 'Carto-light',
     code: 'light',
+    projcode: 'EPSG:3857',
     zIndex: 1,
     visible: false,
     source: new XYZ({
@@ -79,6 +83,7 @@ export function OpenTopo() {
     type: 'base',
     name: 'OpenTopo',
     code: 'opentopo',
+    projcode: 'EPSG:28992',
     zIndex: 1,
     visible: false,
     source: new XYZ({
@@ -108,6 +113,7 @@ export function BRT() {
     opacity: 1.0,
     zIndex: 1,
     code: 'brt',
+    projcode: 'EPSG:28992',
     name: 'BRT Achtergrondkaart',
     source: new WMTS({
       attributions: 'Kaartgegevens: &copy; <a href="https://www.kadaster.nl">Kadaster</a>',
@@ -146,6 +152,7 @@ export function Luchtfoto() {
     zIndex: 1,
     visible: false,
     code: 'lucht',
+    projcode: 'EPSG:28992',
     name: 'Luchtfoto 25cm',
     source: new WMTS({
       attributions: 'Kaartgegevens: &copy; <a href="https://www.kadaster.nl">Kadaster</a>',
@@ -172,6 +179,7 @@ export function base4326() {
     zIndex: 1,
     type: 'base',
     code: 'aho',
+    projcode: 'EPSG:4326',
     name: 'ahocevar geospatial',
     source: new TileWMS({
       url: 'https://ahocevar.com/geoserver/wms',

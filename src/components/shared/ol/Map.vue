@@ -126,10 +126,8 @@
                 this.addLayers(config);
 
             },
-
             reProject: function (crs) {
                 console.log('reproject to ' + crs);
-                this.removeBaseLayers();
                 const curview = this.map.getView(this.map.getSize());
                 const extent = transformExtent(curview.calculateExtent(), curview.getProjection().getCode(), crs);
                 const view = new View({
@@ -138,7 +136,6 @@
                 view.fit(extent, {size: this.map.getSize(), nearest: true});
                 this.clearVectorLayers();
                 this.map.setView(view);
-                this.setBaseLayers(crs);
             },
             clearVectorLayers() {
                 var layers = this.map.getLayers();
@@ -181,17 +178,15 @@
             },
             setBaseLayers(crs) {
                 console.log('set base layer');
-                if (crs === 'EPSG:3857') {
                     this.map.addLayer(OSMstandard());
                     this.map.addLayer(CartoLight());
                     this.map.addLayer(BingRoad());
+
                     this.map.addLayer(OpenTopo());
-                } else if (crs === 'EPSG:28992') {
                     this.map.addLayer(BRT());
                     this.map.addLayer(Luchtfoto());
-                } else if (crs === 'EPSG:4326') {
+
                     this.map.addLayer(base4326());
-                }
             },
             removeBaseLayers() {
                 const layers = this.map.getLayers();
