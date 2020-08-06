@@ -21,7 +21,7 @@ import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
 Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
-
+Vue.prototype.$nomenu = false;
 // Admin mode adds add services and Save config options to the viewer
 const adminmode = document.getElementById("gpz").dataset.adminmode;
 

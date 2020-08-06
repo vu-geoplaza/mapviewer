@@ -20,8 +20,8 @@ function getParam(name) {
 function init(config) {
   Vue.prototype.$adminmode = false;
   Vue.prototype.$config = config; // might it be wiser to just use a global variable for this?
+  console.log(config);
   document.title=config.title;
-
   /* eslint-disable no-new */
   new Vue({
     el: '#gpz',
@@ -29,12 +29,22 @@ function init(config) {
     template: '<KloosterViewer/>'
   });
 }
+Vue.prototype.$nomenu = false;
 
 let mode = 'by_year';
+let id = 'U01';
 let config = new KloosterConfig(); // default settings
+
+if (typeof getParam('nomenu') === 'string') {
+  Vue.prototype.$nomenu = true;
+}
 if (typeof getParam('year') === 'string') {
   config.klooster.year_start = parseInt(getParam('year'));
   config.klooster.year_end = config.klooster.year_start;
+}
+if (typeof getParam('id') === 'string') {
+  mode = 'single';
+  config.klooster.id = getParam('id');
 }
 if (typeof getParam('mode') === 'string') {
   if (getParam('mode') === 'all') {
@@ -85,6 +95,31 @@ if (mode === 'all') {
       ]
     }]
   });
+} else if (mode == 'single') {
+  config.readJSON({
+    title: 'VU Geoplaza Kloosterkaart',
+    url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
+    bbox: [
+      2.946307507057729,
+      50.53321086134227,
+      7.708880749245228,
+      53.84820079687907
+    ],
+    crs: "EPSG:3857",
+    baselayer: "light",
+    services: [{
+      url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getGeoJSONAll.php?name=single',
+      type: 'kloosters_single',
+      layers: [{
+        "id": "kloosters_single",
+        "title": "kloosters_single",
+        "label": "kloosters_single",
+        "visible": true,
+        "opacity": 1.0,
+        "zindex": 93
+      }]
+    }]
+  });
 } else {
   config.readJSON({
     title: 'VU Geoplaza Kloosterkaart',
@@ -112,3 +147,4 @@ if (mode === 'all') {
   });
 }
 init(config);
+

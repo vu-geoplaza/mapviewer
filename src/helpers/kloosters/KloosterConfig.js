@@ -9,6 +9,7 @@ class KloosterConfig extends  ViewerConfig {
     selected_id: '',
     year_start: 1300,
     year_end: 1300,
+    id: '',
     data: {
       year_start: 0,
       year_end: 0,

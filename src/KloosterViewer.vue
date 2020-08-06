@@ -3,7 +3,7 @@
     <div id="ol-map-container" ref="gpzmap">
       <OlMap/>
     </div>
-    <NavBar/>
+    <NavBar v-show="!nomenu"/>
     <b-row class="main-row" v-if="mode==='by_year'">
       <b-col md="4" lg="3">
         <LegendFilter/>
@@ -55,7 +55,8 @@
     data() {
       return {
         title: this.$config.title,
-        mode: this.$kloosterkaartmode
+        mode: this.$kloosterkaartmode,
+        nomenu: this.$nomenu
       }
     }
   }

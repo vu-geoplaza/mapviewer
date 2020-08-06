@@ -5,10 +5,19 @@
 <script>
     import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
     import {transformExtent} from "ol/proj";
+    import {SharedEventBus} from "@/shared";
 
     export default {
         name: "FitExtent",
         mixins: [Mapable],
+        mounted()  {
+        const me = this;
+        // Some events triggered by the Vue app:
+        SharedEventBus.$on('force-fit', function () {
+          console.log('force-fit');
+          me.zoomExtent();
+        });
+      },
         methods: {
             zoomExtent() {
                 const a = this.map.getLayers().getArray();
@@ -23,12 +32,11 @@
                     }
                 }
                 const view = this.map.getView();
-                let extent = toplayer.get('extent_lonlat');
-                if (extent !== null) {
-                    view.fit(transformExtent(extent, 'EPSG:4326', view.getProjection()), this.map.getSize());
-                } else {
-                    view.fit(toplayer.getSource().getExtent(), this.map.getSize());
+                let extent = toplayer.getSource().getExtent();
+                if (extent == null) {
+                  let extent=transformExtent(toplayer.get('extent_lonlat'), 'EPSG:4326', view.getProjection())
                 }
+                view.fit(extent, { size: this.map.getSize(), padding: [80, 80, 80, 80], maxZoom: 17});
             }
         }
     }

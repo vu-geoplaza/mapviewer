@@ -10,9 +10,9 @@
         <b-col md="12">
 
           <b-tabs>
-            <b-tab :key="index" :title="item.title" class="scroll" v-for="(item, index) in items">
+            <b-tab lazy :key="index" :title="item.title" class="scroll" v-for="(item, index) in items">
               <b-row align-h="center">
-                <b-link v-bind:href="item.kl_url" target="_blank" center>Kloosterlijst Website</b-link>
+                <b-link v-bind:href="item.kl_url" target="_blank" center>{{ t[2] }}</b-link>
               </b-row>
               <b-row>
                 <b-img v-bind:src="item.photo_url" fluid rounded center alt=" "
@@ -29,6 +29,16 @@
                   <span v-html="data.value"></span>
                 </template>
               </b-table>
+              <b-row>
+                <b-col>
+                <b>{{ t[0] }}</b>
+                <b-embed
+                  type="iframe"
+                  v-bind:src="item.map_url"
+                ></b-embed>
+                </b-col>
+              </b-row>
+
             </b-tab>
           </b-tabs>
 
@@ -49,6 +59,7 @@
       return {
         title: 'Info',
         items: [],
+        t: [],
         showoverlay: true
       }
     },
@@ -101,6 +112,10 @@
         };
         let me = this;
         const language = this.$config.klooster.language;
+
+        for (var i = 0, len = lang.length; i < len; i++) {
+          this.t[i] = lang[i][language]
+        }
         const skip = ['foto', 'FO', 'id', 'photo_url', 'kl_url', 'photo_caption', 'type']; // fields left out of the table
         let paramstring = 'id=' + id + '&type=' + type + '&year=' + year + '&language=' + language;
         axios.get(this.$config.klooster.info_url + '?' + paramstring).then(result => {
@@ -114,6 +129,7 @@
             }
             item.title = data['type'];
             item.title = item.title + ' ' + id;
+            item.map_url = 'index.html?id='+id+'&nomenu=t';
           }
           me.addItem(item);
         }, error => {

@@ -6,6 +6,7 @@ import ViewerServiceGPX from "./service/ViewerServiceGPX";
 import ViewerServiceGeoJSON from "./service/ViewerServiceGeoJSON";
 import ViewerServiceKloostersByYear from "./kloosters/service/ViewerServiceKloostersByYear";
 import ViewerServiceKloostersAll from "./kloosters/service/ViewerServiceKloostersAll";
+import ViewerServiceKloostersSingle from "./kloosters/service/ViewerServiceKloostersSingle";
 
 class ViewerConfig {
   title = '';
@@ -48,6 +49,7 @@ class ViewerConfig {
     if (service_config.type === 'geojson') return new ViewerServiceGeoJSON(service_config);
     if (service_config.type === 'kloosters_by_year') return new ViewerServiceKloostersByYear(service_config);
     if (service_config.type === 'kloosters_all') return new ViewerServiceKloostersAll(service_config);
+    if (service_config.type === 'kloosters_single') return new ViewerServiceKloostersSingle(service_config);
   }
 }
 
