@@ -29,7 +29,7 @@
                   <span v-html="data.value"></span>
                 </template>
               </b-table>
-              <b-row>
+              <b-row v-if="item.type=='klooster'">
                 <b-col>
                 <b>{{ t[0] }}</b>
                 <b-embed
@@ -127,6 +127,7 @@
             if (!skip.includes(key)) {
               item.rows.push({key: '<b>' + key + '</b>', value: data[key]});
             }
+            item.type = data['type'];
             item.title = data['type'];
             item.title = item.title + ' ' + id;
             item.map_url = 'index.html?id='+id+'&nomenu=t';
