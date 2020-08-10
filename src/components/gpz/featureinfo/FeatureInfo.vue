@@ -62,7 +62,7 @@
           if (layer.get('type') === 'wms') {
             if (layer.getVisible()) {
               // get source from layer
-              let url = layer.getSource().getGetFeatureInfoUrl(
+              let url = layer.getSource().getFeatureInfoUrl(
                 coordinate, viewResolution, viewProjection,
                 {'INFO_FORMAT': 'text/html'});
               if (proxied){
