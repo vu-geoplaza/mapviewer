@@ -2,7 +2,7 @@ import ViewerConfig from "@/helpers/ViewerConfig";
 
 class KloosterConfig extends  ViewerConfig {
   klooster = {
-    language: "en",
+    language: 'nl',
     //"filter": ['benedictijnen', 'benedictinessen'],
     filter: [],
     info_url: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/resources/getKloosterInfo3.php',

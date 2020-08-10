@@ -51,6 +51,11 @@ if (typeof getParam('mode') === 'string') {
     mode = 'all';
   }
 }
+if (typeof getParam('language') === 'string') {
+  if (getParam('language')=='en'){
+    config.klooster.language = 'en';
+  }
+}
 Vue.prototype.$kloosterkaartmode=mode;
 if (mode === 'all') {
   config.readJSON({

@@ -7,10 +7,12 @@ import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
 import Fill from "ol/style/Fill";
 import Stroke from "ol/style/Stroke";
+import Circle from "ol/style/Circle";
 import Text from "ol/style/Text";
 import axios from 'axios';
 import Vue from 'vue'
 import {SharedEventBus} from "@/shared";
+import {lang} from '@/helpers/kloosters/lang.js';
 
 class ViewerLayerKloosterSingle extends ViewerLayer {
 
@@ -54,17 +56,28 @@ class ViewerLayerKloosterSingle extends ViewerLayer {
         const features = feature.get('features');
         const type = features[0].get('type');
         let image='https://geoplaza.vu.nl/projects/kloosters/svg/circle_m_0.svg';
-
+        let color = 'blue';
         let years=[];
-        let label = ''
+        let label = '';
         if (type=='uithof'){
+          color = 'green';
           image='https://geoplaza.vu.nl/projects/kloosters/svg/house.svg';
-          label = type;
+          if (klooster_config.language=="en") {
+            label = lang[3]['en'];
+          } else {
+            label = lang[3]['nl'];
+          }
         } else {
           for (feature of features){
-            years.unshift(feature.get('val'));
+            if (feature.get('type')=='klooster'){
+              years.unshift(feature.get('val'));
+            }
           }
-          label = 'from' + years.join(' & from');
+          if (klooster_config.language=="en") {
+            label = 'from ' + years.join(' & from ');
+          } else {
+            label = 'vanaf ' + years.join(' & vanaf ');
+          }
         }
 
         let uq = label;
@@ -74,10 +87,10 @@ class ViewerLayerKloosterSingle extends ViewerLayer {
         } else {
           me.styleCache[uq] =
             new Style({
-              image: new Icon({
-                scale: 1,
-                src: image,
-                opacity: 0.80
+              image: new Circle({
+                radius: 6,
+                snapToPixel: false,
+                fill: new Fill({color: color}),
               }),
               text: new Text({
                 font: '14px Calibri,sans-serif',

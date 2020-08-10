@@ -130,7 +130,7 @@
             item.type = data['type'];
             item.title = data['type'];
             item.title = item.title + ' ' + id;
-            item.map_url = 'index.html?id='+id+'&nomenu=t';
+            item.map_url = 'index.html?id='+id+'&nomenu=t&language='+language;
           }
           me.addItem(item);
         }, error => {

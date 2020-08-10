@@ -60,7 +60,6 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
             vectorReader(response.data)
           }).catch(function (error) {
             console.error(error);
-            document.getElementById("gpz").innerHTML = "<h4>Could not load data: " + error.message + "</h4>";
           });
         }
       }
