@@ -112,7 +112,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
             me.styleCache[uq] = new Style({
               image: new Icon({
                 scale: iconscale,
-                src: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbol + iconExt,
+                src: 'https://geoplaza.vu.nl/projects/kloosters_dev/svg/' + symbol + iconExt,
                 opacity: 0.80
               }),
               text: new Text({

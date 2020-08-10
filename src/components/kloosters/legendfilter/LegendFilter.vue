@@ -121,7 +121,7 @@
                             nl: orde,
                             en: symbolsCat.data[regel][orde].en,
                             present: false,
-                            symbol: 'https://geoplaza.labs.vu.nl/projects/kloosters_dev/svg/' + symbolsCat.data[regel][orde].symbol + '.svg',
+                            symbol: 'https://geoplaza.vu.nl/projects/kloosters_dev/svg/' + symbolsCat.data[regel][orde].symbol + '.svg',
                             selected: true
                         };
                         orde_index++;

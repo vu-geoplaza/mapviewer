@@ -4,15 +4,14 @@ import VectorSource from "ol/source/Vector";
 import Cluster from "ol/source/Cluster"
 import GeoJSON from "ol/format/GeoJSON";
 import Style from "ol/style/Style";
-import Icon from "ol/style/Icon";
 import Fill from "ol/style/Fill";
 import Stroke from "ol/style/Stroke";
-import Circle from "ol/style/Circle";
 import Text from "ol/style/Text";
 import axios from 'axios';
 import Vue from 'vue'
 import {SharedEventBus} from "@/shared";
 import {lang} from '@/helpers/kloosters/lang.js';
+import RegularShape from "ol/style/RegularShape";
 
 class ViewerLayerKloosterSingle extends ViewerLayer {
 
@@ -87,10 +86,16 @@ class ViewerLayerKloosterSingle extends ViewerLayer {
         } else {
           me.styleCache[uq] =
             new Style({
-              image: new Circle({
-                radius: 6,
-                snapToPixel: false,
-                fill: new Fill({color: color}),
+              image: new RegularShape({
+                radius: 8,
+                points: 4,
+                angle: Math.PI / 4,
+                stroke: new Stroke({
+                  color: '#606060'
+                }),
+                fill: new Fill({
+                  color: color
+                }),
               }),
               text: new Text({
                 font: '14px Calibri,sans-serif',
