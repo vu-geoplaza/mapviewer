@@ -59,7 +59,7 @@
         showInfo: true,
         showKloosterList: true,
         showKloosterDownload: true,
-        showLanguage: true,
+        showLanguage: false,
       }
     },
     methods: {
