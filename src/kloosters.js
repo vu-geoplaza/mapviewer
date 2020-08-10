@@ -70,7 +70,7 @@ if (mode === 'all') {
     crs: "EPSG:3857",
     baselayer: "light",
     services: [{
-      url: 'https://geoplaza.vu.nl/projects/kloosters_dev/resources/getGeoJSONAll.php',
+      url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php',
       type: 'kloosters_all',
       layers: [
         {
@@ -113,7 +113,7 @@ if (mode === 'all') {
     crs: "EPSG:3857",
     baselayer: "light",
     services: [{
-      url: 'https://geoplaza.vu.nl/projects/kloosters_dev/resources/getGeoJSONAll.php?name=single',
+      url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php?name=single',
       type: 'kloosters_single',
       layers: [{
         "id": "kloosters_single",
@@ -138,7 +138,7 @@ if (mode === 'all') {
     crs: "EPSG:3857",
     baselayer: "light",
     services: [{
-      url: 'https://geoplaza.vu.nl/projects/kloosters_dev/resources/getGeoJSON2.php',
+      url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONYear.php',
       type: 'kloosters_by_year',
       layers: [{
         "id": "kloosters_by_year",

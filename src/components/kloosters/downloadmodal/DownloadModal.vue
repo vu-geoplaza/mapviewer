@@ -43,7 +43,7 @@
     name: "DownloadModal",
     data: function () {
       return {
-        url: 'https://geoplaza.vu.nl/projects/kloosters_dev/resources/downloadGeoJSON.php?',
+        url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/downloadGeoJSON.php?',
         year: this.$config.klooster.year_start,
         today: new Date().toJSON().slice(0, 10),
         current_url: window.location
