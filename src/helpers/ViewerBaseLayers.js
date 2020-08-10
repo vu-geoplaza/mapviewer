@@ -38,6 +38,7 @@ export function OSMstandardOrg() {
     code: 'osm',
     projcode: 'EPSG:3857',
     name: 'OpenStreetMap standard',
+    visible: false,
     zIndex: 1
   })
 }
@@ -45,7 +46,7 @@ export function OSMstandardOrg() {
 export function OSMstandard() {
   return new TileLayer({
     preload: Infinity,
-    visible: true,
+    visible: false,
     source: new XYZ({
       url: 'https://gpzmaps.labs.vu.nl/osm/{z}/{x}/{y}.png',
       attributions: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -107,7 +108,7 @@ export function BRT() {
   return new TileLayer({
     preload: Infinity,
     type: 'base',
-    visible: true,
+    visible: false,
     opacity: 1.0,
     zIndex: 1,
     code: 'brt',
@@ -175,6 +176,7 @@ export function base4326() {
   return new TileLayer({
     preload: Infinity,
     zIndex: 1,
+    visible: false,
     type: 'base',
     code: 'aho',
     projcode: 'EPSG:4326',

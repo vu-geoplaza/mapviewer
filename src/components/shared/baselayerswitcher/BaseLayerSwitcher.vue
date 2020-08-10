@@ -27,11 +27,8 @@
         me.map.getLayers().on('change:length', function () {
           me.initSwitcher(me.map.getView().getProjection().getCode());
         });
-        //switch it if there is a preferred baselayer
-        // Otherwise you will get the default visibility set in ViewerBaseLayers
-        if (me.$config.baselayer!==''){
-          me.switchBaseLayer(me.$config.baselayer);
-        }
+        //switch to preferred baselayer (should always be set).
+        me.switchBaseLayer(me.$config.baselayer);
       },
       initSwitcher() {
         const items=[]
@@ -57,6 +54,7 @@
         this.active_projection = active_projection;
       },
       switchBaseLayer: function (code) {
+        this.$config.baselayer=code;
         let me=this;
         this.map.getLayers().forEach(function (layer) {
           if (layer.get('type') === 'base') {
