@@ -33,7 +33,11 @@ class ViewerConfig {
     } else if (this.crs=='EPSG:28992') {
       this.baselayer = 'aho';
     }
-    if (json.available_crs) this.available_crs = json.available_crs;
+    if (json.available_crs) {
+      this.available_crs = json.available_crs;
+    } else {
+      this.available_crs = [this.crs];
+    };
     if (json.baselayer) this.baselayer = json.baselayer;
     if (json.bbox) this.bbox = json.bbox;
     if (json.title) this.title = json.title;
