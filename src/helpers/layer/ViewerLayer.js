@@ -79,7 +79,11 @@ class ViewerLayer {
     if (config.visible) this.visible = config.visible;
     if (config.zindex) this.zindex = config.zindex;
     if (config.extent_lonlat) this.extent_lonlat = config.extent_lonlat;
-    if (config.available_crs) this.available_crs = config.available_crs;
+    if (config.available_crs) {
+      this.available_crs = config.available_crs;
+    } else {
+      this.available_crs = [config.crs];
+    }
     if (config.options) this.options = config.options;
     if (config.legend_img) this.legend_img = config.legend_img;
   };

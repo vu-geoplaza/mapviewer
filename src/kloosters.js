@@ -67,6 +67,7 @@ if (mode === 'all') {
       53.84820079687907
     ],
     crs: "EPSG:3857",
+    available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
     baselayer: "light",
     services: [{
       url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php',
@@ -110,6 +111,7 @@ if (mode === 'all') {
       53.84820079687907
     ],
     crs: "EPSG:3857",
+    available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
     baselayer: "light",
     services: [{
       url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php?name=single',
@@ -135,6 +137,7 @@ if (mode === 'all') {
       53.84820079687907
     ],
     crs: "EPSG:3857",
+    available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
     baselayer: "light",
     services: [{
       url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONYear.php',

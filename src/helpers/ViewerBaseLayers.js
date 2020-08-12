@@ -30,6 +30,23 @@ export function BingRoad(){
   })
 }
 
+export function BingAerial(){
+  return new TileLayer({
+    type: 'base',
+    name: 'Bing Aerial',
+    code: "baerial",
+    projcode: 'EPSG:3857',
+    zIndex: 1,
+    visible: false,
+    preload: Infinity,
+    source: new BingMaps({
+      key: BingApiKey,
+      imagerySet: 'Aerial',
+      maxZoom: 19
+    })
+  })
+}
+
 export function OSMstandardOrg() {
   return new TileLayer({
     preload: Infinity,
