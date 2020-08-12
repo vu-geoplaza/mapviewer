@@ -1,50 +1,53 @@
 <template>
 
-    <b-container id="app" fluid>
-      <div id="ol-map-container" ref="gpzmap"><GpzMap /></div>
-      <NavBar />
-      <b-row class="main-row">
-        <b-col md="4" lg="3">
-          <LayerSwitcher/>
-        </b-col>
-      </b-row>
+  <b-container id="app" fluid>
+    <div id="ol-map-container" ref="gpzmap">
+      <OlMap/>
+    </div>
+    <NavBar/>
+    <b-row class="main-row">
+      <b-col md="4" lg="3">
+        <LayerSwitcher/>
+      </b-col>
+    </b-row>
 
-      <b-row align-v="end">
-        <b-col class="rb-col p-0" offset-md="6" md="6">
-          <FeatureInfo/>
-        </b-col>
-      </b-row>
+    <b-row align-v="end">
+      <b-col class="rb-col p-0" offset-md="6" md="6">
+        <FeatureInfo/>
+      </b-col>
+    </b-row>
 
-      <!--<FileLoader />-->
-      <ServiceLoader />
-      <InfoModal />
-    </b-container>
+    <!--<FileLoader />-->
+    <ServiceLoader/>
+    <InfoModal/>
+  </b-container>
 </template>
 
 <script>
-  import LayerSwitcher from './components/layerswitcher/LayerSwitcher'
-  import GpzMap from './components/ol/Map'
-  import { GpzEventBus } from './main.js'
-  import FeatureInfo from "./components/featureinfo/FeatureInfo";
-  import NavBar from "./components/navbar/NavBar";
-  import ServiceLoader from "./components/serviceloader/ServiceLoader";
-  import InfoModal from "./components/infomodal/InfoModal";
+    import LayerSwitcher from './components/shared/layerswitcher/LayerSwitcher'
+    import OlMap from './components/shared/ol/Map'
+    import {SharedEventBus} from './shared'
+    import FeatureInfo from "./components/gpz/featureinfo/FeatureInfo";
+    import NavBar from "./components/shared/navbar/NavBar";
+    import ServiceLoader from "./components/gpz/serviceloader/ServiceLoader";
+    import InfoModal from "./components/gpz/infomodal/InfoModal";
+    import GeoLocation from "./components/shared/geolocation/GeoLocation";
 
-  export default {
-    mounted: function () {
-      GpzEventBus.$emit('app-mounted');
-      console.log('app mounted')
-    },
-    name: 'GpzViewer',
-    components: {
-      InfoModal,
-      ServiceLoader,
-      NavBar,
-      FeatureInfo,
-      LayerSwitcher,
-      GpzMap
-    },
-  }
+    export default {
+        mounted: function () {
+            SharedEventBus.$emit('app-mounted');
+            console.log('app mounted')
+        },
+        name: 'GpzViewer',
+        components: {
+            InfoModal,
+            ServiceLoader,
+            NavBar,
+            FeatureInfo,
+            LayerSwitcher,
+            OlMap
+        },
+    }
 </script>
 <style>
   @import '../node_modules/bootstrap/dist/css/bootstrap.css';
@@ -66,11 +69,13 @@
     top: 0px;
     left: 0px;
   }
+
   #app .main-row {
     position: relative;
     top: 0;
     height: 0px;
   }
+
   #app .container {
     max-width: 100%;
   }

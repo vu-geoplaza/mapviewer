@@ -3,7 +3,7 @@ import TileLayer from "ol/layer/Tile";
 import TileWMS from "ol/source/TileWMS";
 
 class ViewerLayerWMS extends ViewerLayer {
-  OLLayer(url,crs) {
+  OLLayer(url) {
     return new TileLayer({
       source: new TileWMS({
         url: url,

@@ -36,13 +36,13 @@ class ViewerWMS extends ViewerService {
         return [];
       }
     });
-  };
+  }
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
       this.layers.push(new ViewerLayerWMS(l));
     }
-  };
+  }
 }
 
 // get Capabilities returns all layers then merge them in service

@@ -1,34 +1,33 @@
 class ViewerService {
-  /**
-   * The type of service (e.g. wms, wmts, kml, etc.)
-   *
-   * @type {string}
-   */
-  type = '';
-
-  /**
-   * The URL of the service endpoint or the data file
-   *
-   * @type {string}
-   */
-  url = '';
-
-  /**
-   * The layers this service provides
-   *
-   * @type {Array}
-   */
-  layers = [];
 
   constructor(config) {
-    console.log(config);
+    /**
+     * The type of service (e.g. wms, wmts, kml, etc.)
+     *
+     * @type {string}
+     */
+    this.type = '';
+
+    /**
+     * The URL of the service endpoint or the data file
+     *
+     * @type {string}
+     */
+    this.url = '';
+
+    /**
+     * The layers this service provides
+     *
+     * @type {Array}
+     */
+    this.layers = [];
+
     if (config.type) this.type = config.type;
     if (config.url) this.url = config.url;
     if (config.layers) {
       this.setLayers(config.layers);
     }
-    console.log(this);
-  };
+  }
 
   /**
    * Taking a ViewerService object get all layer properties from the service endpoint/datafile
@@ -39,7 +38,7 @@ class ViewerService {
   async getInstance(crs) {
     var me = this;
     console.log('get service instance wtih crs: ' + crs);
-    var service = await this.getCapabilities().then(function (clayers) {
+    await this.getCapabilities().then(function (clayers) {
       if (me.layers.length > 0) {
         me.layers = me.mergeLayers(me.layers, clayers);
       } else {
@@ -60,7 +59,7 @@ class ViewerService {
       return me;
     });
     return me;
-  };
+  }
 
   /**
    * Retrieve all layers from the Service Url/data file
@@ -70,15 +69,15 @@ class ViewerService {
   async getCapabilities() {
     // gets overwritten in all the subclasses;
     return [];
-  };
+  }
   /**
    * Set layer properties from config
    *
    * @param layers
    */
-  setLayers(layers) {
+  setLayers() {
     // gets overwritten in all the subclasses;
-  };
+  }
 
   /**
    * Merge the layers array retrieved by getCapabilities with the layers array of the config.
@@ -105,7 +104,7 @@ class ViewerService {
       }
     }
     return complayers;
-  };
+  }
 
   /**
    * Given 2 arrays of Objects with a property 'title' this returns 2 arrays:

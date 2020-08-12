@@ -1,7 +1,7 @@
 import ViewerService from "./ViewerService";
 import axios from 'axios';
 import ViewerLayerGPX from "../layer/ViewerLayerGPX";
-import {ALLOWED_VIEWER_CRS} from "@/main"
+import {ALLOWED_VIEWER_CRS} from "@/shared"
 
 // static/kloosters_1200.kml
 class ViewerServiceGPX extends ViewerService {
@@ -11,7 +11,6 @@ class ViewerServiceGPX extends ViewerService {
       const layers = [];
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(response.data, "text/xml");
-      console.log('xmlDoc.getElementsByTagName("bounds")');
       let extent = null;
       if (xmlDoc.getElementsByTagName("bounds").length > 0) {
         const bounds = xmlDoc.getElementsByTagName("bounds")[0];
@@ -32,14 +31,14 @@ class ViewerServiceGPX extends ViewerService {
       // maybe try to construct a legend here? or calculate the extent
       return layers;
     });
-  };
+  }
 
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
       this.layers.push(new ViewerLayerGPX(l));
     }
-  };
+  }
 }
 
 export default ViewerServiceGPX;

@@ -4,7 +4,7 @@ import VectorSource from "ol/source/Vector";
 import KML from "ol/format/KML";
 
 class ViewerLayerKML extends ViewerLayer {
-  OLLayer(url,crs) {
+  OLLayer(url) {
     return new VectorLayer({
       source: new VectorSource({
         url: url,

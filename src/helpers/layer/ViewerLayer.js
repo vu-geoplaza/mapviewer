@@ -1,71 +1,21 @@
-const uuidv4 = require('uuid/v4');
+//const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 class ViewerLayer {
-  /**
-   * @type {string}
-   */
-  id = uuidv4();
-
-  /**
-   * @type {string}
-   */
-  title = '';
-
-  /**
-   * @type {string}
-   */
-  name = '';
-
-  /**
-   * @type {string}
-   */
-  label = '';
-
-  /**
-   * @type {number}
-   */
-  opacity = 0.8;
-
-  /**
-   * @type {boolean}
-   */
-  visible = false;
-
-  /**
-   * @type {number}
-   */
-  zindex = null;
-
-  // Will be set by capabilities parser:
-
-  /**
-   * @type {Array}
-   */
-  extent_lonlat = null;
-
-  /**
-   * @type {string}
-   */
-  legend_img = '';
-
-  /**
-   * @type {Array}
-   */
-  available_crs = [];
-
-  /**
-   * WMTS Layer options
-   *
-   * @type {Object}
-   */
-  options = null;
-
-  /**
-   * @type {OL.layer Object}
-   */
-  ol = null;
-
   constructor(config) {
+    this.id = uuidv4();
+    this.idtitle = '';
+    this.idname = '';
+    this.idlabel = '';
+    this.idopacity = 0.8;
+    this.idvisible = false;
+    this.idzindex = null;
+    this.idextent_lonlat = null;
+    this.idlegend_img = '';
+    this.idavailable_crs = [];
+    this.idoptions = null;
+    this.idol = null;
+
     if (config.id) this.id=  config.id;
     if (config.title) this.title = config.title;
     if (config.name) this.name = config.name;
@@ -78,28 +28,24 @@ class ViewerLayer {
     if (config.visible) this.visible = config.visible;
     if (config.zindex) this.zindex = config.zindex;
     if (config.extent_lonlat) this.extent_lonlat = config.extent_lonlat;
-    if (config.available_crs) this.available_crs = config.available_crs;
+    if (config.available_crs) {
+      this.available_crs = config.available_crs;
+    } else {
+      this.available_crs = [config.crs];
+    }
     if (config.options) this.options = config.options;
     if (config.legend_img) this.legend_img = config.legend_img;
-  };
+  }
   setOL(url, crs) {
     const ollayer=this.OLLayer(url, crs);
     if (ollayer) {
       this.ol=ollayer;
       this.setCustomOLValues();
-      /*
-      if (this.extent_lonlat === null){
-        // just gets infinity on a gpx layer
-        const extent=this.ol.getSource().getExtent();
-        console.log(extent);
-        this.ol.set('extent_lonlat',extent);
-      }
-      */
       return true;
     } else {
       return false;
     }
-  };
+  }
 
   /**
    * Set this.ollayer property
@@ -108,7 +54,7 @@ class ViewerLayer {
    * @param crs @type {string}
    * @returns {boolean, ol.layer Object}
    */
-  OLLayer(url, crs){
+  OLLayer(){
     return false;
   }
 

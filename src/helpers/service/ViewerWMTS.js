@@ -3,7 +3,7 @@ import WMTSCapabilities from "ol/format/WMTSCapabilities";
 import {optionsFromCapabilities} from "ol/source/WMTS";
 import ViewerLayerWMTS from "../layer/ViewerLayerWMTS";
 import axios from 'axios';
-import {ALLOWED_VIEWER_CRS} from "@/main"
+import {ALLOWED_VIEWER_CRS} from "@/shared"
 
 
 class ViewerWMTS extends ViewerService {
@@ -43,18 +43,16 @@ class ViewerWMTS extends ViewerService {
           }));
         }
       }
-      console.log('return get capabilities');
-      console.log(layers);
       return layers;
     });
-  };
+  }
 
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
       this.layers.push(new ViewerLayerWMTS(l));
     }
-  };
+  }
 }
 
 export default ViewerWMTS;
