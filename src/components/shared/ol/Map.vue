@@ -12,6 +12,7 @@
   import {transformExtent} from "ol/proj";
   import View from "ol/View";
   import VectorLayer from "ol/layer/Vector";
+  import Cluster from "ol/source/Cluster"
   import BaseLayerSwitcher from "../baselayerswitcher/BaseLayerSwitcher";
 
   // Add a simple extension to enable layer lookup by layer id
@@ -141,11 +142,10 @@
         layers.forEach(function (layer) {
           if (layer instanceof VectorLayer) { // should set a generic vector/tile type
             const source = layer.getSource();
-            if (!source.getSource()) {
-              source.refresh();
-            } else { // Cluster
+            if (source instanceof Cluster) {
               source.getSource().refresh();
-
+            } else { // Cluster
+              source.refresh();
             }
           }
         });
@@ -173,24 +173,20 @@
           }
         }
         this.map.available_crs = new_arr;
+
       },
       addBaseLayers(available_crs) {
         console.log('add base layers');
-        if (available_crs.includes('EPSG:3857')) {
           this.map.addLayer(OSMstandard());
           this.map.addLayer(CartoLight());
           this.map.addLayer(BingRoad());
           this.map.addLayer(BingAerial());
-        }
-        if (available_crs.includes('EPSG:28992')) {
 
           this.map.addLayer(OpenTopo());
           this.map.addLayer(BRT());
           this.map.addLayer(Luchtfoto());
-        }
-        if (available_crs.includes('EPSG:4326')) {
+
           this.map.addLayer(base4326());
-        }
       },
       removeBaseLayers() {
         const layers = this.map.getLayers();

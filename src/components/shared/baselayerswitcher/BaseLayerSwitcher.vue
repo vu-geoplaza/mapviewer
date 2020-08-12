@@ -31,9 +31,11 @@
         me.switchBaseLayer(me.$config.baselayer);
       },
       initSwitcher() {
+        var me=this;
         const items=[]
         let active_projection = '';
         console.log('init baselayer switcher');
+        console.log('available projections: ' + me.$config.available_crs.join(', '));
         var layers = this.map.getLayers();
         layers.forEach(function (layer) {
           if (layer.get('type') === 'base') {
@@ -42,12 +44,14 @@
               active=true;
               active_projection=layer.get('projcode');
             }
-            items.push({
-                active: active,
-                code: layer.get('code'),
-                name: layer.get('name'),
-                projcode: layer.get('projcode')
-              })
+            if (me.$config.available_crs.includes(layer.get('projcode'))){
+              items.push({
+                  active: active,
+                  code: layer.get('code'),
+                  name: layer.get('name'),
+                  projcode: layer.get('projcode')
+                })
+            }
           }
         });
         this.items=items;
