@@ -7,7 +7,7 @@ import KloosterViewer from "@/KloosterViewer";
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
 import KloosterConfig from "@/helpers/kloosters/KloosterConfig";
 
-import getParam from './shared'
+import {getParam} from './shared'
 
 Vue.use(BootstrapVue);
 
