@@ -163,6 +163,7 @@
         }
       },
       calcAvailableCRS(arr_crs) {
+        console.log('**** reset available crs ' + arr_crs);
         if (this.map.available_crs.length <= 1) {
           this.map.available_crs = ALLOWED_VIEWER_CRS;
         }
@@ -173,7 +174,7 @@
           }
         }
         this.map.available_crs = new_arr;
-
+        this.$config.available_crs = this.map.available_crs;
       },
       addBaseLayers(available_crs) {
         console.log('add base layers');
