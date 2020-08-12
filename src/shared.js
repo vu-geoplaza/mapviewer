@@ -17,3 +17,9 @@ getProjection('EPSG:28992').setExtent([-285401.92, 22598.08, 595401.92, 903401.9
 export const SharedEventBus = new Vue();
 // Projections supported by the Viewer. A projection will only be available if all layers support it.
 export const ALLOWED_VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
+
+export function getParam(name) {
+    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search);
+    if (param)
+        return decodeURIComponent(param[1]);
+}
