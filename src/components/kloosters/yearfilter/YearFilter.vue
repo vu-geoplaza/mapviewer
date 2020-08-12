@@ -38,7 +38,7 @@
         min: 700,
         max: 1800,
         marks: [700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800],
-        year_str: 'Year',
+        year_str: 'Jaar',
         language: this.$config.klooster.language
       }
     },
