@@ -22,14 +22,14 @@ class ViewerServiceKML extends ViewerService {
       // maybe try to construct a legend here? or calculate the extent
       return layers;
     });
-  };
+  }
 
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
       this.layers.push(new ViewerLayerKML(l));
     }
-  };
+  }
 }
 
 export default ViewerServiceKML;

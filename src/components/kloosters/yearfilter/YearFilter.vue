@@ -58,11 +58,7 @@
           this.$config.klooster.year = year;
           SharedEventBus.$emit('reload-vector-data');
         },
-      },
-      watch: {
-        value: function (val) {
-        }
-      },
+      }
     }
 </script>
 

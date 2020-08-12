@@ -34,7 +34,7 @@
                 const view = this.map.getView();
                 let extent = toplayer.getSource().getExtent();
                 if (extent == null) {
-                  let extent=transformExtent(toplayer.get('extent_lonlat'), 'EPSG:4326', view.getProjection())
+                  extent=transformExtent(toplayer.get('extent_lonlat'), 'EPSG:4326', view.getProjection())
                 }
                 view.fit(extent, { size: this.map.getSize(), padding: [80, 80, 80, 80], maxZoom: 17});
             }

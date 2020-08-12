@@ -6,7 +6,6 @@ import Projection from 'ol/proj/Projection';
 import {getTopLeft} from 'ol/extent';
 import OSM from "ol/source/OSM";
 import XYZ from "ol/source/XYZ";
-import Attribution from "ol/control/Attribution";
 import BingMaps from "ol/source/BingMaps";
 
 export const BRT_EXTENT = [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999];

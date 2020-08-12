@@ -7,7 +7,7 @@ class ViewerServiceKloostersSingle extends ViewerService {
   constructor(props) {
     super(props);
     this.klooster_options = props.klooster_options;
-  };
+  }
 
   async getCapabilities() {
     const layers = [];
@@ -19,14 +19,14 @@ class ViewerServiceKloostersSingle extends ViewerService {
       available_crs: ALLOWED_VIEWER_CRS,
     }));
     return layers;
-  };
+  }
 
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
       this.layers.push(new ViewerLayerKloosterSingle(l));
     }
-  };
+  }
 
 
 }

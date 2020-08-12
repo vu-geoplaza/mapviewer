@@ -45,14 +45,14 @@ class ViewerWMTS extends ViewerService {
       }
       return layers;
     });
-  };
+  }
 
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
       this.layers.push(new ViewerLayerWMTS(l));
     }
-  };
+  }
 }
 
 export default ViewerWMTS;

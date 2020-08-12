@@ -1,4 +1,6 @@
-<template></template>
+<template>
+    <div id="ol-map-container" ref="gpzmap"></div>
+</template>
 
 <script>
   import 'ol/ol.css';
@@ -12,8 +14,7 @@
   import {transformExtent} from "ol/proj";
   import View from "ol/View";
   import VectorLayer from "ol/layer/Vector";
-  import Cluster from "ol/source/Cluster"
-  import BaseLayerSwitcher from "../baselayerswitcher/BaseLayerSwitcher";
+  import Cluster from "ol/source/Cluster";
 
   // Add a simple extension to enable layer lookup by layer id
   if (Map.prototype.getLayerByLid === undefined) {
@@ -104,7 +105,6 @@
     },
     methods: {
       initMap: function () {
-        var me = this;
         // create a map object, do not bind it to the DOM yet.
         const config = this.$config;
         console.log('init map crs: ' + config.crs);
@@ -176,7 +176,7 @@
         this.map.available_crs = new_arr;
         this.$config.available_crs = this.map.available_crs;
       },
-      addBaseLayers(available_crs) {
+      addBaseLayers() {
         console.log('add base layers');
           this.map.addLayer(OSMstandard());
           this.map.addLayer(CartoLight());

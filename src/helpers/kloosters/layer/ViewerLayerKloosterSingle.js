@@ -18,9 +18,9 @@ class ViewerLayerKloosterSingle extends ViewerLayer {
   constructor(props) {
     super(props);
     this.styleCache = [];
-  };
+  }
 
-  OLLayer(url, crs) {
+  OLLayer(url) {
     let klooster_config = Vue.prototype.$config.klooster;
     let me = this;
     let vectorReader = function (data) {
@@ -51,16 +51,14 @@ class ViewerLayerKloosterSingle extends ViewerLayer {
 
     return new VectorLayer({
       source: clusterSource,
-      style: function (feature, resolution) {
+      style: function (feature) {
         const features = feature.get('features');
         const type = features[0].get('type');
-        let image='https://geoplaza.vu.nl/projects/kloosters/svg/circle_m_0.svg';
         let color = 'blue';
         let years=[];
         let label = '';
         if (type=='uithof'){
           color = 'green';
-          image='https://geoplaza.vu.nl/projects/kloosters/svg/house.svg';
           if (klooster_config.language=="en") {
             label = lang[3]['en'];
           } else {

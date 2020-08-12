@@ -45,8 +45,7 @@
             NavBar,
             FeatureInfo,
             LayerSwitcher,
-            OlMap,
-            GeoLocation
+            OlMap
         },
     }
 </script>

@@ -24,14 +24,10 @@
 
 <script>
   import FitExtent from '../fitextent/FitExtent'
-  import FileLoader from '@/components/gpz/file/FileLoader'
   import FileSaver from '@/components/gpz/file/FileSaver'
   import BaseLayerSwitcher from "@/components/shared/baselayerswitcher/BaseLayerSwitcher";
-  import InfoModal from "@/components/gpz/infomodal/InfoModal"
   import LanguageSwitcher from "@/components/kloosters/languageswitcher/LanguageSwitcher";
-  import KloosterList from "@/components/kloosters/kloosterlist/KloosterList";
   import GeoLocation from "@/components/shared/geolocation/GeoLocation";
-  import DownloadModal from "@/components/kloosters/downloadmodal/DownloadModal";
 
   export default {
     name: "NavBar",
@@ -39,12 +35,8 @@
       LanguageSwitcher,
       BaseLayerSwitcher,
       FitExtent,
-      FileLoader,
       FileSaver,
-      InfoModal,
-      KloosterList,
       GeoLocation,
-      DownloadModal
     },
     mounted() {
       this.set_title();

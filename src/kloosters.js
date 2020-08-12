@@ -13,7 +13,7 @@ Vue.config.productionTip = false;
 
 
 function getParam(name) {
-  if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+  if (name == (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
     return decodeURIComponent(name[1]);
 }
 
@@ -25,6 +25,7 @@ function init(config) {
   /* eslint-disable no-new */
   new Vue({
     el: '#gpz',
+    render: h => h(KloosterViewer),
     components: {KloosterViewer},
     template: '<KloosterViewer/>'
   });
@@ -32,7 +33,6 @@ function init(config) {
 Vue.prototype.$nomenu = false;
 
 let mode = 'by_year';
-let id = 'U01';
 let config = new KloosterConfig(); // default settings
 
 if (typeof getParam('nomenu') === 'string') {

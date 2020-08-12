@@ -1,8 +1,6 @@
 <template>
   <b-container id="app" fluid>
-    <div id="ol-map-container" ref="gpzmap">
-      <OlMap/>
-    </div>
+    <OlMap/>
     <NavBar v-show="!nomenu"/>
     <b-row class="main-row" v-if="mode==='by_year'">
       <b-col md="4" lg="3">
@@ -31,7 +29,6 @@
   import KloosterInfo from "./components/kloosters/kloosterinfo/KloosterInfo";
   import KloosterList from "./components/kloosters/kloosterlist/KloosterList";
   import InfoModal from "./components/gpz/infomodal/InfoModal";
-  import KloosterMapMode from "@/components/kloosters/kloostermapmode/KloosterMapMode";
   import LayerSwitcher from "@/components/shared/layerswitcher/LayerSwitcher";
   import DownloadModal from "@/components/kloosters/downloadmodal/DownloadModal";
   export default {
@@ -49,7 +46,6 @@
       KloosterList,
       InfoModal,
       DownloadModal,
-      KloosterMapMode,
       LayerSwitcher
     },
     data() {

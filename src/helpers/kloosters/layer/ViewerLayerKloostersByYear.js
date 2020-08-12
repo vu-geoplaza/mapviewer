@@ -20,9 +20,9 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
   constructor(props) {
     super(props);
     this.styleCache = [];
-  };
+  }
 
-  OLLayer(url, crs) {
+  OLLayer(url) {
     let klooster_config = Vue.prototype.$config.klooster;
     let me = this;
     let vectorReader=function(data){
@@ -72,11 +72,9 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
         var orde = features[0].get('ordenaam');
         const labelResolutionLevel = 5;
         const iconExt = '.svg';
-
+        let naam = features[0].get('name_en');
         if (language == 'nl') {
-          var naam = features[0].get('name_nl');
-        } else {
-          var naam = features[0].get('name_en');
+           naam = features[0].get('name_nl');
         }
 
         var uq = num;

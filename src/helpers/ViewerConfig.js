@@ -9,18 +9,22 @@ import ViewerServiceKloostersAll from "./kloosters/service/ViewerServiceKlooster
 import ViewerServiceKloostersSingle from "./kloosters/service/ViewerServiceKloostersSingle";
 
 class ViewerConfig {
-  title = '';
-  url = '';
-  crs = 'EPSG:3857';
-  available_crs = ['EPSG:3857', 'EPSG:28992', 'EPSG:4326'];
-  baselayer = 'osm';
-  bbox = [
-    2.7906529317858966,
-    52.1414097243633,
-    7.713581591837995,
-    53.640264162792946
-  ]; // Nederland
-  services = [];
+  constructor() {
+    this.title = '';
+    this.url = '';
+    this.crs = 'EPSG:3857';
+    this.available_crs = ['EPSG:3857', 'EPSG:28992', 'EPSG:4326'];
+    this.baselayer = 'osm';
+    this.bbox = [
+      2.7906529317858966,
+      52.1414097243633,
+      7.713581591837995,
+      53.640264162792946
+    ]; // Nederland
+    this.services = [];
+  }
+
+
 
   setCrs(crs) {
     console.log('setcrs');
@@ -47,7 +51,7 @@ class ViewerConfig {
         this.services.push(this.getService(s));
       }
     }
-  };
+  }
 
   getService(service_config) {
     if (service_config.type === 'wms') return new ViewerWMS(service_config);

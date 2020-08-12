@@ -3,7 +3,7 @@ import ViewerLayer from "./ViewerLayer";
 import XYZ from "ol/source/XYZ";
 
 class ViewerLayerXYZArcGIS extends ViewerLayer {
-  OLLayer(url,crs){
+  OLLayer(url){
     return new TileLayer({
       source: new XYZ({
         url: url + '/tile/{z}/{y}/{x}'

@@ -20,7 +20,7 @@
 <script>
     import {SharedEventBus} from "@/shared";
     import {Mapable} from "@/mixins/mapable";
-    import {symbols, symbolsCat} from "@/helpers/kloosters/KloosterSymbols";
+    import {symbols} from "@/helpers/kloosters/KloosterSymbols";
 
     export default {
         name: "KloosterList",
@@ -35,7 +35,6 @@
         },
         mounted: function () {
             console.log('init kloosterlist');
-            var me = this;
             SharedEventBus.$on('kloostersource-loaded', () => {
                 this.updateList(this.getFeaturesFromMap());
             });

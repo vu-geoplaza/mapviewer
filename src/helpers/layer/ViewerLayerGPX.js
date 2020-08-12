@@ -64,7 +64,7 @@ function gpxStyle(feature) {
 }
 
 class ViewerLayerGPX extends ViewerLayer {
-  OLLayer(url, crs) {
+  OLLayer(url) {
     return new VectorLayer({
       source: new VectorSource({
         url: url,

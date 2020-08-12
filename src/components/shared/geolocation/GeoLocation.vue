@@ -58,7 +58,7 @@
                     })
                 });
                 let me=this;
-                geolocation.on('change', function(evt) {
+                geolocation.on('change', function() {
                     me.showspinner=true
                     let coordinates = geolocation.getPosition();
                     positionFeature.setGeometry(coordinates ?

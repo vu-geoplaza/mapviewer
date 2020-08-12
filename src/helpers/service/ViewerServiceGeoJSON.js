@@ -7,9 +7,9 @@ import {ALLOWED_VIEWER_CRS} from "@/shared"
 class ViewerServiceGeoJSON extends ViewerService {
   async getCapabilities() {
     var me = this;
-    return axios.get(me.url).then(function (response) {
+    return axios.get(me.url).then(function () {
       const layers = [];
-        extent = [ // netherlands for now
+        let extent = [ // netherlands for now
           3.076515,50.296118,7.685279,53.582500
         ];
       layers.push(new ViewerLayerGeoJSON({
@@ -22,14 +22,14 @@ class ViewerServiceGeoJSON extends ViewerService {
       // maybe try to construct a legend here? or calculate the extent
       return layers;
     });
-  };
+  }
 
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
       this.layers.push(new ViewerLayerGeoJSON(l));
     }
-  };
+  }
 }
 
 export default ViewerServiceGeoJSON;

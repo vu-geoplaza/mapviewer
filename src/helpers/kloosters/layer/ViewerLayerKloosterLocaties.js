@@ -6,7 +6,6 @@ import GeoJSON from "ol/format/GeoJSON";
 import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
 import Fill from "ol/style/Fill";
-import Stroke from "ol/style/Stroke";
 import Text from "ol/style/Text";
 import axios from 'axios';
 import Vue from 'vue'
@@ -16,10 +15,9 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
   constructor(props) {
     super(props);
     this.styleCache = [];
-  };
+  }
 
-  OLLayer(url, crs) {
-    let klooster_config = Vue.prototype.$config.klooster;
+  OLLayer(url) {
     let me = this;
     let vectorReader = function (data) {
       let format = new GeoJSON;
@@ -46,7 +44,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
 
     return new VectorLayer({
       source: clusterSource,
-      style: function (feature, resolution) {
+      style: function (feature) {
         const name = me.name;
         const features = feature.get('features');
         const num = features.length;

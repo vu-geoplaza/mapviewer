@@ -9,7 +9,7 @@ class ViewerServiceTileArcGIS extends ViewerService {
   constructor(props) {
     super(props);
     this.url = this.url.substr(0, this.url.indexOf('MapServer') + 9);
-  };
+  }
 
   async getCapabilities() {
     const url = this.url;
@@ -29,26 +29,26 @@ class ViewerServiceTileArcGIS extends ViewerService {
             legend_img: '', // see https://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer/legend?f=json
             available_crs: ALLOWED_VIEWER_CRS // at least I think so
           };
-          if (me.type = 'arcgis_tile') {
+          if (me.type == 'arcgis_tile') {
             layers.push(new ViewerLayerXYZArcGIS(options));
-          } else if (me.type = 'arcgis_image') {
+          } else if (me.type == 'arcgis_image') {
             layers.push(new ViewerLayerTileArcGIS(options));
           }
         }
       return layers;
     })
-  };
+  }
 
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
-      if (this.type = 'arcgis_tile') {
+      if (this.type == 'arcgis_tile') {
         this.layers.push(new ViewerLayerXYZArcGIS(l));
-      } else if (this.type = 'arcgis_image') {
+      } else if (this.type == 'arcgis_image') {
         this.layers.push(new ViewerLayerTileArcGIS(l));
       }
     }
-  };
+  }
 }
 
 export default ViewerServiceTileArcGIS;

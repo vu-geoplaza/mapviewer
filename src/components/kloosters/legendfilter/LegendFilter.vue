@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import {symbolsCat, symbols} from '@/helpers/kloosters/KloosterSymbols'
+    import {symbolsCat} from '@/helpers/kloosters/KloosterSymbols'
     import {SharedEventBus} from "@/shared";
     import OrdeItem from "@/components/kloosters/legendfilter/OrdeItem";
     import RegelItem from "@/components/kloosters/legendfilter/RegelItem";
@@ -84,7 +84,6 @@
                         tmp.push(feature.properties.ordenaam);
                     }
                 });
-                let n = 0;
                 for (let i = 0; i < this.orden.length; i++) {
                     if (tmp.includes(this.orden[i].nl)) {
                         this.orden[i].present = true;

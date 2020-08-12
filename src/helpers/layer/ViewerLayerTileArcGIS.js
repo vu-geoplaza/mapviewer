@@ -3,7 +3,7 @@ import TileArcGISRest from "ol/source/TileArcGISRest"
 import ViewerLayer from "./ViewerLayer";
 
 class ViewerLayerTileArcGIS extends ViewerLayer {
-  OLLayer(url,crs){
+  OLLayer(url){
     return new TileLayer({
       source: new TileArcGISRest({
         url: url

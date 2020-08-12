@@ -40,7 +40,7 @@ function init(config){
 
   /* eslint-disable no-new */
   new Vue({
-    el: '#gpz',
+    el: '#app',
     components: {GpzViewer},
     template: '<GpzViewer/>'
   });

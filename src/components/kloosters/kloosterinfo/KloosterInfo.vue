@@ -79,7 +79,7 @@
         var me = this;
         let n = 0;
         const max=6;
-        this.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
+        this.map.forEachFeatureAtPixel(pixel, function (feature) {
             me.showoverlay = true;
             me.$refs['kloosterinfomodal'].show();
             if (!feature.get('features')) {

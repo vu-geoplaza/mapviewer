@@ -45,7 +45,7 @@
         var me = this;
         me.initSwitcher();
         // react on added / removed layers
-        me.map.getLayers().on('change:length', function (evt) {
+        me.map.getLayers().on('change:length', function () {
           me.initSwitcher();
         });
       },
@@ -87,7 +87,7 @@
          * @param val
          * @param oldVal
          */
-        handler: function (val, oldVal) {
+        handler: function (val) {
           if (!this.init) { // don't run on initializing the switcher itself, might mess up the order when asynchronously adding layers
             var zindex = 100;
             for (const item of val) {

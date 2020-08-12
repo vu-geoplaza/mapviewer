@@ -31,14 +31,14 @@ class ViewerServiceGPX extends ViewerService {
       // maybe try to construct a legend here? or calculate the extent
       return layers;
     });
-  };
+  }
 
   setLayers(layers) {
     this.layers = [];
     for (const l of layers) {
       this.layers.push(new ViewerLayerGPX(l));
     }
-  };
+  }
 }
 
 export default ViewerServiceGPX;
