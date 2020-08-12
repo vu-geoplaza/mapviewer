@@ -120,7 +120,7 @@
         view.fit(transformExtent(config.bbox, 'EPSG:4326', view.getProjection()), this.map.getSize());
         this.map.setView(view);
 
-        this.setBaseLayers(config.available_crs);
+        this.addBaseLayers(config.available_crs);
         console.log('start adding layers');
         this.addLayers(config);
 
@@ -174,9 +174,8 @@
         }
         this.map.available_crs = new_arr;
       },
-      setBaseLayers(available_crs) {
-        console.log('set base layer');
-        console.log(available_crs);
+      addBaseLayers(available_crs) {
+        console.log('add base layers');
         if (available_crs.includes('EPSG:3857')) {
           this.map.addLayer(OSMstandard());
           this.map.addLayer(CartoLight());

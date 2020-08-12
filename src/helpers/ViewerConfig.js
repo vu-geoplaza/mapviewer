@@ -12,6 +12,7 @@ class ViewerConfig {
   title = '';
   url = '';
   crs = 'EPSG:3857';
+  available_crs = ['EPSG:3857', 'EPSG:28992', 'EPSG:4326'];
   baselayer = 'osm';
   bbox = [
     2.7906529317858966,
