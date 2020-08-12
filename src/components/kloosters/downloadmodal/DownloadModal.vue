@@ -44,7 +44,7 @@
     data: function () {
       return {
         url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/downloadGeoJSON.php?',
-        year: this.$config.klooster.year_start,
+        year: this.$config.klooster.year,
         today: new Date().toJSON().slice(0, 10),
         current_url: window.location
       }
@@ -52,7 +52,7 @@
     mounted: function () {
       var me = this;
       SharedEventBus.$on('kloostersource-loaded', () => {
-        me.year = this.$config.klooster.year_start;
+        me.year = this.$config.klooster.year;
         console.log('Set download year ' + me.year);
         me.$forceUpdate(); // todo: should be posible without a forceupdate
       });

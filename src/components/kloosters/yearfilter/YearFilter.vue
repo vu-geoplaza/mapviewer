@@ -33,7 +33,7 @@
           process: false,
           lazy: true //keep lazy to avoid fetching data while dragging
         },
-        value: this.$config.klooster.year_start,
+        value: this.$config.klooster.year,
         interval: 1,
         min: 700,
         max: 1800,
@@ -55,8 +55,7 @@
       methods: {
         changeYear: function(year){
           console.log('change year');
-          this.$config.klooster.year_start = year;
-          this.$config.klooster.year_end = year;
+          this.$config.klooster.year = year;
           SharedEventBus.$emit('reload-vector-data');
         },
       },

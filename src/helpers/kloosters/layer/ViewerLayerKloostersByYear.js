@@ -43,26 +43,15 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
     };
     let source= new VectorSource({
       loader: function () {
-        let params={
-          filter: [],
-          begin: klooster_config.year_start,
-          end: klooster_config.year_end
-        };
-        if (klooster_config.data.year_start==klooster_config.year_start&&klooster_config.data.year_end==klooster_config.year_end){
-          console.log('reload from config');
-          vectorReader(klooster_config.data.geojson);
-        } else {
-          return axios.post(url, params).then(function (response) {
+          return axios.get(url + '?year=' + klooster_config.year).then(function (response) {
             console.log('response finished');
-            Vue.prototype.$config.klooster.data.year_start=klooster_config.year_start;
-            Vue.prototype.$config.klooster.data.year_end=klooster_config.year_end;
+            Vue.prototype.$config.klooster.data.year=klooster_config.year;
             Vue.prototype.$config.klooster.data.geojson=response.data;
             vectorReader(response.data)
           }).catch(function (error) {
             console.error(error);
           });
         }
-      }
     });
     let clusterDistance=0;
     if (isMobile){

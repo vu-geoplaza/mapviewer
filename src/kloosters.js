@@ -39,8 +39,7 @@ if (typeof getParam('nomenu') === 'string') {
   Vue.prototype.$nomenu = true;
 }
 if (typeof getParam('year') === 'string') {
-  config.klooster.year_start = parseInt(getParam('year'));
-  config.klooster.year_end = config.klooster.year_start;
+  config.klooster.year = parseInt(getParam('year'));
 }
 if (typeof getParam('id') === 'string') {
   mode = 'single';
