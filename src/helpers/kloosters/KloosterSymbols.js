@@ -339,16 +339,22 @@ export const symbolsCat = {
   }
 };
 
+let ext='.svg';
+if (window.document.documentMode) {
+  // Do IE stuff
+  ext='.png';
+}
+
 let s = {};
 for (var category in symbolsCat.data) {
   for (var order in symbolsCat.data[category]) {
-    s[order] = symbolsCat.data[category][order].symbol + '.svg';
+    s[order] = symbolsCat.data[category][order].symbol + ext;
   }
 }
 export const svg_url='https://geoplaza.vu.nl/projects/kloosters_vue/svg/';
 export const symbols=s;
 export const plain_symbols={
-  'klooster': 'plain/klooster.svg',
-  'uithof': 'plain/uithof.svg',
-  'kapittel': 'plain/kapittel.svg',
+  'klooster': 'plain/klooster' + ext,
+  'uithof': 'plain/uithof.svg' + ext,
+  'kapittel': 'plain/kapittel.svg' + ext,
 };
