@@ -355,6 +355,6 @@ export const svg_url='https://geoplaza.vu.nl/projects/kloosters_vue/svg/';
 export const symbols=s;
 export const plain_symbols={
   'klooster': 'plain/klooster' + ext,
-  'uithof': 'plain/uithof.svg' + ext,
-  'kapittel': 'plain/kapittel.svg' + ext,
+  'uithof': 'plain/uithof' + ext,
+  'kapittel': 'plain/kapittel' + ext,
 };
