@@ -2,7 +2,7 @@ import ViewerLayer from "../../layer/ViewerLayer";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
-import {symbols} from '@/helpers/kloosters/KloosterSymbols'
+import {symbols, svg_url} from '@/helpers/kloosters/KloosterSymbols'
 import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
 import Fill from "ol/style/Fill";
@@ -71,7 +71,6 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
 
         var orde = features[0].get('ordenaam');
         const labelResolutionLevel = 5;
-        const iconExt = '.svg';
         let naam = features[0].get('name_en');
         if (language == 'nl') {
            naam = features[0].get('name_nl');
@@ -99,7 +98,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
             me.styleCache[uq] = new Style({
               image: new Icon({
                 scale: iconscale,
-                src: 'https://geoplaza.vu.nl/projects/kloosters_vue/svg/' + symbol + iconExt,
+                src: svg_url + symbol,
                 opacity: 0.80
               }),
               text: new Text({

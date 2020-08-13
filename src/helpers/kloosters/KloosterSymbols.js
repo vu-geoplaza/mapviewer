@@ -342,7 +342,13 @@ export const symbolsCat = {
 let s = {};
 for (var category in symbolsCat.data) {
   for (var order in symbolsCat.data[category]) {
-    s[order] = symbolsCat.data[category][order].symbol;
+    s[order] = symbolsCat.data[category][order].symbol + '.svg';
   }
 }
+export const svg_url='https://geoplaza.vu.nl/projects/kloosters_vue/svg/';
 export const symbols=s;
+export const plain_symbols={
+  'klooster': 'plain/klooster.svg',
+  'uithof': 'plain/uithof.svg',
+  'kapittel': 'plain/kapittel.svg',
+};
