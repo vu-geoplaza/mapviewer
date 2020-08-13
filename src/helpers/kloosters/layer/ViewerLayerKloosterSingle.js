@@ -11,7 +11,8 @@ import axios from 'axios';
 import Vue from 'vue'
 import {SharedEventBus} from "@/shared";
 import {lang} from '@/helpers/kloosters/lang.js';
-import RegularShape from "ol/style/RegularShape";
+import Icon from "ol/style/Icon";
+import {plain_symbols, svg_url} from '@/helpers/kloosters/KloosterSymbols'
 
 class ViewerLayerKloosterSingle extends ViewerLayer {
 
@@ -54,11 +55,11 @@ class ViewerLayerKloosterSingle extends ViewerLayer {
       style: function (feature) {
         const features = feature.get('features');
         const type = features[0].get('type');
-        let color = 'blue';
+        let image = svg_url + plain_symbols['klooster'];
         let years=[];
         let label = '';
         if (type=='uithof'){
-          color = 'green';
+          image = svg_url + plain_symbols['uithof'];
           if (klooster_config.language=="en") {
             label = lang[3]['en'];
           } else {
@@ -84,16 +85,10 @@ class ViewerLayerKloosterSingle extends ViewerLayer {
         } else {
           me.styleCache[uq] =
             new Style({
-              image: new RegularShape({
-                radius: 8,
-                points: 4,
-                angle: Math.PI / 4,
-                stroke: new Stroke({
-                  color: '#606060'
-                }),
-                fill: new Fill({
-                  color: color
-                }),
+              image: new Icon({
+                scale: 0.5,
+                src: image,
+                opacity: 0.80
               }),
               text: new Text({
                 font: '14px Calibri,sans-serif',

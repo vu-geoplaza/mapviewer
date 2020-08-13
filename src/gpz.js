@@ -37,7 +37,8 @@ function init(config){
 
   /* eslint-disable no-new */
   new Vue({
-    el: '#app',
+    el: '#gpz',
+    render: h => h(GpzViewer),
     components: {GpzViewer},
     template: '<GpzViewer/>'
   });

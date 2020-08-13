@@ -1,6 +1,7 @@
 import ViewerService from "../../service/ViewerService";
 import ViewerLayerKloosterLocaties from '../layer/ViewerLayerKloosterLocaties'
 import {ALLOWED_VIEWER_CRS} from "@/shared"
+import {plain_symbols, svg_url} from '@/helpers/kloosters/KloosterSymbols'
 
 // static/kloosters_1200.kml
 class ViewerServiceKloostersAll extends ViewerService {
@@ -22,21 +23,21 @@ class ViewerServiceKloostersAll extends ViewerService {
       name: 'kloosters',
       extent_lonlat: extent,
       title: 'kloosters',
-      legend_img: 'https://geoplaza.vu.nl/projects/kloosters/svg/circle_m_0.svg',
+      legend_img: svg_url + plain_symbols['klooster'],
       available_crs: ALLOWED_VIEWER_CRS,
     }));
     layers.push(new ViewerLayerKloosterLocaties({
       name: 'kapittels',
       extent_lonlat: extent,
       title: 'kapittels',
-      legend_img: 'https://geoplaza.vu.nl/projects/kloosters/svg/kapittel.svg',
+      legend_img: svg_url + plain_symbols['kapittel'],
       available_crs: ALLOWED_VIEWER_CRS,
     }));
     layers.push(new ViewerLayerKloosterLocaties({
       name: 'uithoven',
       extent_lonlat: extent,
       title: 'uithoven',
-      legend_img: 'https://geoplaza.vu.nl/projects/kloosters/svg/house.svg',
+      legend_img: svg_url + plain_symbols['uithof'],
       available_crs: ALLOWED_VIEWER_CRS,
     }));
     return layers;

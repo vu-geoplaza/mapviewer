@@ -1,4 +1,9 @@
 # mapviewer
+Built with Vuejs, Bootstrap-Vue and OpenLayers.  
+
+Kloosterkaart: https://geoplaza.vu.nl/projects/kloosters_vue/
+
+Mapviewer with demo layers: https://geoplaza.vu.nl/projects/viewer/
 
 ## Project setup
 ```
@@ -22,7 +27,7 @@ or
 ```
 npm run build:gpz
 ```
-And copy `dist\<type>\*` to a webserver.
+And copy the files in `dist/..../*` to a webserver.
 ### Lints and fixes files
 ```
 npm run lint
