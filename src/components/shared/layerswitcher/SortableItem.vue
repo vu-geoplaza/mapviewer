@@ -39,14 +39,6 @@
         show: false
       }
     },
-    watch: {
-      show (val) {
-        if (val) {
-          // https://github.com/NightCatSama/vue-slider-component#exceptions
-          this.$nextTick(() => this.$refs['slider' + this.index].refresh());
-        }
-      }
-    },
   }
 </script>
 
