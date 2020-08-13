@@ -31,7 +31,6 @@
     import NavBar from "./components/shared/navbar/NavBar";
     import ServiceLoader from "./components/gpz/serviceloader/ServiceLoader";
     import InfoModal from "./components/gpz/infomodal/InfoModal";
-    import GeoLocation from "./components/shared/geolocation/GeoLocation";
 
     export default {
         mounted: function () {
