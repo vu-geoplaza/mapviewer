@@ -41,7 +41,6 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
             distance: 25,
             source: source
         });
-
         return new VectorLayer({
             source: clusterSource,
             style: function (feature) {
@@ -86,7 +85,9 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
             visible: this.visible,
             opacity: 0.8,
             zIndex: this.zindex,
-            legend_img: me.legend_img
+            legend_img: me.legend_img,
+            cluster_distance: 25,
+            cluster_zoomlevel: 13
         });
     }
 }
