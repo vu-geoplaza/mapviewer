@@ -1,12 +1,14 @@
 {
   "name": "mapviewer",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "private": true,
   "scripts": {
     "serve:kloosters": "vue-cli-service serve src/kloosters.js",
     "serve:gpz": "vue-cli-service serve src/gpz.js",
+    "serve:kerken": "vue-cli-service serve src/kerken.js",
     "build:kloosters": "vue-cli-service build src/kloosters.js --dest dist/kloosters",
     "build:gpz": "vue-cli-service build src/gpz.js --dest dist/gpz",
+    "build:kerken": "vue-cli-service build src/kerken.js --dest dist/kerken",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -19,6 +21,7 @@
     "core-js": "^3.6.5",
     "mobile-device-detect": "^0.4.3",
     "ol": "^6.4.3",
+    "ol-ext": "^3.1.14",
     "proj4": "^2.6.2",
     "uuid": "^8.3.0",
     "vue": "^2.6.11",
