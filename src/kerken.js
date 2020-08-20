@@ -43,7 +43,7 @@ let config = new KerkConfig(); // default settings
     available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
     baselayer: "light",
     services: [{
-      url: 'https://geoplaza.vu.nl/projects/kerken/resources/getGeoJSON.php',
+      url: 'https://geoplaza.vu.nl/projects/kerken_dev/resources/getGeoJSON.php',
       type: 'kerken',
       layers: [{
         "id": "kerken",
