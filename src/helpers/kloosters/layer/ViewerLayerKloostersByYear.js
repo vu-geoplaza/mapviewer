@@ -78,8 +78,12 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
         naam=naam.slice(naam.indexOf(',')+2).replace(': ',':\n');
         var uq = num;
         if (num==1) {
-          uq = orde + resolution;
+          uq = orde;
         }
+        if (resolution < labelResolutionLevel) {
+          uq = uq + naam;
+        }
+
 
         var style = me.styleCache[uq];
         if (style) {
