@@ -78,7 +78,7 @@
                       if ((typeof symbols[orde] !== 'undefined')) {
                         symbol = symbols[orde];
                       }
-                      const image='https://geoplaza.vu.nl/projects/kloosters_vue/svg/' + symbol + '.svg'
+                      const image='https://geoplaza.vu.nl/projects/kloosters_vue/svg/' + symbol;
                       if (me.$config.klooster.language === 'en') {
                         me.items.push({label: feature.get('name_en'), geom: feature.getGeometry(), image: image});
                       } else {
