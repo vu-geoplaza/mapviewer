@@ -75,7 +75,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
         if (language == 'nl') {
            naam = features[0].get('name_nl');
         }
-
+        naam=naam.slice(naam.indexOf(',')+2);
         var uq = num;
         if (num==1) {
           uq = orde + resolution;
