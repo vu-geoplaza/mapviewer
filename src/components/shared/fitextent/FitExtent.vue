@@ -1,5 +1,5 @@
 <template>
-  <b-nav-item @click='zoomExtent()' href="#">fit</b-nav-item>
+  <b-nav-item @click='zoomExtent()' href="#">overview</b-nav-item>
 </template>
 
 <script>
