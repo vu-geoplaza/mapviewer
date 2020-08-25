@@ -65,6 +65,7 @@ if (mode === 'all') {
     crs: "EPSG:3857",
     available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
     baselayer: "light",
+    cluster_resolution: 10,
     services: [{
       url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php',
       type: 'kloosters_all',
@@ -135,6 +136,7 @@ if (mode === 'all') {
     crs: "EPSG:3857",
     available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
     baselayer: "light",
+    cluster_resolution: 10,
     services: [{
       url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONYear.php',
       type: 'kloosters_by_year',

@@ -137,9 +137,8 @@
                 }
                 view.on('change:resolution', function () {
                     const zoom = view.getZoom();
-                    const resolution = view.getResolution();
-
                     if (zoom % 1 == 0) {
+                        const resolution = view.getResolution();
                         console.log(resolution);
                         if (resolution < me.$config.cluster_resolution && clustered) {
                             clustered = false;

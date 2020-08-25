@@ -143,7 +143,6 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
       opacity: 1,
       zIndex: 93,
       cluster_distance: clusterDistance,
-      cluster_zoomlevel: 13
     });
   }
 }

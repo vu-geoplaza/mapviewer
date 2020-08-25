@@ -38,7 +38,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
             }
         });
         let clusterSource = new Cluster({
-            distance: 25,
+            distance: 50,
             source: source
         });
         return new VectorLayer({
@@ -86,8 +86,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
             opacity: 0.8,
             zIndex: this.zindex,
             legend_img: me.legend_img,
-            cluster_distance: 25,
-            cluster_zoomlevel: 13
+            cluster_distance: 50,
         });
     }
 }
