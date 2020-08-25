@@ -97,25 +97,6 @@
                     this.map.getTargetElement().style.cursor = this.map.hasFeatureAtPixel(this.map.getEventPixel(evt.originalEvent)) ? 'pointer' : '';
                 }
             });
-            let view = this.map.getView();
-            let zoom = view.getZoom();
-            let clustered = true;
-            if (zoom >= me.$config.cluster_zoomlevel) {
-                clustered = false;
-                me.updateClusters(false);
-            }
-            view.on('change:resolution', function () {
-                if (view.getZoom() % 1 == 0) {
-                    let zoom = view.getZoom();
-                    if (zoom >= me.$config.cluster_zoomlevel && clustered) {
-                        clustered = false;
-                        me.updateClusters(false);
-                    } else if (zoom < me.$config.cluster_zoomlevel && !clustered) {
-                        clustered = true;
-                        me.updateClusters(true);
-                    }
-                }
-            });
         },
         created() {
             console.log('map created');
@@ -140,22 +121,49 @@
 
                 view.fit(transformExtent(config.bbox, 'EPSG:4326', view.getProjection()), this.map.getSize());
                 this.map.setView(view);
-
+                this.setViewOptions(view);
                 this.addBaseLayers(config.available_crs);
                 console.log('start adding layers');
                 this.addLayers(config);
 
+            },
+            setViewOptions: function(view){
+                let me=this;
+                let resolution = view.getResolution();
+                let clustered = true;
+                if (resolution < me.$config.cluster_resolution) {
+                    clustered = false;
+                    me.updateClusters(false);
+                }
+                view.on('change:resolution', function () {
+                    const zoom = view.getZoom();
+                    const resolution = view.getResolution();
+
+                    if (zoom % 1 == 0) {
+                        console.log(resolution);
+                        if (resolution < me.$config.cluster_resolution && clustered) {
+                            clustered = false;
+                            me.updateClusters(false);
+                        } else if (resolution > me.$config.cluster_resolution && !clustered) {
+                            clustered = true;
+                            me.updateClusters(true);
+                        }
+                    }
+                });
             },
             reProject: function (crs) {
                 console.log('reproject to ' + crs);
                 const curview = this.map.getView(this.map.getSize());
                 const extent = transformExtent(curview.calculateExtent(), curview.getProjection().getCode(), crs);
                 const view = new View({
-                    projection: crs
+                    projection: crs,
+                    enableRotation: false,
+                    constrainResolution: true // keep this or clustering updates break
                 });
                 view.fit(extent, {size: this.map.getSize(), nearest: true});
                 this.clearVectorLayers();
                 this.map.setView(view);
+                this.setViewOptions(view);
             },
             clearVectorLayers() {
                 var layers = this.map.getLayers();
