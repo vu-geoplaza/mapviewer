@@ -97,22 +97,24 @@
                     this.map.getTargetElement().style.cursor = this.map.hasFeatureAtPixel(this.map.getEventPixel(evt.originalEvent)) ? 'pointer' : '';
                 }
             });
-            let start=parseInt(this.map.getView().getZoom());
-            let end=this.map.getView().getZoom();
-            this.map.on(['movestart', 'moveend'], function(e) {
-                if (e.type == 'movestart') {
-                    start=parseInt(e.map.getView().getZoom());
-                } else if (e.type == 'moveend') {
-
-                    end=parseInt(e.map.getView().getZoom());
-                    if (start!==end) {
-                        console.log(end);
-                        //SharedEventBus.$emit('change-resolution', end);
-                        // Update cluster distances
-                        me.updateClusters(end);
+            let view = this.map.getView();
+            let zoom = view.getZoom();
+            let clustered = true;
+            if (zoom >= me.$config.cluster_zoomlevel) {
+                clustered = false;
+                me.updateClusters(false);
+            }
+            view.on('change:resolution', function () {
+                if (view.getZoom() % 1 == 0) {
+                    let zoom = view.getZoom();
+                    if (zoom >= me.$config.cluster_zoomlevel && clustered) {
+                        clustered = false;
+                        me.updateClusters(false);
+                    } else if (zoom < me.$config.cluster_zoomlevel && !clustered) {
+                        clustered = true;
+                        me.updateClusters(true);
                     }
                 }
-
             });
         },
         created() {
@@ -127,7 +129,8 @@
                 console.log('init map crs: ' + config.crs);
                 const view = new View({
                     projection: config.crs,
-                    enableRotation: false
+                    enableRotation: false,
+                    constrainResolution: true // keep this or clustering updates break
                 });
 
                 this.map = new Map({
@@ -167,19 +170,17 @@
                     }
                 });
             },
-            updateClusters(zoom){
+            updateClusters(enable = true) {
+                console.log('clustering: ' + enable);
                 var layers = this.map.getLayers();
                 layers.forEach(function (layer) {
                     if (layer instanceof VectorLayer) { // should set a generic vector/tile type
                         const source = layer.getSource();
                         if (source instanceof Cluster) {
-                            if (typeof layer.get('cluster_zoomlevel')!=='undefined') {
-                                if (layer.get('cluster_zoomlevel') <= zoom) {
-                                    console.log('set cluster distance to 0');
-                                    source.setDistance(0);
-                                } else {
-                                    source.setDistance(layer.get('cluster_distance'));
-                                }
+                            if (enable) {
+                                source.setDistance(layer.get('cluster_distance'));
+                            } else {
+                                source.setDistance(0);
                             }
                         }
                     }
