@@ -15,6 +15,7 @@ class ViewerConfig {
     this.crs = 'EPSG:3857';
     this.available_crs = ['EPSG:3857', 'EPSG:28992', 'EPSG:4326'];
     this.baselayer = 'osm';
+    this.cluster_zoomlevel = 13;
     this.bbox = [
       2.7906529317858966,
       52.1414097243633,
