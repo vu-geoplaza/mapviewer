@@ -2,19 +2,20 @@
   <b-container id="app" fluid>
     <OlMap/>
     <NavBar v-show="!nomenu"/>
-    <b-row class="main-row" v-if="mode==='by_year'">
-      <b-col md="4" lg="3">
+    <b-row class="main-row" align-h="between">
+      <b-col md="4" lg="3" v-if="mode==='by_year'">
         <LegendFilter/>
       </b-col>
-    </b-row>
-    <b-row class="main-row" v-if="mode==='all'">
-      <b-col md="4" lg="3">
+      <b-col md="4" lg="3"  v-if="mode==='all'">
         <LayerSwitcher/>
       </b-col>
+      <b-col md="4">
+        <KloosterInfo />
+      </b-col>
     </b-row>
+
     <YearFilter v-if="mode==='by_year'"/>
     <KloosterList v-if="mode==='by_year'"/>
-    <KloosterInfo />
     <InfoModal />
     <DownloadModal />
   </b-container>
