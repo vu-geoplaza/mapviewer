@@ -88,7 +88,7 @@
                 this.map.forEachFeatureAtPixel(pixel, function (feature) {
                     me.showoverlay = true;
                     me.toggle = true;
-                    if (!feature.get('features')) {
+                    if (!feature.get('features')&&feature.get('type')!=='pointMarker') {
                         if (n < max) { // browser slow if showing many tabs
                             me.addMarker(feature);
                             me.showInfo(feature);
