@@ -5,6 +5,7 @@
 </template>
 
 <script>
+    import {SharedEventBus} from "@/shared";
     export default {
         name: "KloosterModeSwitcher",
         data: function () {
@@ -14,12 +15,19 @@
             }
         },
         mounted: function () {
-            if (this.$config.klooster.mode==='all'){
-                this.link = '?mode=';
-                this.link_text = 'show by year';
-            } else {
-                this.link = '?mode=all';
-                this.link_text = 'show all';
+            var me=this;
+            this.init();
+            SharedEventBus.$on('change-language', function () { me.init() });
+        },
+        methods: {
+            init: function() {
+                if (this.$config.klooster.mode==='all'){
+                    this.link = '?mode=&language=' + this.$config.klooster.language;
+                    this.link_text = 'show by year';
+                } else {
+                    this.link = '?mode=all&language=' + this.$config.klooster.language;
+                    this.link_text = 'show all';
+                }
             }
         }
     }
