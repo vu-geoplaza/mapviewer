@@ -100,8 +100,6 @@
             });
         },
         created() {
-            console.log('map created');
-
             this.initMap();
         },
         methods: {
@@ -125,7 +123,6 @@
                 this.setViewOptions(view);
                 this.addBaseLayers(config.available_crs);
                 this.addMarkerLayer();
-                console.log('start adding layers');
                 this.addLayers(config);
 
             },
@@ -141,7 +138,6 @@
                     const zoom = view.getZoom();
                     if (zoom % 1 == 0) {
                         const resolution = view.getResolution();
-                        console.log(resolution);
                         if (resolution < me.$config.cluster_resolution && clustered) {
                             clustered = false;
                             me.updateClusters(false);
@@ -180,7 +176,6 @@
                 });
             },
             updateClusters(enable = true) {
-                console.log('clustering: ' + enable);
                 var layers = this.map.getLayers();
                 layers.forEach(function (layer) {
                     if (layer instanceof VectorLayer) { // should set a generic vector/tile type
@@ -209,7 +204,6 @@
                 }
             },
             calcAvailableCRS(arr_crs) {
-                console.log('**** reset available crs ' + arr_crs);
                 if (this.map.available_crs.length <= 1) {
                     this.map.available_crs = ALLOWED_VIEWER_CRS;
                 }

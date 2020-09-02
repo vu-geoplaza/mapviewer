@@ -28,7 +28,6 @@ class ViewerConfig {
 
 
   setCrs(crs) {
-    console.log('setcrs');
     this.crs=crs;
   }
 

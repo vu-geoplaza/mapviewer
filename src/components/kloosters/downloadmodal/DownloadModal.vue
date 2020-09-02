@@ -63,7 +63,6 @@
       var me = this;
       SharedEventBus.$on('kloostersource-loaded', () => {
         me.year = this.$config.klooster.year;
-        console.log('Set download year ' + me.year);
         me.$forceUpdate(); // todo: should be posible without a forceupdate
       });
     },

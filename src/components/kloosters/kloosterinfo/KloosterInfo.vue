@@ -162,7 +162,6 @@
                 });
             },
             handleImageError(index) {
-                console.log('photo not found ' + this.items[index].photo_url)
                 this.items[index].photo_url = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D';
             }
         }

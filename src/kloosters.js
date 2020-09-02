@@ -16,7 +16,6 @@ Vue.config.productionTip = false;
 function init(config) {
   Vue.prototype.$adminmode = false;
   Vue.prototype.$config = config; // might it be wiser to just use a global variable for this?
-  console.log(config);
   document.title=config.title;
   /* eslint-disable no-new */
   new Vue({

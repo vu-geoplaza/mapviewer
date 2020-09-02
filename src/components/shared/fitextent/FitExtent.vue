@@ -14,7 +14,6 @@
         const me = this;
         // Some events triggered by the Vue app:
         SharedEventBus.$on('force-fit', function () {
-          console.log('force-fit');
           me.zoomExtent();
         });
       },
