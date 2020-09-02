@@ -15,6 +15,7 @@
     import View from "ol/View";
     import VectorLayer from "ol/layer/Vector";
     import Cluster from "ol/source/Cluster";
+    import {MarkerLayer} from "../../../helpers/ViewerMarkerLayer";
 
     // Add a simple extension to enable layer lookup by layer id
     if (Map.prototype.getLayerByLid === undefined) {
@@ -123,6 +124,7 @@
                 this.map.setView(view);
                 this.setViewOptions(view);
                 this.addBaseLayers(config.available_crs);
+                this.addMarkerLayer();
                 console.log('start adding layers');
                 this.addLayers(config);
 
@@ -219,6 +221,9 @@
                 }
                 this.map.available_crs = new_arr;
                 this.$config.available_crs = this.map.available_crs;
+            },
+            addMarkerLayer() {
+                this.map.addLayer(MarkerLayer());
             },
             addBaseLayers() {
                 console.log('add base layers');

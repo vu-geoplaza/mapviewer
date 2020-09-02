@@ -12,7 +12,7 @@ export const ViewerDataHelper = {
     const tmp=[];
     olmap.getLayers().forEach(function(layer){
       const type=layer.get('type');
-      if (type!=='base') {
+      if (type!=='base'&&type!=='marker') {
         const lyr={
           id: layer.get('lid'),
           title: layer.get('title'),

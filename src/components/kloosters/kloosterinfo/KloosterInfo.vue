@@ -11,7 +11,7 @@
                 <b-overlay :show="showoverlay" spinner-large rounded="sm">
                     <b-tabs>
                         <b-tab lazy :key="index" :title="item.title" class="scroll"
-                               v-for="(item, index) in items">
+                               v-for="(item, index) in items" @click="addMarker(item.feature)">
                             <b-row align-h="center">
                                 <b-col>
                                     <b-link v-bind:href="item.kl_url" target="_blank" center>{{ t[2] }}</b-link>
@@ -48,7 +48,7 @@
 <script>
     import {lang} from '@/helpers/kloosters/lang.js';
     import {Mapable} from '@/mixins/mapable.js';
-    import axios from "axios"; // makes the OL map object available to the component
+    import axios from "axios";
     export default {
         name: "KloosterInfo",
         mixins: [Mapable],
@@ -58,7 +58,7 @@
                 title: 'Info',
                 items: [],
                 t: [],
-                showoverlay: true
+                showoverlay: true,
             }
         },
         methods: {
@@ -73,23 +73,26 @@
                 });
             },
             handleInfoClick(coordinate, pixel) {
+                this.clearMarkers();
                 this.items = [];
                 var me = this;
                 let n = 0;
-                const max = 6;
+                const max = 10;
                 this.map.forEachFeatureAtPixel(pixel, function (feature) {
                     me.showoverlay = true;
                     me.toggle = true;
                     if (!feature.get('features')) {
                         if (n < max) { // browser slow if showing many tabs
-                            me.showInfo(feature.get("id"), feature.get("type"), feature.get('val'));
+                            me.addMarker(feature);
+                            me.showInfo(feature);
                         }
                         n++;
                     } else { // clustered feature
                         const features = feature.get('features');
+                        me.addMarker(features[0]);
                         for (var i = 0; i < features.length; i++) {
                             if (n < max) { // browser slow if showing many tabs
-                                me.showInfo(features[i].get("id"), features[i].get("type"), features[i].get('val'));
+                                me.showInfo(features[i]);
                             }
                             n++;
                         }
@@ -100,7 +103,22 @@
                 this.items.push(item);
                 this.showoverlay = false;
             },
-            showInfo(id, type, year) {
+            clearMarkers(){
+                this.map.getLayerByLid('marker').getSource().clear();
+            },
+            addMarker(feature){
+                this.clearMarkers();
+                const markerLayer = this.map.getLayerByLid('marker');
+                const markerSource = markerLayer.getSource();
+                let marker = feature.clone();
+                marker.set('type', 'pointMarker'); // determines the styling
+                markerSource.addFeature(marker);
+                markerLayer.setVisible(true);
+            },
+            showInfo(feature) {
+                const id=feature.get("id")
+                const type = feature.get("type")
+                const year = feature.get('val')
                 let item = {
                     photo_url: '',
                     photo_caption: '',
@@ -129,6 +147,7 @@
                         item.title = data['type'];
                         item.title = item.title + ' ' + id;
                         item.map_url = 'index.html?id=' + id + '&nomenu=t&language=' + language;
+                        item.feature = feature;
                     }
                     me.addItem(item);
                 }, error => {

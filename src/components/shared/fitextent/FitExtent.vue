@@ -24,7 +24,7 @@
                 // should be separate function
                 var zindex = 0;
                 for (const l of a) {
-                    if (l.get('type') !== 'base') {
+                    if (l.get('type') !== 'base'&&l.get('type') !== 'marker') {
                         if (l.getZIndex() > zindex) {
                             var toplayer = l;
                             zindex = l.getZIndex();
