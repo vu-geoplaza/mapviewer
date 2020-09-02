@@ -58,7 +58,7 @@
         var layers = this.map.getLayers();
         var layerItems = [];
         layers.forEach(function (layer) {
-          if (layer.get('type') !== 'base') {
+          if (layer.get('type') !== 'base'&&layer.get('type') !== 'marker') {
             layerItems.push({
               id: layer.get('lid'),
               label: layer.get('label'),

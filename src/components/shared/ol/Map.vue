@@ -15,6 +15,7 @@
     import View from "ol/View";
     import VectorLayer from "ol/layer/Vector";
     import Cluster from "ol/source/Cluster";
+    import {MarkerLayer} from "../../../helpers/ViewerMarkerLayer";
 
     // Add a simple extension to enable layer lookup by layer id
     if (Map.prototype.getLayerByLid === undefined) {
@@ -97,27 +98,8 @@
                     this.map.getTargetElement().style.cursor = this.map.hasFeatureAtPixel(this.map.getEventPixel(evt.originalEvent)) ? 'pointer' : '';
                 }
             });
-            let start=parseInt(this.map.getView().getZoom());
-            let end=this.map.getView().getZoom();
-            this.map.on(['movestart', 'moveend'], function(e) {
-                if (e.type == 'movestart') {
-                    start=parseInt(e.map.getView().getZoom());
-                } else if (e.type == 'moveend') {
-
-                    end=parseInt(e.map.getView().getZoom());
-                    if (start!==end) {
-                        console.log(end);
-                        //SharedEventBus.$emit('change-resolution', end);
-                        // Update cluster distances
-                        me.updateClusters(end);
-                    }
-                }
-
-            });
         },
         created() {
-            console.log('map created');
-
             this.initMap();
         },
         methods: {
@@ -127,7 +109,8 @@
                 console.log('init map crs: ' + config.crs);
                 const view = new View({
                     projection: config.crs,
-                    enableRotation: false
+                    enableRotation: false,
+                    constrainResolution: true // keep this or clustering updates break
                 });
 
                 this.map = new Map({
@@ -137,22 +120,47 @@
 
                 view.fit(transformExtent(config.bbox, 'EPSG:4326', view.getProjection()), this.map.getSize());
                 this.map.setView(view);
-
+                this.setViewOptions(view);
                 this.addBaseLayers(config.available_crs);
-                console.log('start adding layers');
+                this.addMarkerLayer();
                 this.addLayers(config);
 
+            },
+            setViewOptions: function(view){
+                let me=this;
+                let resolution = view.getResolution();
+                let clustered = true;
+                if (resolution < me.$config.cluster_resolution) {
+                    clustered = false;
+                    me.updateClusters(false);
+                }
+                view.on('change:resolution', function () {
+                    const zoom = view.getZoom();
+                    if (zoom % 1 == 0) {
+                        const resolution = view.getResolution();
+                        if (resolution < me.$config.cluster_resolution && clustered) {
+                            clustered = false;
+                            me.updateClusters(false);
+                        } else if (resolution > me.$config.cluster_resolution && !clustered) {
+                            clustered = true;
+                            me.updateClusters(true);
+                        }
+                    }
+                });
             },
             reProject: function (crs) {
                 console.log('reproject to ' + crs);
                 const curview = this.map.getView(this.map.getSize());
                 const extent = transformExtent(curview.calculateExtent(), curview.getProjection().getCode(), crs);
                 const view = new View({
-                    projection: crs
+                    projection: crs,
+                    enableRotation: false,
+                    constrainResolution: true // keep this or clustering updates break
                 });
                 view.fit(extent, {size: this.map.getSize(), nearest: true});
                 this.clearVectorLayers();
                 this.map.setView(view);
+                this.setViewOptions(view);
             },
             clearVectorLayers() {
                 var layers = this.map.getLayers();
@@ -167,19 +175,16 @@
                     }
                 });
             },
-            updateClusters(zoom){
+            updateClusters(enable = true) {
                 var layers = this.map.getLayers();
                 layers.forEach(function (layer) {
                     if (layer instanceof VectorLayer) { // should set a generic vector/tile type
                         const source = layer.getSource();
                         if (source instanceof Cluster) {
-                            if (typeof layer.get('cluster_zoomlevel')!=='undefined') {
-                                if (layer.get('cluster_zoomlevel') <= zoom) {
-                                    console.log('set cluster distance to 0');
-                                    source.setDistance(0);
-                                } else {
-                                    source.setDistance(layer.get('cluster_distance'));
-                                }
+                            if (enable) {
+                                source.setDistance(layer.get('cluster_distance'));
+                            } else {
+                                source.setDistance(0);
                             }
                         }
                     }
@@ -199,7 +204,6 @@
                 }
             },
             calcAvailableCRS(arr_crs) {
-                console.log('**** reset available crs ' + arr_crs);
                 if (this.map.available_crs.length <= 1) {
                     this.map.available_crs = ALLOWED_VIEWER_CRS;
                 }
@@ -211,6 +215,9 @@
                 }
                 this.map.available_crs = new_arr;
                 this.$config.available_crs = this.map.available_crs;
+            },
+            addMarkerLayer() {
+                this.map.addLayer(MarkerLayer());
             },
             addBaseLayers() {
                 console.log('add base layers');

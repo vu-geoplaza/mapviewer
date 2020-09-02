@@ -75,11 +75,15 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
         if (language == 'nl') {
            naam = features[0].get('name_nl');
         }
-
+        naam=naam.slice(naam.indexOf(',')+2).replace(': ',':\n');
         var uq = num;
         if (num==1) {
-          uq = orde + resolution;
+          uq = orde;
         }
+        if (resolution < labelResolutionLevel) {
+          uq = uq + naam;
+        }
+
 
         var style = me.styleCache[uq];
         if (style) {
@@ -139,7 +143,6 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
       opacity: 1,
       zIndex: 93,
       cluster_distance: clusterDistance,
-      cluster_zoomlevel: 13
     });
   }
 }

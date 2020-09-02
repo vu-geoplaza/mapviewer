@@ -5,6 +5,7 @@
         <span v-if="language === 'nl'">{{ regel.nl }}</span>
         <span v-if="language === 'en'">{{ regel.en }}</span>
       </b-btn>
+      &nbsp;
       <input type="checkbox" v-model="regel.selected" :id="'checkbox' + index" @change="regel_selectparent(index, regels)"/>
     </b-card-header>
     <b-collapse visible :id="'regelcard' + index">

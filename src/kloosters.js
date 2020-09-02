@@ -16,7 +16,6 @@ Vue.config.productionTip = false;
 function init(config) {
   Vue.prototype.$adminmode = false;
   Vue.prototype.$config = config; // might it be wiser to just use a global variable for this?
-  console.log(config);
   document.title=config.title;
   /* eslint-disable no-new */
   new Vue({
@@ -44,6 +43,7 @@ if (typeof getParam('id') === 'string') {
 if (typeof getParam('mode') === 'string') {
   if (getParam('mode') === 'all') {
     mode = 'all';
+    config.klooster.mode='all';
   }
 }
 if (typeof getParam('language') === 'string') {
@@ -65,6 +65,7 @@ if (mode === 'all') {
     crs: "EPSG:3857",
     available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
     baselayer: "light",
+    cluster_resolution: 10,
     services: [{
       url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php',
       type: 'kloosters_all',
@@ -135,6 +136,7 @@ if (mode === 'all') {
     crs: "EPSG:3857",
     available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
     baselayer: "light",
+    cluster_resolution: 10,
     services: [{
       url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONYear.php',
       type: 'kloosters_by_year',

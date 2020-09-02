@@ -14,7 +14,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
 
     constructor(props) {
         super(props);
-        this.styleCache = [];
+        //this.styleCache = [];
     }
 
     OLLayer(url) {
@@ -38,23 +38,20 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
             }
         });
         let clusterSource = new Cluster({
-            distance: 25,
+            distance: 50,
             source: source
         });
+        let styleCache={};
         return new VectorLayer({
             source: clusterSource,
             style: function (feature) {
                 const name = me.name;
                 const features = feature.get('features');
                 let num = features.length.toString();
-
                 let uq = name + num;
-                var style = me.styleCache[uq];
-                if (style) {
-                    return [style];
-                } else {
+                if (!styleCache[uq]) {
                     if (num == '1') {
-                        me.styleCache[uq] =
+                        styleCache[uq] =
                             new Style({
                                 image: new Icon({
                                     scale: 0.5,
@@ -63,7 +60,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
                                 })
                             });
                     } else {
-                        me.styleCache[uq] =
+                        styleCache[uq] =
                             new Style({
                                 image: new Icon({
                                     scale: 0.5 + (0.2 * Math.log(num)),
@@ -78,16 +75,15 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
                                 }),
                             });
                     }
-                    return [me.styleCache[uq]];
                 }
+                return [styleCache[uq]];
             },
             type: me.type,
             visible: this.visible,
             opacity: 0.8,
             zIndex: this.zindex,
             legend_img: me.legend_img,
-            cluster_distance: 25,
-            cluster_zoomlevel: 13
+            cluster_distance: 50,
         });
     }
 }

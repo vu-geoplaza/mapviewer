@@ -1,15 +1,25 @@
 <template>
-  <b-modal ref="downloadmodal" id="downloadmodal" ok-only size="lg" title="Download data">
+  <b-modal ref="downloadmodal" id="downloadmodal" ok-only size="lg" title="About">
     <b-row>
       <b-col md="12">
-        <h4>Beschrijvingen in het Nederlands</h4>
+        <h4>Over deze kaart</h4>
+        <p>De Kloosterkaart toont de kloosters van alle orden die in Nederland gedurende de Middeleeuwen en de Vroegmoderne
+        Tijd (tot 1800) vertegenwoordigd zijn geweest. De kaart is een visualisatie van de gegevens die zijn verzameld
+          in de Kloosterlijst: Beknopt overzicht van de Nederlandse kloosters tot 1800 (<a href="http://www2.fgw.vu.nl/oz/kloosterlijst/">link</a>).</p>
+        <p><i>Meer informatie op de <a href="https://geoplaza.vu.nl/cms/research/kloosterkaart/">Geoplaza website</a></i></p>
+        <h5>Download in het Nederlands</h5>
         <ul>
           <li><a v-bind:href="url + 'type=kloosters_by_year&language=nl&year=' + year">Kloosters in {{ year }}</a></li>
           <li><a v-bind:href="url + 'type=kloosters&language=nl'">Alle Kloosterlokaties</a></li>
           <li><a v-bind:href="url + 'type=kapittels&language=nl'">Kapittels</a></li>
           <li><a v-bind:href="url + 'type=uithoven&language=nl'">Uithoven</a></li>
         </ul>
-        <h4>Descriptions in English</h4>
+        <h4>About this map</h4>
+        <p>The Map of Monasteries shows the monasteries of all orders which have been represented in the present-day
+          Netherlands during the Middle Ages and Early Modern period (until 1800). The map visualises the data assembled
+          for the Census: Monasteries in the Netherlands until 1800 (<a href="https://www2.fgw.vu.nl/oz/monasteries/index.php">link</a>).</p>
+        <p><i>More information on the <a href="https://geoplaza.vu.nl/cms/research/map-of-monasteries/">Geoplaza website</a></i></p>
+        <h5>Download in English</h5>
         <ul>
           <li><a v-bind:href="url + 'type=kloosters_by_year&language=en&year=' + year">Monasteries in {{ year }}</a>
           </li>
@@ -53,7 +63,6 @@
       var me = this;
       SharedEventBus.$on('kloostersource-loaded', () => {
         me.year = this.$config.klooster.year;
-        console.log('Set download year ' + me.year);
         me.$forceUpdate(); // todo: should be posible without a forceupdate
       });
     },

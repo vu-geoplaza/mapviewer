@@ -15,6 +15,7 @@ class ViewerConfig {
     this.crs = 'EPSG:3857';
     this.available_crs = ['EPSG:3857', 'EPSG:28992', 'EPSG:4326'];
     this.baselayer = 'osm';
+    this.cluster_resolution = 0;
     this.bbox = [
       2.7906529317858966,
       52.1414097243633,
@@ -27,21 +28,21 @@ class ViewerConfig {
 
 
   setCrs(crs) {
-    console.log('setcrs');
     this.crs=crs;
   }
 
   readJSON(json) {
     if (json.crs) this.crs = json.crs;
-    if (this.crs=='EPSG:28992') {
+    if (this.crs === 'EPSG:28992') {
       this.baselayer = 'brt';
-    } else if (this.crs=='EPSG:28992') {
+    } else if (this.crs === 'EPSG:28992') {
       this.baselayer = 'aho';
     }
     if (json.available_crs) {
       this.available_crs = json.available_crs;
     }
     if (json.baselayer) this.baselayer = json.baselayer;
+    if (json.cluster_resolution) this.cluster_resolution = json.cluster_resolution;
     if (json.bbox) this.bbox = json.bbox;
     if (json.title) this.title = json.title;
     if (json.url) this.url = json.url;

@@ -8,11 +8,12 @@
         <FitExtent/>
         <b-nav-item v-if="showInfo" v-b-modal.infomodal>info</b-nav-item>
         <b-nav-item v-if="showKloosterList" v-b-modal.kloosterlistmodal>view list</b-nav-item>
-        <b-nav-item v-if="showKloosterDownload" v-b-modal.downloadmodal>download</b-nav-item>
+        <b-nav-item v-if="showKloosterDownload" v-b-modal.downloadmodal>about</b-nav-item>
         <b-nav-item v-if="admminmode" v-b-modal.servicemodal>add service</b-nav-item>
         <FileSaver v-if="admminmode"/>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
+        <KloosterModeSwitcher v-if="showKloosterDownload"/>
         <LanguageSwitcher v-if="showLanguage"/>
         <GeoLocation/>
       </b-navbar-nav>
@@ -27,12 +28,15 @@
   import FileSaver from '@/components/gpz/file/FileSaver'
   import BaseLayerSwitcher from "@/components/shared/baselayerswitcher/BaseLayerSwitcher";
   import LanguageSwitcher from "@/components/kloosters/languageswitcher/LanguageSwitcher";
+  import KloosterModeSwitcher from "@/components/kloosters/kloostermodeswitcher/KloosterModeSwitcher";
   import GeoLocation from "@/components/shared/geolocation/GeoLocation";
+
 
   export default {
     name: "NavBar",
     components: {
       LanguageSwitcher,
+      KloosterModeSwitcher,
       BaseLayerSwitcher,
       FitExtent,
       FileSaver,
