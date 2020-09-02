@@ -44,6 +44,7 @@ if (typeof getParam('id') === 'string') {
 if (typeof getParam('mode') === 'string') {
   if (getParam('mode') === 'all') {
     mode = 'all';
+    config.klooster.mode='all';
   }
 }
 if (typeof getParam('language') === 'string') {
