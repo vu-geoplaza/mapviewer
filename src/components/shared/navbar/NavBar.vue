@@ -8,7 +8,7 @@
         <FitExtent/>
         <b-nav-item v-if="showInfo" v-b-modal.infomodal>info</b-nav-item>
         <b-nav-item v-if="showKloosterList" v-b-modal.kloosterlistmodal>view list</b-nav-item>
-        <b-nav-item v-if="showKloosterDownload" v-b-modal.downloadmodal>download</b-nav-item>
+        <b-nav-item v-if="showKloosterDownload" v-b-modal.downloadmodal>about</b-nav-item>
         <b-nav-item v-if="admminmode" v-b-modal.servicemodal>add service</b-nav-item>
         <FileSaver v-if="admminmode"/>
       </b-navbar-nav>
