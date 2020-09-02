@@ -49,6 +49,7 @@
     import {lang} from '@/helpers/kloosters/lang.js';
     import {Mapable} from '@/mixins/mapable.js';
     import axios from "axios";
+    import {SharedEventBus} from "@/shared";
     export default {
         name: "KloosterInfo",
         mixins: [Mapable],
@@ -71,6 +72,12 @@
                 this.map.on('singleclick', function (evt) {
                     me.handleInfoClick(evt.coordinate, evt.pixel);
                 });
+                SharedEventBus.$on('klooster-selected', feature => {
+                    me.toggle = true;
+                    this.items = [];
+                    me.addMarker(feature);
+                    me.showInfo(feature);
+                })
             },
             handleInfoClick(coordinate, pixel) {
                 this.clearMarkers();
