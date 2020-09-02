@@ -154,7 +154,8 @@
 
     #feature-info {
         background-color: azure;
-        z-index: 1000;
+        position: relative;
+        z-index: 1050;
         opacity: 0.95;
     }
 
