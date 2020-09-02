@@ -9,11 +9,11 @@
         <b-nav-item v-if="showInfo" v-b-modal.infomodal>info</b-nav-item>
         <b-nav-item v-if="showKloosterList" v-b-modal.kloosterlistmodal>view list</b-nav-item>
         <b-nav-item v-if="showKloosterDownload" v-b-modal.downloadmodal>download</b-nav-item>
-        <KloosterModeSwitcher v-if="showKloosterDownload"/>
         <b-nav-item v-if="admminmode" v-b-modal.servicemodal>add service</b-nav-item>
         <FileSaver v-if="admminmode"/>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
+        <KloosterModeSwitcher v-if="showKloosterDownload"/>
         <LanguageSwitcher v-if="showLanguage"/>
         <GeoLocation/>
       </b-navbar-nav>

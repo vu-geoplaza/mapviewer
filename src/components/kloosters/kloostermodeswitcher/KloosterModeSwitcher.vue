@@ -16,10 +16,10 @@
         mounted: function () {
             if (this.$config.klooster.mode==='all'){
                 this.link = '?mode=';
-                this.link_text = 'by year';
+                this.link_text = 'show by year';
             } else {
                 this.link = '?mode=all';
-                this.link_text = 'all locations';
+                this.link_text = 'show all';
             }
         }
     }
