@@ -81,6 +81,7 @@
             },
             handleInfoClick(coordinate, pixel) {
                 this.clearMarkers();
+                this.toggle = false;
                 this.items = [];
                 var me = this;
                 let n = 0;
