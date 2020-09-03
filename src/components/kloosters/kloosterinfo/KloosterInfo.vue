@@ -182,9 +182,6 @@
         background-color: azure;
         position: relative;
         opacity: 0.95;
-    }
-
-    #feature-info card {
         z-index: 1050;
     }
 
