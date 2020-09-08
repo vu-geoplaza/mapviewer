@@ -53,8 +53,8 @@
         href: '#',
         brand: false,
         showInfo: true,
-        showKloosterList: true,
-        showKloosterDownload: true,
+        showKloosterList: false,
+        showKloosterDownload: false,
         showLanguage: false,
       }
     },

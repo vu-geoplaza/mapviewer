@@ -6,9 +6,8 @@
     <b-card v-show='toggle' visible no-body class="mb-1">
       <b-card-header header-tag="header" class="p-2">
         <span class="widget-header-text">Layers</span>
-        <a @click='toggle = !toggle' class="pull-right">
-          <font-awesome-icon icon="arrow-left" />
-        </a>
+        <b-button-close @click='toggle = !toggle' class="pull-right">
+        </b-button-close>
       </b-card-header>
         <b-card-body class="p-2 scroll">
           <SortableList lockAxis="y" v-model="items" :useDragHandle="true">
