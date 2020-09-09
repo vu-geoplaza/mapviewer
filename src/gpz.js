@@ -18,10 +18,6 @@ proj4.defs("EPSG:28992", "+title=Amersfoort / RD New +proj=sterea +lat_0=52.1561
 register(proj4);
 getProjection('EPSG:28992').setExtent([-285401.92, 22598.08, 595401.92, 903401.92]);
 
-import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
-
-Vue.use(BootstrapVue);
-
 Vue.config.productionTip = false;
 Vue.prototype.$nomenu = false;
 // Admin mode adds add services and Save config options to the viewer
