@@ -1,12 +1,13 @@
 {
   "name": "mapviewer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "scripts": {
     "serve:kloosters": "vue-cli-service serve src/kloosters.js",
     "serve:gpz": "vue-cli-service serve src/gpz.js",
     "build:kloosters": "vue-cli-service build src/kloosters.js --dest dist/kloosters",
     "build:gpz": "vue-cli-service build src/gpz.js --dest dist/gpz",
+    "build-report": "vue-cli-service build src/kloosters.js --report --dest dist/kloosters",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
