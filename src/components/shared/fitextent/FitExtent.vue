@@ -6,6 +6,7 @@
     import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
     import {transformExtent} from "ol/proj";
     import {SharedEventBus} from "@/shared";
+    import {Vector} from "ol/layer";
 
     export default {
         name: "FitExtent",
@@ -31,9 +32,9 @@
                     }
                 }
                 const view = this.map.getView();
-                let extent = toplayer.getSource().getExtent();
-                if (extent == null) {
-                  extent=transformExtent(toplayer.get('extent_lonlat'), 'EPSG:4326', view.getProjection())
+                let extent=transformExtent(toplayer.get('extent_lonlat'), 'EPSG:4326', view.getProjection())
+                if (toplayer instanceof Vector) {
+                  extent = toplayer.getSource().getExtent();
                 }
                 view.fit(extent, { size: this.map.getSize(), padding: [80, 80, 80, 80], maxZoom: 17});
             }
