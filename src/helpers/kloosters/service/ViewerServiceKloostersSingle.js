@@ -11,9 +11,15 @@ class ViewerServiceKloostersSingle extends ViewerService {
 
   async getCapabilities() {
     const layers = [];
+    const extent = [
+      -1.86027801047121,
+      49.854107444730744,
+      12.20222198952879,
+      54.35672339723146
+    ]; // Nederland
     layers.push(new ViewerLayerKloosterSingle({
       name: 'kloosters_single',
-      //extent_lonlat: extent,
+      extent_lonlat: extent,
       title: 'kloosters_single',
       legend_img: 'https://geoplaza.vu.nl/projects/kloosters/svg/circle_m_0.svg',
       available_crs: ALLOWED_VIEWER_CRS,
