@@ -15,7 +15,7 @@ register(proj4);
 getProjection('EPSG:28992').setExtent([-285401.92, 22598.08, 595401.92, 903401.92]);
 
 import { LayoutPlugin, ModalPlugin, CardPlugin, TablePlugin, NavbarPlugin, ButtonPlugin, ListGroupPlugin, ImagePlugin,
-    OverlayPlugin, TabsPlugin, LinkPlugin, SpinnerPlugin, VBModalPlugin, FormInputPlugin, FormSelectPlugin } from 'bootstrap-vue'
+    OverlayPlugin, TabsPlugin, LinkPlugin, SpinnerPlugin, VBModalPlugin, FormInputPlugin, FormSelectPlugin, EmbedPlugin } from 'bootstrap-vue'
 Vue.use(LayoutPlugin);
 Vue.use(ModalPlugin);
 Vue.use(VBModalPlugin);
@@ -31,6 +31,7 @@ Vue.use(LinkPlugin);
 Vue.use(SpinnerPlugin);
 Vue.use(FormInputPlugin);
 Vue.use(FormSelectPlugin);
+Vue.use(EmbedPlugin);
 
 export const SharedEventBus = new Vue();
 // Projections supported by the Viewer. A projection will only be available if all layers support it.
