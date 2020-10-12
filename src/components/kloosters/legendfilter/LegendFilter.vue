@@ -16,13 +16,28 @@
         </b-button-close>
       </b-card-header>
       <b-card-body class="p-0 scroll">
-        <b-list-group horizontal="md" flush v-model="regels">
-          <RegelItem v-for="(regel, index) in regels" v-bind:index="index" v-bind:key="index" v-bind:regel="regel"
-                     v-bind:language="language" v-bind:regels="regels" v-bind:regel_selectparent="regel_select">
-            <OrdeItem v-for="(orde_index, index2) in regel.orde_index" v-bind:index="index2"
-                      v-bind:key="orde_index" v-bind:orde="orden[orde_index]" v-bind:present="orden[orde_index].present"
-                      v-bind:language="language"/>
-          </RegelItem>
+        <b-list-group horizontal="md" flush>
+          <b-list-group-item class="p-1" v-for="(regel, index) in regels" v-bind:key="index">
+            <b-card-header header-tag="header" class="p-2" v-bind:class="{ dim: !regel.present }">
+              <b-btn v-b-toggle="'regelcard' + index" variant="info" class="regelbutton">
+                <span v-if="language === 'nl'">{{ regel.nl }}</span>
+                <span v-if="language === 'en'">{{ regel.en }}</span>
+              </b-btn>
+              &nbsp;
+              <input type="checkbox" v-model="regel.selected" :id="'checkbox' + index" @change="regel_select(index, regels)"/>
+            </b-card-header>
+            <b-collapse visible :id="'regelcard' + index">
+              <b-list-group class="row-fluid">
+                <b-list-group-item v-for="(orde_index, index2) in regel.orde_index" v-bind:key="index2"
+                    class="p-1 col-lg-6 col-md-12 col-xs-12 col-sm-6 clearfix"
+                    v-show="present">
+                  <b-img :src="orden[orde_index].symbol"/>
+                  <span v-if="language === 'nl'">{{ orden[orde_index].nl }}</span>
+                  <span v-if="language === 'en'">{{ orden[orde_index].en }}</span>
+                </b-list-group-item>
+              </b-list-group>
+            </b-collapse>
+          </b-list-group-item>
         </b-list-group>
       </b-card-body>
     </b-card>
@@ -33,12 +48,9 @@
 <script>
     import {symbolsCat} from '@/helpers/kloosters/KloosterSymbols'
     import {SharedEventBus} from "@/shared";
-    import OrdeItem from "@/components/kloosters/legendfilter/OrdeItem";
-    import RegelItem from "@/components/kloosters/legendfilter/RegelItem";
 
     export default {
         name: "LegendFilter",
-        components: {RegelItem, OrdeItem},
         data: function () {
             return {
                 language: this.$config.klooster.language,
@@ -85,11 +97,7 @@
                     }
                 });
                 for (let i = 0; i < this.orden.length; i++) {
-                    if (tmp.includes(this.orden[i].nl)) {
-                        this.orden[i].present = true;
-                    } else {
-                        this.orden[i].present = false;
-                    }
+                  this.orden[i].present = tmp.includes(this.orden[i].nl) ? true : false;
                 }
                 for (let i = 0; i < this.regels.length; i++) {
                     this.regels[i].present = false;
@@ -173,10 +181,24 @@
   }
 
   .scroll {
-    top: 0px;
+    top: 0;
     max-height: 80vh;
     overflow-y: auto;
   }
 
+  .row-fluid {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  .regelbutton {
+
+    padding: 2px;
+    font-size: 0.9em;
+    width: -webkit-calc(100% - 20px);
+    width: -moz-calc(100% - 20px);
+    width: calc(100% - 20px);
+  }
 
 </style>
