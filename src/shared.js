@@ -35,6 +35,31 @@ Vue.use(EmbedPlugin);
 Vue.use(FormCheckboxPlugin);
 Vue.use(FormPlugin);
 
+Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value));
+}
+Storage.prototype.getObject = function(key) {
+    var value = this.getItem(key);
+    return value && JSON.parse(value);
+}
+Storage.prototype.setObjectKey = async function(key, value) {
+    console.log('setObjectKey: ' + key + ' | ' + value);
+    const storeKey=Vue.prototype.$config.hash; // not the right place?
+    let stored = this.getObject(storeKey);
+    stored[key]=value;
+    this.setObject(storeKey, stored);
+}
+export function hashCode (str){
+    var hash = 0;
+    if (str.length == 0) return hash;
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash<<5)-hash)+char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
+
 export const SharedEventBus = new Vue();
 // Projections supported by the Viewer. A projection will only be available if all layers support it.
 export const ALLOWED_VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];
