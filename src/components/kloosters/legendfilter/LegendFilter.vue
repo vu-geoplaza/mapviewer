@@ -72,7 +72,6 @@ export default {
         present: false,
         selected: true
       }],
-      changed: true,
       toggle: true,
       showoverlay: true
     }
@@ -85,7 +84,6 @@ export default {
     SharedEventBus.$on('kloostersource-loaded', () => {
       console.log('update legend');
       me.present(me.$config.klooster.data.geojson.features);
-      me.changed = !me.changed;
     });
     SharedEventBus.$on('change-language', () => {
       this.language = this.$config.klooster.language;
