@@ -5,9 +5,16 @@ export const symbolsCat = {
     "Franciscaanse regels": "Franciscan Rules",
     "Geestelijke ridderorden": "Knightly Rules",
     "Overige": "Remaining Rules",
-    "Zonder erkende of bekende regel": "Without acknowledged or known rule"
+    "Zonder erkende of bekende regel": "Without acknowledged or known rule",
+    "Kapittels": "Collegiate Churches"
   },
   "data": {
+    "Kapittels": {
+      "kapittel": {
+        "symbol": "church",
+        "en": "Collegiate Church"
+      }
+    },
     "Regel van Benedictus": {
       "benedictijnen": {
         "symbol": "square_m_0",
