@@ -86,7 +86,6 @@ export default {
       console.log('update legend');
       me.present(me.$config.klooster.data.geojson.features);
       me.changed = !me.changed;
-      me.$forceUpdate(); // todo: should be posible without a forceupdate
     });
     SharedEventBus.$on('change-language', () => {
       this.language = this.$config.klooster.language;
@@ -235,7 +234,7 @@ li {
 }
 
 .dim {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .hidden {
