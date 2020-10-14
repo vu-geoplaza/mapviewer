@@ -24,7 +24,7 @@
                     <span v-if="language === 'nl'">{{ regel.nl }}</span>
                     <span v-if="language === 'en'">{{ regel.en }}</span>
                   </b-btn>
-                  <b-form-checkbox v-model="regel.selected" @change="regel_select()"></b-form-checkbox>
+                  <b-form-checkbox v-model="regel.selected" @change="regel_select(index)"></b-form-checkbox>
                 </b-form>&nbsp;
 
               </b-card-header>
@@ -126,17 +126,21 @@ export default {
           nl: regel,
           en: symbolsCat.translation[regel],
           present: true,
-          selected: true,
+          selected: false,
           orde_index: []
         });
         for (const orde in symbolsCat.data[regel]) {
           this.regels[regel_index].orde_index.push(orde_index); //might not be detected by Vue
+          const orde_selected = (this.$config.klooster.filter.includes(orde))||(this.$config.klooster.filter.length==0) ? true : false
+          if (orde_selected){
+            this.regels[regel_index].selected=true;
+          }
           this.orden.splice(orde_index, 1, {
             nl: orde,
             en: symbolsCat.data[regel][orde].en,
             present: false,
             symbol: 'https://geoplaza.vu.nl/projects/kloosters_vue/svg/' + symbolsCat.data[regel][orde].symbol + '.svg',
-            selected: true
+            selected: orde_selected
           });
           orde_index++;
         }
@@ -144,20 +148,25 @@ export default {
       }
       this.showoverlay = false;
     },
-    regel_select: function () {
+    regel_select: function (index) {
       this.$nextTick(() => { // wait for b-form-checkbox to update
         this.$config.klooster.filter = [];
         for (let i = 0; i < this.regels.length; i++) {
           for (let j = 0; j < this.regels[i].orde_index.length; j++) {
             let orde_index = this.regels[i].orde_index[j];
             if (this.regels[i].selected) {
+              if (i==index){
+                this.orden[orde_index].selected=true;
+              }
               if (this.orden[orde_index].selected) {
                 this.$config.klooster.filter.push(this.orden[orde_index].nl);
               }
+            } else {
+              this.orden[orde_index].selected = false;
             }
           }
         }
-
+        localStorage.setObjectKey('filter', this.$config.klooster.filter);
         console.log('update filter');
         SharedEventBus.$emit('reload-vector-data');
       });
@@ -174,6 +183,7 @@ export default {
             }
           }
         }
+        localStorage.setObjectKey('filter', this.$config.klooster.filter);
         console.log('update filter');
         SharedEventBus.$emit('reload-vector-data');
       });

@@ -18,7 +18,8 @@ function getState(config) {
         'baselayer': config.baselayer,
         'bbox': config.bbox,
         'year': config.klooster.year,
-        'language': config.klooster.language
+        'language': config.klooster.language,
+        'filter': []
     }
     if (!localStorage[key]) {
         localStorage[key] = JSON.stringify(def_config);
@@ -29,7 +30,7 @@ function getState(config) {
         config.bbox = s.bbox;
         config.klooster.year = s.year
         config.klooster.language = s.language
-
+        config.klooster.filter = s.filter
     }
     return config;
 }
