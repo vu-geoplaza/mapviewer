@@ -118,7 +118,6 @@ export default {
       }
     },
     init: function () {
-      console.log(this.$config.klooster.filter);
       this.showoverlay = true;
       let regel_index = 0;
       let orde_index = 0;

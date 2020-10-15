@@ -43,7 +43,6 @@ Storage.prototype.getObject = function(key) {
     return value && JSON.parse(value);
 }
 Storage.prototype.setObjectKey = async function(key, value) {
-    console.log('setObjectKey: ' + key + ' | ' + value);
     const storeKey=Vue.prototype.$config.hash; // not the right place?
     let stored = this.getObject(storeKey);
     stored[key]=value;

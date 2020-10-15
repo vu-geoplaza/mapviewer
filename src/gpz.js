@@ -5,7 +5,6 @@ import Vue from 'vue'
 import GpzViewer from './GpzViewer'
 
 import ViewerConfig from './helpers/ViewerConfig'
-//import regeneratorRuntime from "regenerator-runtime";
 import axios from 'axios'
 
 import {register} from 'ol/proj/proj4'
