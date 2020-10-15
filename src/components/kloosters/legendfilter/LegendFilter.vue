@@ -34,7 +34,7 @@
                                      class="p-1 col-lg-6 col-md-12 col-xs-12 col-sm-6 clearfix ordeblock"
                                      v-show="present"
                                      v-bind:class="{ dim: !orden[orde_index].present }">
-                    <b-img :src="orden[orde_index].symbol"/>
+                    <b-img :src="orden[orde_index].symbol" class="mr-1"/>
                     <span v-if="language === 'nl'">{{ orden[orde_index].nl }}</span>
                     <span v-if="language === 'en'">{{ orden[orde_index].en }}</span>
                     <b-form-checkbox v-model="orden[orde_index].selected" @change="orde_select()" inline class="float-right mr-0"></b-form-checkbox>
