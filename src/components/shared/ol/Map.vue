@@ -98,6 +98,12 @@
                     this.map.getTargetElement().style.cursor = this.map.hasFeatureAtPixel(this.map.getEventPixel(evt.originalEvent)) ? 'pointer' : '';
                 }
             });
+          this.map.on('moveend', () => {
+            const view=this.map.getView();
+            console.log('moveend');
+            localStorage.setObjectKey('bbox', transformExtent( view.calculateExtent(), view.getProjection(), 'EPSG:4326'));
+          });
+
         },
         created() {
             this.initMap();

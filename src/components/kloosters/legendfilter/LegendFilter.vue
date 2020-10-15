@@ -18,13 +18,13 @@
         <b-card-body class="p-0 scroll">
           <b-list-group horizontal="md" flush>
             <b-list-group-item class="p-1" v-for="(regel, index) in regels" v-bind:key="index">
-              <b-card-header header-tag="header" class="p-2" v-bind:class="{ dim: !regel.present }">
+              <b-card-header header-tag="header" class="pr-0 pl-2 pt-2 pb-2" v-bind:class="{ dim: !regel.present }">
                 <b-form inline>
                   <b-btn v-b-toggle="'regelcard' + index" variant="info" class="regelbutton">
                     <span v-if="language === 'nl'">{{ regel.nl }}</span>
                     <span v-if="language === 'en'">{{ regel.en }}</span>
                   </b-btn>
-                  <b-form-checkbox v-model="regel.selected" @change="regel_select()"></b-form-checkbox>
+                  <b-form-checkbox v-model="regel.selected" @change="regel_select(index)" :indeterminate="regel.indeterminate"></b-form-checkbox>
                 </b-form>&nbsp;
 
               </b-card-header>
@@ -63,7 +63,8 @@ export default {
         en: '',
         orde_index: [],
         present: false,
-        selected: true
+        selected: true,
+        indeterminate: false,
       }],
       orden: [{
         nl: '',
@@ -126,54 +127,82 @@ export default {
           nl: regel,
           en: symbolsCat.translation[regel],
           present: true,
-          selected: true,
+          selected: false,
+          intermediate: false,
           orde_index: []
         });
+        let allSelected=true;
+        let allDeSelected=true;
         for (const orde in symbolsCat.data[regel]) {
           this.regels[regel_index].orde_index.push(orde_index); //might not be detected by Vue
+          const orde_selected = (this.$config.klooster.filter.includes(orde))||(this.$config.klooster.filter.length==0) ? true : false
+          if (orde_selected){
+            allDeSelected=false;
+          } else {
+            allSelected=false;
+          }
           this.orden.splice(orde_index, 1, {
             nl: orde,
             en: symbolsCat.data[regel][orde].en,
             present: false,
             symbol: 'https://geoplaza.vu.nl/projects/kloosters_vue/svg/' + symbolsCat.data[regel][orde].symbol + '.svg',
-            selected: true
+            selected: orde_selected
           });
           orde_index++;
         }
+        this.regels[regel_index].selected = !allDeSelected ? true:false;
+        this.regels[regel_index].indeterminate = (!allSelected&&!allDeSelected) ? true:false;
         regel_index++;
       }
       this.showoverlay = false;
     },
-    regel_select: function () {
+    regel_select: function (index) {
       this.$nextTick(() => { // wait for b-form-checkbox to update
         this.$config.klooster.filter = [];
+        this.regels[index].indeterminate=false;
         for (let i = 0; i < this.regels.length; i++) {
           for (let j = 0; j < this.regels[i].orde_index.length; j++) {
             let orde_index = this.regels[i].orde_index[j];
             if (this.regels[i].selected) {
+              if (i==index){
+                // regel set to true, select the whole group
+                this.orden[orde_index].selected=true;
+              }
               if (this.orden[orde_index].selected) {
                 this.$config.klooster.filter.push(this.orden[orde_index].nl);
               }
+            } else {
+              // regel deselected, deselect whole group
+              this.orden[orde_index].selected = false;
             }
           }
         }
-
+        localStorage.setObjectKey('filter', this.$config.klooster.filter);
         console.log('update filter');
         SharedEventBus.$emit('reload-vector-data');
       });
     },
     orde_select: function () {
-      var me=this;
       this.$nextTick(() => { // wait for b-form-checkbox to update
-        me.$config.klooster.filter = [];
-        for (let i = 0; i < me.regels.length; i++) {
-          for (let j = 0; j < me.regels[i].orde_index.length; j++) {
-            let orde_index = me.regels[i].orde_index[j];
+        this.$config.klooster.filter = [];
+        for (let i = 0; i < this.regels.length; i++) {
+          let allSelected=true;
+          let allDeselected=true;
+          for (let j = 0; j < this.regels[i].orde_index.length; j++) {
+            let orde_index = this.regels[i].orde_index[j];
             if (this.orden[orde_index].selected) {
-              this.$config.klooster.filter.push(me.orden[orde_index].nl);
+              allDeselected=false;
+              this.$config.klooster.filter.push(this.orden[orde_index].nl);
+            } else {
+              allSelected=false;
             }
           }
+          if (allSelected) this.regels[i].selected=true;
+          if (allDeselected) this.regels[i].selected=false;
+          if (allSelected||allDeselected) this.regels[i].indeterminate=false;
+          if (!allSelected&&!allDeselected) this.regels[i].indeterminate=true;
         }
+        localStorage.setObjectKey('filter', this.$config.klooster.filter);
         console.log('update filter');
         SharedEventBus.$emit('reload-vector-data');
       });
@@ -222,9 +251,10 @@ li {
   padding: 2px;
   margin-right: 2px;
   font-size: 0.9em;
-  width: -webkit-calc(100% - 27px);
-  width: -moz-calc(100% - 27px);
-  width: calc(100% - 27px);
+  width: -webkit-calc(100% - 31px);
+  width: -moz-calc(100% - 31px);
+  width: calc(100% - 31px);
+
 }
 
 .ordeblock {
