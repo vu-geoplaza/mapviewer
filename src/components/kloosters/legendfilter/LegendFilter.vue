@@ -134,7 +134,7 @@ export default {
         let allDeSelected=true;
         for (const orde in symbolsCat.data[regel]) {
           this.regels[regel_index].orde_index.push(orde_index); //might not be detected by Vue
-          const orde_selected = (this.$config.klooster.filter.includes(orde))||(this.$config.klooster.filter.length==0) ? true : false
+          const orde_selected = (!this.$config.klooster.filter.includes(orde)) ? true : false
           if (orde_selected){
             allDeSelected=false;
           } else {
@@ -162,17 +162,17 @@ export default {
         for (let i = 0; i < this.regels.length; i++) {
           for (let j = 0; j < this.regels[i].orde_index.length; j++) {
             let orde_index = this.regels[i].orde_index[j];
-            if (this.regels[i].selected) {
+            if (!this.regels[i].selected) {
               if (i==index){
-                // regel set to true, select the whole group
-                this.orden[orde_index].selected=true;
+                // regel set to false, deselect the whole group
+                this.orden[orde_index].selected=false;
               }
-              if (this.orden[orde_index].selected) {
+              if (!this.orden[orde_index].selected) {
                 this.$config.klooster.filter.push(this.orden[orde_index].nl);
               }
             } else {
-              // regel deselected, deselect whole group
-              this.orden[orde_index].selected = false;
+              // regel selected, select whole group
+              this.orden[orde_index].selected = true;
             }
           }
         }
@@ -188,11 +188,11 @@ export default {
           let allDeselected=true;
           for (let j = 0; j < this.regels[i].orde_index.length; j++) {
             let orde_index = this.regels[i].orde_index[j];
-            if (this.orden[orde_index].selected) {
-              allDeselected=false;
+            if (!this.orden[orde_index].selected) {
+              allSelected=false;
               this.$config.klooster.filter.push(this.orden[orde_index].nl);
             } else {
-              allSelected=false;
+              allDeselected=false;
             }
           }
           if (allSelected) this.regels[i].selected=true;

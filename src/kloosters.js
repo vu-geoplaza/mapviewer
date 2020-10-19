@@ -12,7 +12,7 @@ import {saveState} from "./helpers/ViewerDataHelpers";
 Vue.config.productionTip = false;
 
 function getState(config) {
-    const key = hashCode(config.title);
+    const key = hashCode(config.title + "2");
     config.hash=key; // only calculate once
     if (!localStorage[key]) {
         saveState(config);
