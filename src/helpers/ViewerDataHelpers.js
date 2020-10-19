@@ -1,13 +1,14 @@
 import {transformExtent} from "ol/proj";
 
-export function saveState(config) {
+export function saveState(config, olmap) {
   /**
    *
    */
+  const view=olmap.getView();
   let def_config = {
     'crs': config.crs,
     'baselayer': config.baselayer,
-    'bbox': config.bbox,
+    'bbox': transformExtent( view.calculateExtent(), view.getProjection(), 'EPSG:4326'),
   }
   if (typeof config.klooster !== 'undefined') {
     def_config.year = config.klooster.year;

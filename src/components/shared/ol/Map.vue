@@ -85,7 +85,7 @@
 
             // Save the map state on closing or refreshing the window
             window.addEventListener('beforeunload', () => {
-              saveState(me.$config);
+              saveState(me.$config, me.map);
             }, false)
 
             // resize the map, so it fits to parent
@@ -104,13 +104,6 @@
                     this.map.getTargetElement().style.cursor = this.map.hasFeatureAtPixel(this.map.getEventPixel(evt.originalEvent)) ? 'pointer' : '';
                 }
             });
-          this.map.on('moveend', () => {
-            const view=this.map.getView();
-            console.log('moveend');
-            this.$config.bbox = transformExtent( view.calculateExtent(), view.getProjection(), 'EPSG:4326');
-            //localStorage.setObjectKey('bbox', transformExtent( view.calculateExtent(), view.getProjection(), 'EPSG:4326'));
-          });
-
         },
         created() {
             this.initMap();
