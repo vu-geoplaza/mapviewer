@@ -7,22 +7,15 @@ import KloosterViewer from "@/KloosterViewer";
 import KloosterConfig from "@/helpers/kloosters/KloosterConfig";
 
 import {getParam, hashCode} from './shared'
+import {saveState} from "./helpers/ViewerDataHelpers";
 
 Vue.config.productionTip = false;
 
 function getState(config) {
     const key = hashCode(config.title);
     config.hash=key; // only calculate once
-    let def_config = {
-        'crs': config.crs,
-        'baselayer': config.baselayer,
-        'bbox': config.bbox,
-        'year': config.klooster.year,
-        'language': config.klooster.language,
-        'filter': []
-    }
     if (!localStorage[key]) {
-        localStorage[key] = JSON.stringify(def_config);
+        saveState(config);
     } else {
         const s = JSON.parse(localStorage[key]);
         config.crs = s.crs;

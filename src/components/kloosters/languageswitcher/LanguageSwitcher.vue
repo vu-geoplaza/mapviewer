@@ -35,7 +35,6 @@
                     this.button_language = 'en';
                 }
                 this.$config.klooster.language = this.language;
-                localStorage.setObjectKey('language', this.language);
                 SharedEventBus.$emit('change-language');
                 this.$forceUpdate();
             }

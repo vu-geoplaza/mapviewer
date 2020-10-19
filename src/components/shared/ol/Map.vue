@@ -16,6 +16,7 @@
     import VectorLayer from "ol/layer/Vector";
     import Cluster from "ol/source/Cluster";
     import {MarkerLayer} from "../../../helpers/ViewerMarkerLayer";
+    import {saveState} from "../../../helpers/ViewerDataHelpers";
 
     // Add a simple extension to enable layer lookup by layer id
     if (Map.prototype.getLayerByLid === undefined) {
@@ -82,6 +83,11 @@
                 }
             });
 
+            // Save the map state on closing or refreshing the window
+            window.addEventListener('beforeunload', () => {
+              saveState(me.$config);
+            }, false)
+
             // resize the map, so it fits to parent
             console.log('map mounted');
             window.setTimeout(() => {
@@ -101,7 +107,8 @@
           this.map.on('moveend', () => {
             const view=this.map.getView();
             console.log('moveend');
-            localStorage.setObjectKey('bbox', transformExtent( view.calculateExtent(), view.getProjection(), 'EPSG:4326'));
+            this.$config.bbox = transformExtent( view.calculateExtent(), view.getProjection(), 'EPSG:4326');
+            //localStorage.setObjectKey('bbox', transformExtent( view.calculateExtent(), view.getProjection(), 'EPSG:4326'));
           });
 
         },

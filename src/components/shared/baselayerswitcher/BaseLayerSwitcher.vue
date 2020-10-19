@@ -68,8 +68,6 @@
                 me.active_projection=crs;
                 SharedEventBus.$emit('change-projection', crs);
               }
-              localStorage.setObjectKey('crs', crs);
-              localStorage.setObjectKey('baselayer', code);
               layer.setVisible(true);
             } else {
               layer.setVisible(false);

@@ -176,7 +176,6 @@ export default {
             }
           }
         }
-        localStorage.setObjectKey('filter', this.$config.klooster.filter);
         console.log('update filter');
         SharedEventBus.$emit('reload-vector-data');
       });
@@ -201,7 +200,6 @@ export default {
           if (allSelected||allDeselected) this.regels[i].indeterminate=false;
           if (!allSelected&&!allDeselected) this.regels[i].indeterminate=true;
         }
-        localStorage.setObjectKey('filter', this.$config.klooster.filter);
         console.log('update filter');
         SharedEventBus.$emit('reload-vector-data');
       });

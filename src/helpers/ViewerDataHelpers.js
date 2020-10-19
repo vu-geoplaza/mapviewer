@@ -1,5 +1,22 @@
 import {transformExtent} from "ol/proj";
 
+export function saveState(config) {
+  /**
+   *
+   */
+  let def_config = {
+    'crs': config.crs,
+    'baselayer': config.baselayer,
+    'bbox': config.bbox,
+  }
+  if (typeof config.klooster !== 'undefined') {
+    def_config.year = config.klooster.year;
+    def_config.language = config.klooster.language;
+    def_config.filter = config.klooster.filter
+  }
+  localStorage[config.hash] = JSON.stringify(def_config);
+}
+
 export const ViewerDataHelper = {
   /**
    * Translate an OpenLayers map object to a ViewerConfig object that can be written to a json file

@@ -35,19 +35,6 @@ Vue.use(EmbedPlugin);
 Vue.use(FormCheckboxPlugin);
 Vue.use(FormPlugin);
 
-Storage.prototype.setObject = function(key, value) {
-    this.setItem(key, JSON.stringify(value));
-}
-Storage.prototype.getObject = function(key) {
-    var value = this.getItem(key);
-    return value && JSON.parse(value);
-}
-Storage.prototype.setObjectKey = async function(key, value) {
-    const storeKey=Vue.prototype.$config.hash; // not the right place?
-    let stored = this.getObject(storeKey);
-    stored[key]=value;
-    this.setObject(storeKey, stored);
-}
 export function hashCode (str){
     var hash = 0;
     if (str.length == 0) return hash;

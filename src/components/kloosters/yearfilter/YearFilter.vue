@@ -56,7 +56,6 @@
         changeYear: function(year){
           console.log('change year');
           this.$config.klooster.year = year;
-          localStorage.setObjectKey('year', year);
           SharedEventBus.$emit('reload-vector-data');
         },
       }
