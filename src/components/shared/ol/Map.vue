@@ -15,8 +15,8 @@
     import View from "ol/View";
     import VectorLayer from "ol/layer/Vector";
     import Cluster from "ol/source/Cluster";
-    import {MarkerLayer} from "../../../helpers/ViewerMarkerLayer";
-    import {saveState} from "../../../helpers/ViewerDataHelpers";
+    import {MarkerLayer} from "@/helpers/ViewerMarkerLayer";
+    import {saveState} from "@/helpers/ViewerDataHelpers";
 
     // Add a simple extension to enable layer lookup by layer id
     if (Map.prototype.getLayerByLid === undefined) {
