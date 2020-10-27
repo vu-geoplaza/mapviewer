@@ -8,7 +8,7 @@
       <b-col md="12">
         <b-list-group horizontal="md" flush v-model="items">
           <b-list-group-item v-for="(item, index) in items" v-bind:key="index" href="#"
-                             @click="selectKlooster(item.geom)">
+                             @click="selectKlooster(item.feature)">
             <b-img :src="item.image"/>&nbsp;{{ item.label }}
           </b-list-group-item>
         </b-list-group>
@@ -58,10 +58,12 @@
             },
             updateList: function (features) {
                 function compare( a, b ) {
-                    if ( a.label < b.label ){
+                  const alabel = a.label.replace("'s-", "").toLowerCase();
+                  const blabel = b.label.replace("'s-", "").toLowerCase();
+                    if ( alabel < blabel ){
                         return -1;
                     }
-                    if ( a.label > b.label ){
+                    if ( alabel > blabel ){
                         return 1;
                     }
                     return 0;
@@ -78,25 +80,26 @@
                       if ((typeof symbols[orde] !== 'undefined')) {
                         symbol = symbols[orde];
                       }
-                      const image='https://geoplaza.vu.nl/projects/kloosters_vue/svg/' + symbol + '.svg'
+                      const image='https://geoplaza.vu.nl/projects/kloosters_vue/svg/' + symbol;
                       if (me.$config.klooster.language === 'en') {
-                        me.items.push({label: feature.get('name_en'), geom: feature.getGeometry(), image: image});
+                        me.items.push({label: feature.get('name_en'), feature: feature, image: image});
                       } else {
-                        me.items.push({label: feature.get('name_nl'), geom: feature.getGeometry(), image: image});
+                        me.items.push({label: feature.get('name_nl'), feature: feature, image: image});
                       }
                     });
                 });
                 this.title=this.title + ' (' +  me.items.length + ')';
                 me.items.sort(compare);
             },
-            selectKlooster: function (geom) {
-                this.map.getView().fit(geom, {
-                    maxZoom: 15,
-                    padding: [100, 100, 100, 100],
-                    duration: 200
-                });
-                this.$refs['kloosterlistmodal'].hide();
-
+            selectKlooster: function (feature) {
+              const geom=feature.getGeometry();
+              this.map.getView().fit(geom, {
+                maxZoom: 15,
+                padding: [100, 100, 100, 100],
+                duration: 200,
+              });
+              SharedEventBus.$emit('klooster-selected', feature);
+              this.$refs['kloosterlistmodal'].hide();
             }
         }
     }

@@ -36,6 +36,7 @@
         mounted: function () {
             SharedEventBus.$emit('app-mounted');
             console.log('app mounted')
+            console.log('app version: ' + process.env.VUE_APP_VERSION);
         },
         name: 'GpzViewer',
         components: {

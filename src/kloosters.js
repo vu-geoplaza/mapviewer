@@ -4,150 +4,173 @@
 import Vue from 'vue'
 import KloosterViewer from "@/KloosterViewer";
 
-import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
 import KloosterConfig from "@/helpers/kloosters/KloosterConfig";
 
-import {getParam} from './shared'
-
-Vue.use(BootstrapVue);
+import {getParam, hashCode} from './shared'
+import {saveState} from "./helpers/ViewerDataHelpers";
 
 Vue.config.productionTip = false;
 
-function init(config) {
-  Vue.prototype.$adminmode = false;
-  Vue.prototype.$config = config; // might it be wiser to just use a global variable for this?
-  console.log(config);
-  document.title=config.title;
-  /* eslint-disable no-new */
-  new Vue({
-    el: '#gpz',
-    render: h => h(KloosterViewer),
-    components: {KloosterViewer},
-    template: '<KloosterViewer/>'
-  });
+function getState(config) {
+    const key = hashCode(config.title + "2");
+    config.hash=key; // only calculate once
+    if (!localStorage[key]) {
+        saveState(config);
+    } else {
+        const s = JSON.parse(localStorage[key]);
+        config.crs = s.crs;
+        config.baselayer = s.baselayer;
+        config.bbox = s.bbox;
+        config.klooster.year = s.year
+        config.klooster.language = s.language
+        config.klooster.filter = s.filter
+    }
+    return config;
 }
+
+
+function init(config) {
+    Vue.prototype.$adminmode = false;
+    config = getState(config);
+    Vue.prototype.$config = config; // might it be wiser to just use a global variable for this?
+    document.title = config.title;
+
+    /* eslint-disable no-new */
+    new Vue({
+        el: '#gpz',
+        render: h => h(KloosterViewer),
+        components: {KloosterViewer},
+        template: '<KloosterViewer/>'
+    });
+}
+
 Vue.prototype.$nomenu = false;
 
 let mode = 'by_year';
 let config = new KloosterConfig(); // default settings
 
 if (typeof getParam('nomenu') === 'string') {
-  Vue.prototype.$nomenu = true;
+    Vue.prototype.$nomenu = true;
 }
+
 if (typeof getParam('year') === 'string') {
-  config.klooster.year = parseInt(getParam('year'));
+    config.klooster.year = parseInt(getParam('year'));
 }
 if (typeof getParam('id') === 'string') {
-  mode = 'single';
-  config.klooster.id = getParam('id');
+    mode = 'single';
+    config.klooster.id = getParam('id');
 }
 if (typeof getParam('mode') === 'string') {
-  if (getParam('mode') === 'all') {
-    mode = 'all';
-  }
+    if (getParam('mode') === 'all') {
+        mode = 'all';
+        config.klooster.mode = 'all';
+    }
 }
 if (typeof getParam('language') === 'string') {
-  if (getParam('language')=='en'){
-    config.klooster.language = 'en';
-  }
+    if (getParam('language') == 'en') {
+        config.klooster.language = 'en';
+    }
 }
-Vue.prototype.$kloosterkaartmode=mode;
+
+
+Vue.prototype.$kloosterkaartmode = mode;
 if (mode === 'all') {
-  config.readJSON({
-    title: 'Kloosterkaart',
-    url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
-    bbox: [
-      2.946307507057729,
-      50.53321086134227,
-      7.708880749245228,
-      53.84820079687907
-    ],
-    crs: "EPSG:3857",
-    available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
-    baselayer: "light",
-    services: [{
-      url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php',
-      type: 'kloosters_all',
-      layers: [
-        {
-          "id": "kloosters",
-          "title": "kloosters",
-          "label": "kloosters",
-          "visible": true,
-          "opacity": 1.0,
-          "zindex": 93
-        },
-        {
-          "id": "kapittels",
-          "title": "kapittels",
-          "label": "kapittels",
-          "visible": true,
-          "opacity": 1.0,
-          "zindex": 92
-        },
-        {
-          "id": "uithoven",
-          "title": "uithoven",
-          "label": "uithoven",
-          "visible": true,
-          "opacity": 1.0,
-          "zindex": 91
-        },
-      ]
-    }]
-  });
+    config.readJSON({
+        title: 'Kloosterkaart',
+        url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
+        bbox: [
+            2.946307507057729,
+            50.53321086134227,
+            7.708880749245228,
+            53.84820079687907
+        ],
+        crs: "EPSG:3857",
+        available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
+        baselayer: "light",
+        cluster_resolution: 10,
+        services: [{
+            url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php',
+            type: 'kloosters_all',
+            layers: [
+                {
+                    "id": "kloosters",
+                    "title": "kloosters",
+                    "label": "kloosters",
+                    "visible": true,
+                    "opacity": 1.0,
+                    "zindex": 93
+                },
+                {
+                    "id": "kapittels",
+                    "title": "kapittels",
+                    "label": "kapittels",
+                    "visible": true,
+                    "opacity": 1.0,
+                    "zindex": 92
+                },
+                {
+                    "id": "uithoven",
+                    "title": "uithoven",
+                    "label": "uithoven",
+                    "visible": true,
+                    "opacity": 1.0,
+                    "zindex": 91
+                },
+            ]
+        }]
+    });
 } else if (mode == 'single') {
-  config.readJSON({
-    title: 'Kloosterkaart',
-    url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
-    bbox: [
-      2.946307507057729,
-      50.53321086134227,
-      7.708880749245228,
-      53.84820079687907
-    ],
-    crs: "EPSG:3857",
-    available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
-    baselayer: "light",
-    services: [{
-      url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php?name=single',
-      type: 'kloosters_single',
-      layers: [{
-        "id": "kloosters_single",
-        "title": "kloosters_single",
-        "label": "kloosters_single",
-        "visible": true,
-        "opacity": 1.0,
-        "zindex": 93
-      }]
-    }]
-  });
+    config.readJSON({
+        title: 'Klooster',
+        url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
+        bbox: [
+            2.946307507057729,
+            50.53321086134227,
+            7.708880749245228,
+            53.84820079687907
+        ],
+        crs: "EPSG:3857",
+        available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
+        baselayer: "light",
+        services: [{
+            url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php?name=single',
+            type: 'kloosters_single',
+            layers: [{
+                "id": "kloosters_single",
+                "title": "kloosters_single",
+                "label": "kloosters_single",
+                "visible": true,
+                "opacity": 1.0,
+                "zindex": 93
+            }]
+        }]
+    });
 } else {
-  config.readJSON({
-    title: 'Kloosterkaart',
-    url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
-    bbox: [
-      2.946307507057729,
-      50.53321086134227,
-      7.708880749245228,
-      53.84820079687907
-    ],
-    crs: "EPSG:3857",
-    available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
-    baselayer: "light",
-    services: [{
-      url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONYear.php',
-      type: 'kloosters_by_year',
-      layers: [{
-        "id": "kloosters_by_year",
-        "title": "kloosters_by_year",
-        "label": "kloosters_by_year",
-        "visible": true,
-        "opacity": 1.0,
-        "zindex": 93
-      }]
-    }]
-  });
+    config.readJSON({
+        title: 'Kloosterkaart',
+        url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
+        bbox: [
+            2.946307507057729,
+            50.53321086134227,
+            7.708880749245228,
+            53.84820079687907
+        ],
+        crs: "EPSG:3857",
+        available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
+        baselayer: "light",
+        cluster_resolution: 10,
+        services: [{
+            url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONYear.php',
+            type: 'kloosters_by_year',
+            layers: [{
+                "id": "kloosters_by_year",
+                "title": "kloosters_by_year",
+                "label": "kloosters_by_year",
+                "visible": true,
+                "opacity": 1.0,
+                "zindex": 93
+            }]
+        }]
+    });
 }
 init(config);
-

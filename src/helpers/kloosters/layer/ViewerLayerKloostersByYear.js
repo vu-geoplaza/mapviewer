@@ -33,7 +33,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
       });
       let featuresToAdd=[];
       for (var i = 0, len = features.length; i < len; i++) {
-          if (klooster_config.filter.includes(features[i].get('ordenaam'))||(klooster_config.filter.length==0)){
+          if (!klooster_config.filter.includes(features[i].get('ordenaam'))){
             features[i].setId(features[i].get("klooster_id"));
             featuresToAdd.push(features[i]);
         }
@@ -43,15 +43,20 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
     };
     let source= new VectorSource({
       loader: function () {
+        if (Vue.prototype.$config.klooster.year == Vue.prototype.$config.klooster.data.year) {
+          // data unchanged, reload
+          vectorReader(Vue.prototype.$config.klooster.data.geojson);
+        } else {
           return axios.get(url + '?year=' + klooster_config.year).then(function (response) {
             console.log('response finished');
-            Vue.prototype.$config.klooster.data.year=klooster_config.year;
-            Vue.prototype.$config.klooster.data.geojson=response.data;
+            Vue.prototype.$config.klooster.data.geojson = response.data;
+            Vue.prototype.$config.klooster.data.year = klooster_config.year;
             vectorReader(response.data)
           }).catch(function (error) {
             console.error(error);
           });
         }
+      }
     });
     let clusterDistance=0;
     if (isMobile){
@@ -75,11 +80,15 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
         if (language == 'nl') {
            naam = features[0].get('name_nl');
         }
-
+        naam=naam.slice(naam.indexOf(',')+2).replace(': ',':\n');
         var uq = num;
         if (num==1) {
-          uq = orde + resolution;
+          uq = orde;
         }
+        if (resolution < labelResolutionLevel) {
+          uq = uq + naam;
+        }
+
 
         var style = me.styleCache[uq];
         if (style) {
@@ -139,7 +148,6 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
       opacity: 1,
       zIndex: 93,
       cluster_distance: clusterDistance,
-      cluster_zoomlevel: 13
     });
   }
 }

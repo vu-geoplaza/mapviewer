@@ -1,11 +1,12 @@
 <template>
-  <b-nav-item @click='zoomExtent()' href="#">fit</b-nav-item>
+  <b-nav-item @click='zoomExtent()' href="#">overview</b-nav-item>
 </template>
 
 <script>
     import {Mapable} from '@/mixins/mapable.js'; // makes the OL map object available to the component
     import {transformExtent} from "ol/proj";
     import {SharedEventBus} from "@/shared";
+    import {Vector} from "ol/layer";
 
     export default {
         name: "FitExtent",
@@ -14,7 +15,6 @@
         const me = this;
         // Some events triggered by the Vue app:
         SharedEventBus.$on('force-fit', function () {
-          console.log('force-fit');
           me.zoomExtent();
         });
       },
@@ -24,7 +24,7 @@
                 // should be separate function
                 var zindex = 0;
                 for (const l of a) {
-                    if (l.get('type') !== 'base') {
+                    if (l.get('type') !== 'base'&&l.get('type') !== 'marker') {
                         if (l.getZIndex() > zindex) {
                             var toplayer = l;
                             zindex = l.getZIndex();
@@ -32,9 +32,9 @@
                     }
                 }
                 const view = this.map.getView();
-                let extent = toplayer.getSource().getExtent();
-                if (extent == null) {
-                  extent=transformExtent(toplayer.get('extent_lonlat'), 'EPSG:4326', view.getProjection())
+                let extent=transformExtent(toplayer.get('extent_lonlat'), 'EPSG:4326', view.getProjection())
+                if (toplayer instanceof Vector) {
+                  extent = toplayer.getSource().getExtent();
                 }
                 view.fit(extent, { size: this.map.getSize(), padding: [80, 80, 80, 80], maxZoom: 17});
             }
