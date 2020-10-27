@@ -15,7 +15,8 @@
     import View from "ol/View";
     import VectorLayer from "ol/layer/Vector";
     import Cluster from "ol/source/Cluster";
-    import {MarkerLayer} from "../../../helpers/ViewerMarkerLayer";
+    import {MarkerLayer} from "@/helpers/ViewerMarkerLayer";
+    import {saveState} from "@/helpers/ViewerDataHelpers";
 
     // Add a simple extension to enable layer lookup by layer id
     if (Map.prototype.getLayerByLid === undefined) {
@@ -82,6 +83,11 @@
                 }
             });
 
+            // Save the map state on closing or refreshing the window
+            window.addEventListener('beforeunload', () => {
+              saveState(me.$config, me.map);
+            }, false)
+
             // resize the map, so it fits to parent
             console.log('map mounted');
             window.setTimeout(() => {
@@ -120,13 +126,14 @@
 
                 view.fit(transformExtent(config.bbox, 'EPSG:4326', view.getProjection()), this.map.getSize());
                 this.map.setView(view);
-                this.setViewOptions(view);
+                // TODO only set this if we have an actual cluster layer (in addLayers?)
+                this.setClusterViewOptions(view);
                 this.addBaseLayers(config.available_crs);
                 this.addMarkerLayer();
                 this.addLayers(config);
 
             },
-            setViewOptions: function(view){
+            setClusterViewOptions: function(view){
                 let me=this;
                 let resolution = view.getResolution();
                 let clustered = true;
@@ -160,7 +167,7 @@
                 view.fit(extent, {size: this.map.getSize(), nearest: true});
                 this.clearVectorLayers();
                 this.map.setView(view);
-                this.setViewOptions(view);
+                this.setClusterViewOptions(view);
             },
             clearVectorLayers() {
                 var layers = this.map.getLayers();

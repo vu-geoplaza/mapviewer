@@ -58,10 +58,12 @@
             },
             updateList: function (features) {
                 function compare( a, b ) {
-                    if ( a.label < b.label ){
+                  const alabel = a.label.replace("'s-", "").toLowerCase();
+                  const blabel = b.label.replace("'s-", "").toLowerCase();
+                    if ( alabel < blabel ){
                         return -1;
                     }
-                    if ( a.label > b.label ){
+                    if ( alabel > blabel ){
                         return 1;
                     }
                     return 0;

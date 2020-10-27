@@ -6,10 +6,10 @@
       <b-navbar-nav>
         <BaseLayerSwitcher/>
         <FitExtent/>
-        <b-nav-item v-if="showInfo" v-b-modal.infomodal>info</b-nav-item>
-        <b-nav-item v-if="showKloosterList" v-b-modal.kloosterlistmodal>view list</b-nav-item>
-        <b-nav-item v-if="showKloosterDownload" v-b-modal.downloadmodal>about</b-nav-item>
-        <b-nav-item v-if="admminmode" v-b-modal.servicemodal>add service</b-nav-item>
+        <b-nav-item v-if="showInfo" v-b-modal.infomodal key="infomodal">info</b-nav-item>
+        <b-nav-item v-if="showKloosterList" v-b-modal.kloosterlistmodal key="kloosterlistmodal">view list</b-nav-item>
+        <b-nav-item v-if="showKloosterDownload" v-b-modal.downloadmodal key="downloadmodal">about</b-nav-item>
+        <b-nav-item v-if="admminmode" v-b-modal.servicemodal key="servicemodal">add service</b-nav-item>
         <FileSaver v-if="admminmode"/>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
@@ -53,8 +53,8 @@
         href: '#',
         brand: false,
         showInfo: true,
-        showKloosterList: true,
-        showKloosterDownload: true,
+        showKloosterList: false,
+        showKloosterDownload: false,
         showLanguage: false,
       }
     },

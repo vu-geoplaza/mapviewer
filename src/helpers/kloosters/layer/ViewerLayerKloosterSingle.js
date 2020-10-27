@@ -31,7 +31,6 @@ class ViewerLayerKloosterSingle extends ViewerLayer {
         featureProjection: Vue.prototype.$config.crs
       });
       source.addFeatures(features);
-      me.extent_lonlat=source.getExtent();
       // Unique case where we want to auto-zoom on load
       SharedEventBus.$emit('force-fit');
     };
@@ -103,7 +102,6 @@ class ViewerLayerKloosterSingle extends ViewerLayer {
           return [me.styleCache[uq]];
         }
       },
-      extent_lonlat: me.extent,
       type: me.type,
       visible: this.visible,
       opacity: 0.8,

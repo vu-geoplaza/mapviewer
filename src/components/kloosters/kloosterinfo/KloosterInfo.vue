@@ -1,7 +1,7 @@
 <template>
     <div id="feature-info">
         <b-card no-body v-show='toggle'>
-            <b-card-header class="p-1" header-tag="header">
+            <b-card-header class="p-2" header-tag="header">
                 <button type="button" class="close" aria-label="Close" @click='toggle = !toggle'>
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -81,6 +81,7 @@
             },
             handleInfoClick(coordinate, pixel) {
                 this.clearMarkers();
+                this.toggle = false;
                 this.items = [];
                 var me = this;
                 let n = 0;
@@ -180,8 +181,8 @@
     #feature-info {
         background-color: azure;
         position: relative;
-        z-index: 1050;
         opacity: 0.95;
+        z-index: 1050;
     }
 
     .scroll {

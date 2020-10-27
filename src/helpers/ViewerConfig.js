@@ -10,7 +10,7 @@ import ViewerServiceKloostersSingle from "./kloosters/service/ViewerServiceKloos
 
 class ViewerConfig {
   constructor() {
-    this.title = '';
+    this.title = 'Geoplaza';
     this.url = '';
     this.crs = 'EPSG:3857';
     this.available_crs = ['EPSG:3857', 'EPSG:28992', 'EPSG:4326'];

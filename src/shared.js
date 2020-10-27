@@ -14,6 +14,38 @@ proj4.defs("EPSG:28992", "+title=Amersfoort / RD New +proj=sterea +lat_0=52.1561
 register(proj4);
 getProjection('EPSG:28992').setExtent([-285401.92, 22598.08, 595401.92, 903401.92]);
 
+import { LayoutPlugin, ModalPlugin, CardPlugin, TablePlugin, NavbarPlugin, ButtonPlugin, ListGroupPlugin, ImagePlugin,
+    OverlayPlugin, TabsPlugin, LinkPlugin, SpinnerPlugin, VBModalPlugin, FormInputPlugin, FormSelectPlugin, EmbedPlugin, FormCheckboxPlugin, FormPlugin } from 'bootstrap-vue'
+Vue.use(LayoutPlugin);
+Vue.use(ModalPlugin);
+Vue.use(VBModalPlugin);
+Vue.use(CardPlugin);
+Vue.use(TablePlugin);
+Vue.use(NavbarPlugin);
+Vue.use(ButtonPlugin);
+Vue.use(ListGroupPlugin);
+Vue.use(ImagePlugin);
+Vue.use(OverlayPlugin);
+Vue.use(TabsPlugin);
+Vue.use(LinkPlugin);
+Vue.use(SpinnerPlugin);
+Vue.use(FormInputPlugin);
+Vue.use(FormSelectPlugin);
+Vue.use(EmbedPlugin);
+Vue.use(FormCheckboxPlugin);
+Vue.use(FormPlugin);
+
+export function hashCode (str){
+    var hash = 0;
+    if (str.length == 0) return hash;
+    for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash<<5)-hash)+char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
+
 export const SharedEventBus = new Vue();
 // Projections supported by the Viewer. A projection will only be available if all layers support it.
 export const ALLOWED_VIEWER_CRS = ['EPSG:28992', 'EPSG:4326', 'EPSG:3857'];

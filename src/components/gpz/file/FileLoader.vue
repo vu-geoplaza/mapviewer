@@ -14,7 +14,7 @@
         }
       },
       methods: {
-        handleOk(evt) {
+        handleOk() {
           console.log(this.file.result);
         }
       }

@@ -5,29 +5,43 @@ import Vue from 'vue'
 import GpzViewer from './GpzViewer'
 
 import ViewerConfig from './helpers/ViewerConfig'
-//import regeneratorRuntime from "regenerator-runtime";
 import axios from 'axios'
 
 import {register} from 'ol/proj/proj4'
 import {get as getProjection} from 'ol/proj'
 import proj4 from 'proj4';
 
-import {getParam} from './shared'
+import {getParam, hashCode} from './shared'
 
 proj4.defs("EPSG:28992", "+title=Amersfoort / RD New +proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +towgs84=565.417,50.3319,465.552,-0.398957,0.343988,-1.8774,4.0725 +no_defs");
 register(proj4);
 getProjection('EPSG:28992').setExtent([-285401.92, 22598.08, 595401.92, 903401.92]);
-
-import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
-
-Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
 Vue.prototype.$nomenu = false;
 // Admin mode adds add services and Save config options to the viewer
 const adminmode = document.getElementById("gpz").dataset.adminmode;
 
+function getState(config) {
+  const key = hashCode(config.title);
+  config.hash=key; // only calculate once
+  if (!localStorage[key]) {
+    localStorage[key] = JSON.stringify({
+      'crs': config.crs,
+      'baselayer': config.baselayer,
+      'bbox': config.bbox,
+    });
+  } else {
+    const s = JSON.parse(localStorage[key]);
+    config.crs = s.crs;
+    config.baselayer = s.baselayer;
+    config.bbox = s.bbox;
+  }
+  return config;
+}
+
 function init(config){
+  config = getState(config)
   Vue.prototype.$config = config;
   if (adminmode === "1") {
     Vue.prototype.$adminmode = true;
