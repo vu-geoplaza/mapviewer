@@ -126,13 +126,14 @@
 
                 view.fit(transformExtent(config.bbox, 'EPSG:4326', view.getProjection()), this.map.getSize());
                 this.map.setView(view);
-                this.setViewOptions(view);
+                // TODO only set this if we have an actual cluster layer (in addLayers?)
+                this.setClusterViewOptions(view);
                 this.addBaseLayers(config.available_crs);
                 this.addMarkerLayer();
                 this.addLayers(config);
 
             },
-            setViewOptions: function(view){
+            setClusterViewOptions: function(view){
                 let me=this;
                 let resolution = view.getResolution();
                 let clustered = true;
@@ -166,7 +167,7 @@
                 view.fit(extent, {size: this.map.getSize(), nearest: true});
                 this.clearVectorLayers();
                 this.map.setView(view);
-                this.setViewOptions(view);
+                this.setClusterViewOptions(view);
             },
             clearVectorLayers() {
                 var layers = this.map.getLayers();

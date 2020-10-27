@@ -14,7 +14,6 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
 
     constructor(props) {
         super(props);
-        //this.styleCache = [];
     }
 
     OLLayer(url) {
@@ -38,7 +37,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
             }
         });
         let clusterSource = new Cluster({
-            distance: 50,
+            distance: 20,
             source: source
         });
         let styleCache={};
@@ -63,7 +62,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
                         styleCache[uq] =
                             new Style({
                                 image: new Icon({
-                                    scale: 0.5 + (0.2 * Math.log(num)),
+                                    scale: 0.5 + (0.4 * Math.log(num)),
                                     src: me.legend_img,
                                     opacity: 0.80
                                 }),
@@ -83,7 +82,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
             opacity: 0.8,
             zIndex: this.zindex,
             legend_img: me.legend_img,
-            cluster_distance: 50,
+            cluster_distance: 20,
         });
     }
 }
