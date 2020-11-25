@@ -11,9 +11,7 @@ import Vue from 'vue'
 import {kerkLegend} from "../KerkSymbols";
 import Stroke from "ol/style/Stroke";
 import RegularShape from "ol/style/RegularShape";
-//import Chart from "openlayers-ext/lib/style/Chart";
 import Chart from "ol-ext/style/Chart";
-//import * as olext from 'ol-ext';
 
 function chartData(features, legendStyle) {
     let index = [];
@@ -146,7 +144,6 @@ class ViewerLayerKerken extends ViewerLayer {
                                 offsetY: 0,
                                 data: cdata['data'],
                                 colors: cdata['colors'],
-                                //colors: 'Classic',
                                 rotateWithView: true,
                                 radius: size,
                                 animation: false,
@@ -165,8 +162,7 @@ class ViewerLayerKerken extends ViewerLayer {
             opacity: 0.8,
             source: clusterSource,
             zIndex: this.zindex,
-            cluster_distance: 50,
-            cluster_zoomlevel: 13
+            cluster_distance: clusterDistance,
         });
 
 
