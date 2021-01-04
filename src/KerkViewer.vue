@@ -10,6 +10,7 @@
         <KerkInfo />
       </b-col>
     </b-row>
+    <KerkenFilter />
   </b-container>
 </template>
 
@@ -18,6 +19,7 @@
   import {SharedEventBus} from './shared'
   import NavBar from "./components/shared/navbar/NavBar";
   import KerkInfo from "./components/kerken/kerkinfo/KerkInfo";
+  import KerkenFilter from "./components/kerken/filter/KerkenFilter";
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
@@ -27,6 +29,7 @@
     name: 'KerkViewer',
     components: {
       KerkInfo,
+      KerkenFilter,
       NavBar,
       OlMap
     },
