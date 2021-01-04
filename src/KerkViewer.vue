@@ -2,6 +2,14 @@
   <b-container id="app" fluid>
     <OlMap/>
     <NavBar v-show="!nomenu"/>
+    <b-row align-h="between">
+      <b-col md="4" lg="3" align-self="baseline">
+        <!--<LayerSwitcher/>-->
+      </b-col>
+      <b-col md="4" align-self="baseline">
+        <KerkInfo />
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -9,6 +17,7 @@
   import OlMap from './components/shared/ol/Map'
   import {SharedEventBus} from './shared'
   import NavBar from "./components/shared/navbar/NavBar";
+  import KerkInfo from "./components/kerken/kerkinfo/KerkInfo";
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
@@ -17,6 +26,7 @@
     },
     name: 'KerkViewer',
     components: {
+      KerkInfo,
       NavBar,
       OlMap
     },

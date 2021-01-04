@@ -94,7 +94,7 @@ class ViewerLayerKerken extends ViewerLayer {
                 let cat = features[0].get(legendStyle);
                 let naam = features[0].get('naam');
                 let ingebruik = features[0].get('ingebruik');
-                let id = features[0].get('kerk_id');
+                let id = features[0].get('id');
 
                 let uq = legendStyle + '_' + Math.floor(resolution) + '_' + id;
                 if (num == 1) {
@@ -137,7 +137,6 @@ class ViewerLayerKerken extends ViewerLayer {
                     } else {
                         let cdata = chartData(features, legendStyle);
                         let size = 8 * Math.sqrt(Math.sqrt(num));
-                        console.log(cdata);
                         style = new Style({
                             image: new Chart({
                                 type: 'pie',
@@ -159,7 +158,7 @@ class ViewerLayerKerken extends ViewerLayer {
                 }
                 return style;
             },
-            opacity: 0.8,
+            opacity: 1,
             source: clusterSource,
             zIndex: this.zindex,
             cluster_distance: clusterDistance,
