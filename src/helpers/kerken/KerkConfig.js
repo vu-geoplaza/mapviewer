@@ -4,7 +4,7 @@ class KerkConfig extends  ViewerConfig {
   constructor() {
     super();
     this.kerk = {
-      filter: [],
+      filter: {},
       info_url: 'https://geoplaza.vu.nl/projects/kerken_vue/resources/getKerkInfo.php',
       selected_id: '',
       legend_style: 'denominatie',

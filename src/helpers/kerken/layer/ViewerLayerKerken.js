@@ -71,7 +71,9 @@ class ViewerLayerKerken extends ViewerLayer {
         };
         let source = new VectorSource({
             loader: function () {
-                return axios.get(url).then(function (response) {
+                console.log('*** reload kerk source');
+                console.log(Vue.prototype.$config.kerk.filter);
+                return axios.post(url, { 'filter': Vue.prototype.$config.kerk.filter }).then(function (response) {
                     vectorReader(response.data);
                 }).catch(function (error) {
                     console.error(error);

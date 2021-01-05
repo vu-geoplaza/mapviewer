@@ -1,26 +1,25 @@
 <template>
   <!-- one per group -->
-  <b-modal ref="filtermodal" id="filtermodal" ok-only size="lg" title="filter">
+  <b-modal ref="filtermodal" id="filtermodal" ok-only size="lg" title="filter" @ok="handleOk">
     <b-list-group horizontal="md" flush>
-      <b-list-group-item class="p-1" v-for="(group, index) in groups" v-bind:key="index">
-        <b-card-header header-tag="header">
-          <b-form inline>
-          <b-btn v-b-toggle="'groupcard' + index" variant="info" class="groupbutton">
+      <b-list-group-item class="p-1" v-for="(group, index) in groups" v-bind:key="group.key">
+        <b-form-group>
           {{ group.name }}
-          </b-btn>
-          <b-form-checkbox v-model="group.selected" :indeterminate="group.indeterminate"></b-form-checkbox>
-          </b-form>
-        </b-card-header>
-        <b-collapse visible :id="'groupcard' + index">
-          <b-list-group class="row-fluid grouplist">
-            <b-list-group-item v-for="(item, index2) in group.items" v-bind:key="index2"
-                               class="p-1 col-lg-4 col-md-12 col-xs-12 col-sm-6 clearfix itemblock"
-                               v-bind:class="{ dim: !item.present }">
-              {{ item.name }}
-              <b-form-checkbox v-model="item.selected" inline class="float-right mr-0"></b-form-checkbox>
-            </b-list-group-item>
-          </b-list-group>
-        </b-collapse>
+          <b-form-checkbox
+              v-model="group.selected"
+              :indeterminate="group.indeterminate"
+              @change="toggleAll(index)"
+          >
+          </b-form-checkbox>
+          <b-form-checkbox-group :label="group.name"
+            :id="group.name"
+            v-model="group.item_selected"
+            :options="group.item_options"
+            :name="group.name"
+            @change="toggleItem(index, group.item_selected)"
+          >
+          </b-form-checkbox-group>
+        </b-form-group>
       </b-list-group-item>
     </b-list-group>
   </b-modal>
@@ -28,62 +27,89 @@
 
 <script>
 import {kerkLegend} from "@/helpers/kerken/KerkSymbols";
+import {SharedEventBus} from "@/shared";
+
 export default {
   name: "KerkenFilter",
   data: function () {
     return {
       groups: [{
+        key: 0,
         name: '',
         selected: true,
         indeterminate: false,
-        items: [{
-          name: '',
-          present: false, // item present on the map
-          selected: true, // item has selected state
-        }]
+        item_options: [],
+        item_selected: []
       }],
       toggle: true,
-      showoverlay: true
+      showoverlay: true,
+      maxKey: 0,
     }
   },
   mounted: function () {
     console.log('init legendfilter');
     this.init();
   },
-  watch: {
-    selected(newValue, oldValue) {
-      // Handle changes in individual flavour checkboxes
-      if (newValue.length === 0) {
-        this.indeterminate = false
-        this.allSelected = false
-      } else if (newValue.length === this.flavours.length) {
-        this.indeterminate = false
-        this.allSelected = true
-      } else {
-        this.indeterminate = true
-        this.allSelected = false
-      }
-    }
-  },
   methods: {
+    handleOk() {
+      this.applyFilter();
+    },
     init: function () {
-      this.groups=[];
+      this.groups = [];
       for (const group in kerkLegend) {
         let g = {};
         g.name = group;
+        g.key = this.getKey();
         g.selected = true;
         g.indeterminate = false;
-        g.items = [];
+        g.item_options = [];
+        g.item_selected= [];
         for (const item in kerkLegend[group]) {
-          console.log(item)
-          let i = {};
-          i.name = item;
-          i.present = true;
-          i.selected = true;
-          g.items.push(i);
+          //g.item_options.push({text: item, value: item});
+          g.item_options.push(item);
+          g.item_selected.push(item);
         }
+        console.log(g);
         this.groups.push(g);
       }
+    },
+    getKey() {
+      this.maxKey++;
+      return this.maxKey;
+    },
+    toggleAll: function(i) {
+      //let checked =true
+      console.log(this.groups[i].name);
+      console.log(this.groups[i].selected);
+      this.groups[i].item_selected = this.groups[i].selected? this.groups[i].item_options.slice() : []
+    },
+    toggleItem: function (index, item_selected){
+      console.log(item_selected.length, this.groups[index].item_options.length, this.groups[index].key);
+      if (item_selected.length===0){
+        this.groups[index].indeterminate = false;
+        this.groups[index].selected = false;
+      } else if (item_selected.length === this.groups[index].item_options.length){
+        this.groups[index].indeterminate = false;
+        this.groups[index].selected = true;
+      } else {
+        this.groups[index].indeterminate = true;
+        this.groups[index].selected = false;
+      }
+      this.groups[index].key = this.getKey();
+    },
+    applyFilter: function (){
+      let filter={};
+      for (var i = 0; i < this.groups.length; i++) {
+        console.log(this.groups[i].name);
+        if (this.groups[i].item_selected.length!==this.groups[i].item_options.length){
+          filter[this.groups[i].name]=this.groups[i].item_selected;
+        }
+      }
+      console.log(filter);
+      this.$config.kerk.filter=filter;
+      // call map reload
+      console.log(this.$config.kerk.filter);
+      SharedEventBus.$emit('reload-vector-data');
     }
   }
 }
@@ -93,11 +119,13 @@ export default {
 .itemblock {
   font-size: 0.85em;
 }
+
 .row-fluid {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
 }
+
 .groupbutton {
   padding: 2px;
   margin-right: 2px;
@@ -107,9 +135,11 @@ export default {
   width: calc(100% - 31px);
 
 }
+
 .card-header {
   padding: 3px;
 }
+
 .grouplist {
   padding: 0px 3px 0px 3px;
 }
