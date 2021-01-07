@@ -33,6 +33,7 @@ import {kerkLegend} from "@/helpers/kerken/KerkSymbols";
 import {SharedEventBus} from "@/shared";
 import KerkenSearch from "./KerkenSearch";
 import axios from "axios";
+import Vue from "vue";
 
 export default {
   name: "KerkenFilter",
@@ -136,6 +137,7 @@ export default {
     applyFilter: function (){
       // call map reload
       console.log(this.$config.kerk.filter);
+      Vue.prototype.$config.filterchanged = true;
       SharedEventBus.$emit('reload-vector-data');
     }
   }

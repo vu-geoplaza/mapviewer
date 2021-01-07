@@ -72,13 +72,22 @@ class ViewerLayerKerken extends ViewerLayer {
         let source = new VectorSource({
             loader: function () {
                 console.log('*** reload kerk source');
-                console.log(Vue.prototype.$config.kerk.filter);
-                return axios.post(url, { 'filter': Vue.prototype.$config.kerk.filter }).then(function (response) {
-                    vectorReader(response.data);
-                }).catch(function (error) {
-                    console.error(error);
-                    document.getElementById("gpz").innerHTML = "<h4>Could not load data: " + error.message + "</h4>";
-                });
+                if (Vue.prototype.$config.filterchanged||Object.keys(Vue.prototype.$config.kerk.data.geojson).length === 0) {
+                    console.log('filter changed, new request');
+                    return axios.post(url, {'filter': Vue.prototype.$config.kerk.filter}).then(function (response) {
+                        Vue.prototype.$config.kerk.data.geojson = response.data;
+                        Vue.prototype.$config.filterchanged = false;
+                        vectorReader(response.data);
+
+                    }).catch(function (error) {
+                        console.error(error);
+                        document.getElementById("gpz").innerHTML = "<h4>Could not load data: " + error.message + "</h4>";
+                    });
+                } else {
+                    // nothing changed, probably just a legend switch
+                    console.log('filter unchanged, reuse old data');
+                    vectorReader(Vue.prototype.$config.kerk.data.geojson);
+                }
             }
         });
         let clusterSource = new Cluster({
@@ -88,7 +97,7 @@ class ViewerLayerKerken extends ViewerLayer {
         return new VectorLayer({
             visible: true,
             style: function (feature, resolution) {
-                const legendStyle = Vue.prototype.$config.kerk.legend_style
+                const legendStyle = Vue.prototype.$config.kerk.legend_style.replace(' ','_');
                 const labelResolutionLevel = 5;
 
                 let features = feature.get('features');
@@ -112,7 +121,7 @@ class ViewerLayerKerken extends ViewerLayer {
                     symbolcolor = kerkLegend[legendStyle][cat];
                 }
                 if (!style) {
-                    console.log('no cached style for ' + uq)
+                    //console.log('no cached style for ' + uq)
                     if (num == 1) {
                         style = new Style({
                             image: new RegularShape({
@@ -155,7 +164,7 @@ class ViewerLayerKerken extends ViewerLayer {
                             })
                         });
                     }
-                console.log(style);
+
                     me.styleCache[uq] = style;
                 }
                 return style;
@@ -165,8 +174,6 @@ class ViewerLayerKerken extends ViewerLayer {
             zIndex: this.zindex,
             cluster_distance: clusterDistance,
         });
-
-
     }
 }
 
