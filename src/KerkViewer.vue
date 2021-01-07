@@ -4,7 +4,7 @@
     <NavBar v-show="!nomenu"/>
     <b-row align-h="between">
       <b-col md="4" lg="3" align-self="baseline">
-        <!--<LayerSwitcher/>-->
+          <KerkenLegend/>
       </b-col>
       <b-col md="4" align-self="baseline">
         <KerkInfo />
@@ -20,6 +20,7 @@
   import NavBar from "./components/shared/navbar/NavBar";
   import KerkInfo from "./components/kerken/kerkinfo/KerkInfo";
   import KerkenFilter from "./components/kerken/filter/KerkenFilter";
+  import KerkenLegend from "./components/kerken/kerkenlegend/KerkenLegend";
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
@@ -30,6 +31,7 @@
     components: {
       KerkInfo,
       KerkenFilter,
+      KerkenLegend,
       NavBar,
       OlMap
     },
@@ -59,10 +61,6 @@
     position: relative;
     top: 0px;
     left: 0px;
-  }
-  #app .yearfilter {
-    bottom: 55px;
-    margin: 0px 20px 0px 20px;
   }
   #app .main-row {
     position: relative;
@@ -94,7 +92,7 @@
     float: right;
   }
 
-  #app .legendfilter {
+  #app .kerkenlegend {
     z-index: 1000;
     opacity: 0.95;
   }
