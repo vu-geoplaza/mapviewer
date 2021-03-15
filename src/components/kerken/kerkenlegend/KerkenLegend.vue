@@ -37,6 +37,10 @@ export default {
   },
   mounted() {
     this.init();
+    SharedEventBus.$on('kerkensource-loaded', () => {
+      console.log('update legend totals');
+      this.setTotals(this.selected_group, this.$config.kerk.data.geojson.features);
+    });
   },
   watch: {
     selected_group() {
@@ -63,6 +67,20 @@ export default {
         item.text = i;
         item.total = 0;
         this.items.push(item);
+      }
+    },
+    setTotals(group, features) {
+      let tmp=[];
+      features.forEach(function (feature) {
+        if (typeof tmp[feature.properties[group]] == 'undefined') {
+          tmp[feature.properties[group]]=1;
+        } else {
+          tmp[feature.properties[group]]++
+        }
+      });
+      console.log(tmp);
+      for (const item in this.items) {
+        item.total=tmp[item.text];
       }
     }
   }

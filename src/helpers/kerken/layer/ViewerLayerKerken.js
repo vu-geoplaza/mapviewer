@@ -12,6 +12,8 @@ import {kerkLegend} from "../KerkSymbols";
 import Stroke from "ol/style/Stroke";
 import RegularShape from "ol/style/RegularShape";
 import Chart from "ol-ext/style/Chart";
+import {SharedEventBus} from "@/shared";
+
 
 function chartData(features, legendStyle) {
     let index = [];
@@ -68,6 +70,7 @@ class ViewerLayerKerken extends ViewerLayer {
                 featureProjection: Vue.prototype.$config.crs
             });
             source.addFeatures(features);
+            SharedEventBus.$emit('kerkensource-loaded');
         };
         let source = new VectorSource({
             loader: function () {
