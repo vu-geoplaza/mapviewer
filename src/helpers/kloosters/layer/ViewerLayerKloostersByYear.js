@@ -75,7 +75,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
         const num = features.length;
 
         var orde = features[0].get('ordenaam');
-        const labelResolutionLevel = 5;
+        const labelResolutionLevel = 3;
         let naam = features[0].get('name_en');
         if (language == 'nl') {
            naam = features[0].get('name_nl');
