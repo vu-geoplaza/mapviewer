@@ -23,6 +23,8 @@
                   <b-btn v-b-toggle="'regelcard' + index" variant="info" class="regelbutton">
                     <span v-if="language === 'nl'">{{ regel.nl }}</span>
                     <span v-if="language === 'en'">{{ regel.en }}</span>
+                    <span class="float-right when-open mr-1"><font-awesome-icon icon="chevron-up"/></span>
+                    <span class="float-right when-closed mr-1"><font-awesome-icon icon="chevron-down"/></span>
                   </b-btn>
                   <b-form-checkbox v-model="regel.selected" @change="regel_select(index)" :indeterminate="regel.indeterminate"></b-form-checkbox>
                 </b-form>&nbsp;
@@ -263,6 +265,11 @@ li {
 }
 
 .hidden {
+  display: none;
+}
+
+.collapsed > .when-open,
+.not-collapsed > .when-closed {
   display: none;
 }
 
