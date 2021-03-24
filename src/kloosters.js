@@ -17,13 +17,16 @@ function getState(config) {
     if (!localStorage[key]) {
         saveState(config);
     } else {
+        const delta = 1000 * 3600 * 24; // 1 day
         const s = JSON.parse(localStorage[key]);
-        config.crs = s.crs;
-        config.baselayer = s.baselayer;
-        config.bbox = s.bbox;
-        config.klooster.year = s.year
-        config.klooster.language = s.language
-        config.klooster.filter = s.filter
+        if (Date.now() - s.updated < delta) {
+            config.crs = s.crs;
+            config.baselayer = s.baselayer;
+            config.bbox = s.bbox;
+            config.klooster.year = s.year
+            config.klooster.language = s.language
+            config.klooster.filter = s.filter
+        }
     }
     return config;
 }

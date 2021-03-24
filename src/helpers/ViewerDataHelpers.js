@@ -13,6 +13,7 @@ export function saveState(config, olmap = null) {
     'crs': config.crs,
     'baselayer': config.baselayer,
     'bbox': bbox,
+    'updated': Date.now()
   }
   if (typeof config.klooster !== 'undefined') {
     def_config.year = config.klooster.year;
