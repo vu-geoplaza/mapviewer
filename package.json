@@ -1,6 +1,6 @@
 {
   "name": "mapviewer",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "private": true,
   "scripts": {
     "serve:kloosters": "vue-cli-service serve src/kloosters.js",
