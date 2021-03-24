@@ -4,6 +4,7 @@ import {optionsFromCapabilities} from "ol/source/WMTS";
 import ViewerLayerWMTS from "../layer/ViewerLayerWMTS";
 import axios from 'axios';
 import {ALLOWED_VIEWER_CRS} from "@/shared"
+import {SharedEventBus} from "@/shared";
 
 
 class ViewerWMTS extends ViewerService {
@@ -40,7 +41,11 @@ class ViewerWMTS extends ViewerService {
             legend_img: '',
             available_crs: crs,
             options: options
-          }));
+          })).catch(function (error) {
+            console.error(error);
+            SharedEventBus.$emit('show-message', error + ' while loading ' + url);
+            return [];
+          });
         }
       }
       return layers;

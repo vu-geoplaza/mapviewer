@@ -5,6 +5,7 @@
       <OlMap/>
     </div>
     <NavBar/>
+    <InfoMessage/>
     <b-row class="main-row">
       <b-col md="4" lg="3">
         <LayerSwitcher/>
@@ -31,6 +32,7 @@
     import NavBar from "./components/shared/navbar/NavBar";
     import ServiceLoader from "./components/gpz/serviceloader/ServiceLoader";
     import InfoModal from "./components/gpz/infomodal/InfoModal";
+    import InfoMessage from "./components/shared/InfoMessage/InfoMessage";
 
     export default {
         mounted: function () {
@@ -45,7 +47,8 @@
             NavBar,
             FeatureInfo,
             LayerSwitcher,
-            OlMap
+            OlMap,
+            InfoMessage
         },
     }
 </script>

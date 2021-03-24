@@ -14,8 +14,27 @@ proj4.defs("EPSG:28992", "+title=Amersfoort / RD New +proj=sterea +lat_0=52.1561
 register(proj4);
 getProjection('EPSG:28992').setExtent([-285401.92, 22598.08, 595401.92, 903401.92]);
 
-import { LayoutPlugin, ModalPlugin, CardPlugin, TablePlugin, NavbarPlugin, ButtonPlugin, ListGroupPlugin, ImagePlugin,
-    OverlayPlugin, TabsPlugin, LinkPlugin, SpinnerPlugin, VBModalPlugin, FormInputPlugin, FormSelectPlugin, EmbedPlugin, FormCheckboxPlugin, FormPlugin } from 'bootstrap-vue'
+import {
+    LayoutPlugin,
+    ModalPlugin,
+    CardPlugin,
+    TablePlugin,
+    NavbarPlugin,
+    ButtonPlugin,
+    ListGroupPlugin,
+    ImagePlugin,
+    OverlayPlugin,
+    TabsPlugin,
+    LinkPlugin,
+    SpinnerPlugin,
+    VBModalPlugin,
+    FormInputPlugin,
+    FormSelectPlugin,
+    EmbedPlugin,
+    FormCheckboxPlugin,
+    FormPlugin,
+    ToastPlugin
+} from 'bootstrap-vue'
 Vue.use(LayoutPlugin);
 Vue.use(ModalPlugin);
 Vue.use(VBModalPlugin);
@@ -34,6 +53,7 @@ Vue.use(FormSelectPlugin);
 Vue.use(EmbedPlugin);
 Vue.use(FormCheckboxPlugin);
 Vue.use(FormPlugin);
+Vue.use(ToastPlugin);
 
 export function hashCode (str){
     var hash = 0;

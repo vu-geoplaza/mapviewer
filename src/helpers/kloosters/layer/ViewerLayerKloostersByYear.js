@@ -53,6 +53,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
             Vue.prototype.$config.klooster.data.year = klooster_config.year;
             vectorReader(response.data)
           }).catch(function (error) {
+            SharedEventBus.$emit('show-message', 'problem loading data: ' + error);
             console.error(error);
           });
         }
