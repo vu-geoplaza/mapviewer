@@ -14,6 +14,7 @@
           <li><a v-bind:href="url + 'type=kapittels&language=nl'">Kapittels</a></li>
           <li><a v-bind:href="url + 'type=uithoven&language=nl'">Uithoven</a></li>
         </ul>
+        <p>De bestanden zijn in het <i><a href="https://geojson.org/" target="_blank">GeoJSON</a></i> formaat, geschikt voor gebruik in GIS applicaties.</p>
         <h4>About this map</h4>
         <p>The Map of Monasteries shows the monasteries of all orders which have been represented in the present-day
           Netherlands during the Middle Ages and Early Modern period (until 1800). The map visualises the data assembled
@@ -27,9 +28,9 @@
           <li><a v-bind:href="url + 'type=kapittels&language=en'">Collegiate Churches</a></li>
           <li><a v-bind:href="url + 'type=uithoven&language=en'">Granges and Refuges</a></li>
         </ul>
-        <p>All downloads are in GeoJSON format.</p>
+        <p>All downloads are in <i><a href="https://geojson.org/" target="_blank">GeoJSON</a></i> format, suitable for use in GIS applications.</p>
         <p><b>Please use the following attribution:<br></b>
-          Goudriaan, K. (2017). <i>Kloosterkaart en Kloosterlijst <span class='year'></span></i> [Data set]. Retrieved
+          Goudriaan, K. (2021). <i>Kloosterkaart en Kloosterlijst <span class='year'></span></i> [Data set]. Retrieved
           on {{ today }}, from {{ current_url }}</p>
         <p></p>
         <hr>
