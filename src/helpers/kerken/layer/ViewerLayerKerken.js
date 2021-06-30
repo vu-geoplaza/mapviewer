@@ -69,7 +69,12 @@ class ViewerLayerKerken extends ViewerLayer {
                 dataProjection: 'EPSG:4326',
                 featureProjection: Vue.prototype.$config.crs
             });
-            source.addFeatures(features);
+            let featuresAdd=[]
+            features.forEach((feature) => {
+                feature.setId(feature.get('id'));
+                featuresAdd.push(feature);
+            });
+            source.addFeatures(featuresAdd);
             SharedEventBus.$emit('kerkensource-loaded');
         };
         let source = new VectorSource({
@@ -174,6 +179,7 @@ class ViewerLayerKerken extends ViewerLayer {
             },
             opacity: 1,
             source: clusterSource,
+            org_source: source,
             zIndex: this.zindex,
             cluster_distance: clusterDistance,
         });
