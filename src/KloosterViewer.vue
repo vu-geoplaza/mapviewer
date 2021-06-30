@@ -2,6 +2,7 @@
   <b-container id="app" fluid>
     <OlMap/>
     <NavBar v-show="!nomenu"/>
+    <InfoMessage/>
     <b-row align-h="between">
       <b-col md="4" lg="3" align-self="baseline" v-if="mode==='by_year'">
         <LegendFilter/>
@@ -32,6 +33,7 @@
   import InfoModal from "./components/gpz/infomodal/InfoModal";
   import LayerSwitcher from "@/components/shared/layerswitcher/LayerSwitcher";
   import DownloadModal from "@/components/kloosters/downloadmodal/DownloadModal";
+  import InfoMessage from "./components/shared/InfoMessage/InfoMessage";
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
@@ -48,7 +50,8 @@
       KloosterList,
       InfoModal,
       DownloadModal,
-      LayerSwitcher
+      LayerSwitcher,
+      InfoMessage
     },
     data() {
       return {

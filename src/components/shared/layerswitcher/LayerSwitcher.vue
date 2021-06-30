@@ -64,15 +64,26 @@
               visible: layer.getVisible(),
               opacity: layer.getOpacity() * 100,
               legend_img: layer.get('legend_img'),
-              zIndex: layer.getZIndex()
+              zIndex: layer.getZIndex() // This is not set when new layers are added
             });
           }
         });
         layerItems.sort(function (a, b) {
           return b.zIndex - a.zIndex;
         });
+        this.syncOrder(layerItems);
         this.items = layerItems;
         this.init = true;
+      },
+      syncOrder: function (layerItems) {
+        var zindex = 100;
+        for (const item of layerItems) {
+          const l = this.map.getLayerByLid(item.id); // or bind the layer object to the switcher?
+          l.setOpacity(item.opacity/100);
+          l.setVisible(item.visible);
+          l.setZIndex(zindex);
+          zindex--;
+        }
       }
     },
     watch: {
@@ -88,14 +99,7 @@
          */
         handler: function (val) {
           if (!this.init) { // don't run on initializing the switcher itself, might mess up the order when asynchronously adding layers
-            var zindex = 100;
-            for (const item of val) {
-              const l = this.map.getLayerByLid(item.id); // or bind the layer object to the switcher?
-              l.setOpacity(item.opacity/100);
-              l.setVisible(item.visible);
-              l.setZIndex(zindex);
-              zindex--;
-            }
+            this.syncOrder(val);
             this.map.updateSize();
           }
           this.init = false;

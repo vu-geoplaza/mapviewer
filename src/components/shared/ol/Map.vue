@@ -65,6 +65,7 @@
                 service.getInstance(crs).then(function (serviceData) {
                     for (const layer of serviceData.layers) {
                         console.log('add layer ' + layer.title);
+                        SharedEventBus.$emit('show-message', 'add layer ' + layer.title, 'info');
                         me.calcAvailableCRS(layer.available_crs);
                         me.map.addLayer(layer.ol);
                     }

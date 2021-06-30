@@ -1,7 +1,8 @@
 import ViewerService from "./ViewerService";
 import axios from 'axios';
 import ViewerLayerGPX from "../layer/ViewerLayerGPX";
-import {ALLOWED_VIEWER_CRS} from "@/shared"
+import {ALLOWED_VIEWER_CRS} from "@/shared";
+import {SharedEventBus} from "@/shared";
 
 // static/kloosters_1200.kml
 class ViewerServiceGPX extends ViewerService {
@@ -30,6 +31,9 @@ class ViewerServiceGPX extends ViewerService {
       }));
       // maybe try to construct a legend here? or calculate the extent
       return layers;
+    }).catch(function (error) {
+      SharedEventBus.$emit('show-message', error + ' while loading '+me.url);
+      console.error(error);
     });
   }
 

@@ -3,7 +3,11 @@
     <b-card no-body class="mb-1">
       <b-card-header header-tag="header" class="p-1">
         <span v-handle class="handle"></span>
-        <b-btn v-b-toggle="'layercard' + index" variant="info" class="layerbutton">{{ item.label }}</b-btn>
+        <b-btn v-b-toggle="'layercard' + index" variant="info" class="layerbutton">
+          {{ item.label }}
+          <span class="float-right when-open mr-1"><font-awesome-icon icon="chevron-up"/></span>
+          <span class="float-right when-closed mr-1"><font-awesome-icon icon="chevron-down"/></span>
+        </b-btn>
         <input type="checkbox" :id="'checkbox' + index" v-model="item.visible" />
       </b-card-header>
       <b-collapse :id="'layercard' + index" v-model="show">
@@ -70,4 +74,8 @@
     width: calc(100% - 50px);
   }
 
+  .collapsed > .when-open,
+  .not-collapsed > .when-closed {
+    display: none;
+  }
 </style>

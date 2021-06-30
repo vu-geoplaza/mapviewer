@@ -22,7 +22,7 @@
             zoomExtent() {
                 const a = this.map.getLayers().getArray();
                 // should be separate function
-                var zindex = 0;
+                let zindex = 0;
                 for (const l of a) {
                     if (l.get('type') !== 'base'&&l.get('type') !== 'marker') {
                         if (l.getZIndex() > zindex) {
@@ -32,11 +32,18 @@
                     }
                 }
                 const view = this.map.getView();
-                let extent=transformExtent(toplayer.get('extent_lonlat'), 'EPSG:4326', view.getProjection())
+                let extent = null;
+                if (typeof toplayer.get('extent_lonlat') !== 'undefined'){
+                  extent=transformExtent(toplayer.get('extent_lonlat'), 'EPSG:4326', view.getProjection())
+                }
                 if (toplayer instanceof Vector) {
                   extent = toplayer.getSource().getExtent();
                 }
-                view.fit(extent, { size: this.map.getSize(), padding: [80, 80, 80, 80], maxZoom: 17});
+              if (extent !== null) {
+                view.fit(extent, {size: this.map.getSize(), padding: [80, 80, 80, 80], maxZoom: 17});
+              } else {
+                SharedEventBus.$emit('show-message', 'could not get extent of top layer', 'warning');
+              }
             }
         }
     }

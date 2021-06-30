@@ -5,6 +5,8 @@ Kloosterkaart: https://geoplaza.vu.nl/projects/kloosters_vue/
 
 Mapviewer with demo layers: https://geoplaza.vu.nl/projects/viewer/
 
+[How to use on Geoplaza](https://github.com/vu-geoplaza/mapviewer/wiki/How-to-use-the-Geoplaza-map-viewer)
+
 ## Project setup
 ```
 npm install

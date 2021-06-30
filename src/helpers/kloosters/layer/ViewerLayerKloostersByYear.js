@@ -53,6 +53,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
             Vue.prototype.$config.klooster.data.year = klooster_config.year;
             vectorReader(response.data)
           }).catch(function (error) {
+            SharedEventBus.$emit('show-message', 'problem loading data: ' + error);
             console.error(error);
           });
         }
@@ -75,7 +76,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
         const num = features.length;
 
         var orde = features[0].get('ordenaam');
-        const labelResolutionLevel = 5;
+        const labelResolutionLevel = 3;
         let naam = features[0].get('name_en');
         if (language == 'nl') {
            naam = features[0].get('name_nl');

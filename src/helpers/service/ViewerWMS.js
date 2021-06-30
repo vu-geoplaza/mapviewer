@@ -3,6 +3,7 @@ import WMSCapabilities from "ol/format/WMSCapabilities";
 import ViewerLayerWMS from "../layer/ViewerLayerWMS";
 import axios from 'axios';
 import {proxyscript} from "@/helpers/proxy";
+import {SharedEventBus} from "@/shared";
 
 class ViewerWMS extends ViewerService {
   async getCapabilities(proxied) {
@@ -33,6 +34,7 @@ class ViewerWMS extends ViewerService {
         console.log('retry request via proxy');
         return me.getCapabilities(true);
       } else {
+        SharedEventBus.$emit('show-message', error + ' while loading '+me.url);
         return [];
       }
     });

@@ -9,6 +9,7 @@ import Fill from "ol/style/Fill";
 import Text from "ol/style/Text";
 import axios from 'axios';
 import Vue from 'vue'
+import {SharedEventBus} from "@/shared";
 
 class ViewerLayerKloosterLocaties extends ViewerLayer {
 
@@ -32,7 +33,7 @@ class ViewerLayerKloosterLocaties extends ViewerLayer {
                     vectorReader(response.data);
                 }).catch(function (error) {
                     console.error(error);
-                    document.getElementById("gpz").innerHTML = "<h4>Could not load data: " + error.message + "</h4>";
+                    SharedEventBus.$emit('show-message', 'problem loading data: ' + error);
                 });
             }
         });

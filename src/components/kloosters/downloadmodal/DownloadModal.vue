@@ -5,7 +5,7 @@
         <h4>Over deze kaart</h4>
         <p>De Kloosterkaart toont de kloosters van alle orden die in Nederland gedurende de Middeleeuwen en de Vroegmoderne
         Tijd (tot 1800) vertegenwoordigd zijn geweest. De kaart is een visualisatie van de gegevens die zijn verzameld
-          in de Kloosterlijst: Beknopt overzicht van de Nederlandse kloosters tot 1800 (<a href="http://geoplaza.vu.nl/projects/kloosterlijst/nl/">link</a>).</p>
+        in de Kloosterlijst: Beknopt overzicht van de Nederlandse kloosters tot 1800 (<a href="https://geoplaza.vu.nl/projects/kloosterlijst/nl/">link</a>).</p>
         <p><i>Meer informatie op de <a href="https://geoplaza.vu.nl/cms/research/kloosterkaart/">Geoplaza website</a></i></p>
         <h5>Download in het Nederlands</h5>
         <ul>
@@ -14,10 +14,11 @@
           <li><a v-bind:href="url + 'type=kapittels&language=nl'">Kapittels</a></li>
           <li><a v-bind:href="url + 'type=uithoven&language=nl'">Uithoven</a></li>
         </ul>
+        <p>De bestanden zijn in het <i><a href="https://geojson.org/" target="_blank">GeoJSON</a></i> formaat, geschikt voor gebruik in GIS applicaties.</p>
         <h4>About this map</h4>
         <p>The Map of Monasteries shows the monasteries of all orders which have been represented in the present-day
           Netherlands during the Middle Ages and Early Modern period (until 1800). The map visualises the data assembled
-          for the Census: Monasteries in the Netherlands until 1800 (<a href="http://geoplaza.vu.nl/projects/kloosterlijst/en/">link</a>).</p>
+          for the Census: Monasteries in the Netherlands until 1800 (<a href="https://geoplaza.vu.nl/projects/kloosterlijst/en/">link</a>).</p>
         <p><i>More information on the <a href="https://geoplaza.vu.nl/cms/research/map-of-monasteries/">Geoplaza website</a></i></p>
         <h5>Download in English</h5>
         <ul>
@@ -27,9 +28,9 @@
           <li><a v-bind:href="url + 'type=kapittels&language=en'">Collegiate Churches</a></li>
           <li><a v-bind:href="url + 'type=uithoven&language=en'">Granges and Refuges</a></li>
         </ul>
-        <p>All downloads are in GeoJSON format.</p>
+        <p>All downloads are in <i><a href="https://geojson.org/" target="_blank">GeoJSON</a></i> format, suitable for use in GIS applications.</p>
         <p><b>Please use the following attribution:<br></b>
-          Goudriaan, K. (2017). <i>Kloosterkaart en Kloosterlijst <span class='year'></span></i> [Data set]. Retrieved
+          Goudriaan, K. (2021). <i>Kloosterkaart en Kloosterlijst <span class='year'></span></i> [Data set]. Retrieved
           on {{ today }}, from {{ current_url }}</p>
         <p></p>
         <hr>
