@@ -3,9 +3,9 @@
     <b-card v-show='toggle' visible no-body class="p-0">
       <b-card-header header-tag="header" class="p-2">
         <span class="widget-header-text">Legenda</span>
-        <b-form-select v-model="selected_group" :options="groups"></b-form-select>
         <b-button-close @click='toggle = !toggle' class="pull-right">
         </b-button-close>
+        <b-form-select v-model="selected_group" :options="groups"></b-form-select>
       </b-card-header>
       <b-card-body class="p-0 scroll">
         <b-list-group horizontal="md" flush>
