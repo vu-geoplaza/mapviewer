@@ -80,7 +80,6 @@ export default {
           g.item_selected.push(item);
           g.item_present.push(item);
         }
-        console.log(g);
         this.groups.push(g);
       }
     },
@@ -89,7 +88,6 @@ export default {
         axios.post(this.$config.kerk.filterstate_url, {
           filter: this.$config.kerk.filter,
         }).then((res) => {
-          console.log(res.data);
           this.filterstate = res.data;
         })
       }
@@ -100,15 +98,11 @@ export default {
       return this.maxKey;
     },
     toggleAll: function(i) {
-      //let checked =true
-      console.log(this.groups[i].name);
-      console.log(this.groups[i].selected);
       this.groups[i].item_selected = this.groups[i].selected? this.groups[i].item_options.slice() : [];
       this.setGlobal();
       this.$refs.searchForm.filterChanged();
     },
     toggleItem: function (index, item_selected){
-      console.log(item_selected.length, this.groups[index].item_options.length, this.groups[index].key);
       if (item_selected.length===0){
         this.groups[index].indeterminate = false;
         this.groups[index].selected = false;
@@ -126,17 +120,14 @@ export default {
     setGlobal(){
       let filter={};
       for (var i = 0; i < this.groups.length; i++) {
-        console.log(this.groups[i].name);
         if (this.groups[i].item_selected.length!==this.groups[i].item_options.length){
           filter[this.groups[i].name]=this.groups[i].item_selected;
         }
       }
-      console.log(filter);
       this.$config.kerk.filter=filter;
     },
     applyFilter: function (){
       // call map reload
-      console.log(this.$config.kerk.filter);
       Vue.prototype.$config.filterchanged = true;
       SharedEventBus.$emit('reload-vector-data');
     }

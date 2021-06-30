@@ -41,7 +41,6 @@ export default {
   },
   methods: {
     init() {
-      console.log(this.selected_items);
       this.filterToSelections();
       this.filterChanged();
     },
@@ -55,8 +54,10 @@ export default {
           filter: this.$config.kerk.filter,
           list: option
         }).then((res) => {
-          console.log(res.data);
-          this.search_items = res.data;
+          let filtered = res.data.filter(function (el) {
+            return el != null;
+          });
+          this.search_items = filtered;
         })
       }
     },
