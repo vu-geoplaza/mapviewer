@@ -16,7 +16,6 @@ class ViewerServiceKerken extends ViewerService {
             12.20222198952879,
             54.35672339723146
         ]; // Nederland
-        // add kapittels and uithoven later?
         layers.push(new ViewerLayerKerken({
             name: 'kerken',
             extent_lonlat: extent,
