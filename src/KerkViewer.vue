@@ -10,6 +10,7 @@
         <KerkInfo />
       </b-col>
     </b-row>
+    <KerkenList />
     <KerkenFilter />
   </b-container>
 </template>
@@ -21,6 +22,7 @@
   import KerkInfo from "./components/kerken/kerkinfo/KerkInfo";
   import KerkenFilter from "./components/kerken/filter/KerkenFilter";
   import KerkenLegend from "./components/kerken/kerkenlegend/KerkenLegend";
+  import KerkenList from "./components/kerken/kerkenlist/KerkenList";
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
@@ -29,6 +31,7 @@
     },
     name: 'KerkViewer',
     components: {
+      KerkenList,
       KerkInfo,
       KerkenFilter,
       KerkenLegend,
