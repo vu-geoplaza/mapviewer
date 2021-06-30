@@ -78,10 +78,9 @@ export default {
           tmp[feature.properties[group]]++
         }
       });
-      console.log(tmp);
-      for (const item in this.items) {
+      this.items.forEach(function(item) {
         item.total=tmp[item.text];
-      }
+      });
     }
   }
 }
