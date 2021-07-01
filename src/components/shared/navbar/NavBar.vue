@@ -6,16 +6,12 @@
       <b-navbar-nav>
         <BaseLayerSwitcher/>
         <FitExtent/>
-        <KerkenNavLeft v-if="showKerken" />
-        <b-nav-item v-if="showInfo" v-b-modal.infomodal key="infomodal">info</b-nav-item>
-        <b-nav-item v-if="showKloosterList" v-b-modal.kloosterlistmodal key="kloosterlistmodal">view list</b-nav-item>
-        <b-nav-item v-if="showKloosterDownload" v-b-modal.downloadmodal key="downloadmodal">about</b-nav-item>
-        <b-nav-item v-if="admminmode" v-b-modal.servicemodal key="servicemodal">add service</b-nav-item>
-        <FileSaver v-if="admminmode"/>
+        <KerkenNavLeft v-if="KerkenNav" />
+        <KloosterNavLeft v-if="KloosterNav" />
+        <GpzNavLeft v-if="GpzNav" />
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
-        <KloosterModeSwitcher v-if="showKloosterDownload"/>
-        <LanguageSwitcher v-if="showLanguage"/>
+        <KloosterNavRight v-if="KloosterNav" />
         <GeoLocation/>
       </b-navbar-nav>
     </b-collapse>
@@ -26,23 +22,23 @@
 
 <script>
   import FitExtent from '../fitextent/FitExtent'
-  import FileSaver from '@/components/gpz/file/FileSaver'
   import BaseLayerSwitcher from "@/components/shared/baselayerswitcher/BaseLayerSwitcher";
-  import LanguageSwitcher from "@/components/kloosters/languageswitcher/LanguageSwitcher";
-  import KloosterModeSwitcher from "@/components/kloosters/kloostermodeswitcher/KloosterModeSwitcher";
   import GeoLocation from "@/components/shared/geolocation/GeoLocation";
   import KerkenNavLeft from "@/components/kerken/navbar/KerkenNavLeft";
+  import KloosterNavLeft from "@/components/kloosters/navbar/KloosterNavLeft";
+  import KloosterNavRight from "@/components/kloosters/navbar/KloosterNavRight";
+  import GpzNavLeft from "@/components/gpz/navbar/GpzNavLeft";
 
   export default {
     name: "NavBar",
     components: {
-      LanguageSwitcher,
-      KloosterModeSwitcher,
       BaseLayerSwitcher,
       FitExtent,
-      FileSaver,
       GeoLocation,
-      KerkenNavLeft
+      KerkenNavLeft,
+      KloosterNavLeft,
+      KloosterNavRight,
+      GpzNavLeft,
     },
     mounted() {
       this.set_title();
@@ -54,11 +50,9 @@
         title: '',
         href: '#',
         brand: false,
-        showInfo: true,
-        showKloosterList: false,
-        showKloosterDownload: false,
-        showKerken: false,
-        showLanguage: false,
+        KerkenNav: false,
+        KloosterNav: false,
+        GpzNav: false,
       }
     },
     methods: {
@@ -69,26 +63,15 @@
         }
         if (typeof this.$config.url !== 'undefined' || this.$config.url == '') {
           this.href = this.$config.url;
-          //alert(this.url);
         }
       },
       set_custom() {
-        if (this.$kloosterkaartmode === 'all' || this.$kloosterkaartmode === 'by_year') {
-          this.showKloosterDownload = true;
-          this.showLanguage = true;
-          this.showInfo = false;
+        if (typeof this.$kloosterkaartmode !== 'undefined') {
+          this.KloosterNav=true;
+        } else if (this.$config.title==='Kerkenkaart'){
+          this.KerkenNav = true;
         } else {
-          this.showKloosterDownload = false;
-          this.showLanguage = false;
-          this.showInfo = true;
-        }
-        if (this.$kloosterkaartmode === 'by_year') {
-          this.showKloosterList = true;
-        } else {
-          this.showKloosterList = false;
-        }
-        if (this.$config.title==='Kerkenkaart'){
-          this.showKerken = true;
+          this.GpzNav = true;
         }
       }
     }
