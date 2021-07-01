@@ -6,11 +6,10 @@
       <b-navbar-nav>
         <BaseLayerSwitcher/>
         <FitExtent/>
+        <KerkenNavLeft v-if="showKerken" />
         <b-nav-item v-if="showInfo" v-b-modal.infomodal key="infomodal">info</b-nav-item>
         <b-nav-item v-if="showKloosterList" v-b-modal.kloosterlistmodal key="kloosterlistmodal">view list</b-nav-item>
         <b-nav-item v-if="showKloosterDownload" v-b-modal.downloadmodal key="downloadmodal">about</b-nav-item>
-        <b-nav-item v-if="showKerkFilter" v-b-modal.filtermodal key="filtermodal">filter</b-nav-item>
-        <b-nav-item v-if="showKerkenList" v-b-modal.kerkenlistmodal key="kerkenlistmodal">view list</b-nav-item>
         <b-nav-item v-if="admminmode" v-b-modal.servicemodal key="servicemodal">add service</b-nav-item>
         <FileSaver v-if="admminmode"/>
       </b-navbar-nav>
@@ -32,7 +31,7 @@
   import LanguageSwitcher from "@/components/kloosters/languageswitcher/LanguageSwitcher";
   import KloosterModeSwitcher from "@/components/kloosters/kloostermodeswitcher/KloosterModeSwitcher";
   import GeoLocation from "@/components/shared/geolocation/GeoLocation";
-
+  import KerkenNavLeft from "@/components/kerken/navbar/KerkenNavLeft";
 
   export default {
     name: "NavBar",
@@ -43,6 +42,7 @@
       FitExtent,
       FileSaver,
       GeoLocation,
+      KerkenNavLeft
     },
     mounted() {
       this.set_title();
@@ -57,8 +57,7 @@
         showInfo: true,
         showKloosterList: false,
         showKloosterDownload: false,
-        showKerkFilter: false,
-        showKerkenList: false,
+        showKerken: false,
         showLanguage: false,
       }
     },
@@ -89,9 +88,7 @@
           this.showKloosterList = false;
         }
         if (this.$config.title==='Kerkenkaart'){
-          this.showKerkFilter = true;
-          this.showKerkenList = true;
-          this.showInfo = false;
+          this.showKerken = true;
         }
       }
     }
