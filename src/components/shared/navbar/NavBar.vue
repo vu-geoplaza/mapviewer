@@ -91,6 +91,7 @@
         if (this.$config.title==='Kerkenkaart'){
           this.showKerkFilter = true;
           this.showKerkenList = true;
+          this.showInfo = false;
         }
       }
     }
