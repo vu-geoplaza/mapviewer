@@ -1,8 +1,8 @@
 import ViewerService from "../../service/ViewerService";
-import ViewerLayerKerk from '../layer/ViewerLayerKerk'
+import ViewerLayerKerken from '../layer/ViewerLayerKerken'
 import {ALLOWED_VIEWER_CRS} from "@/shared"
 
-class ViewerServiceKerk extends ViewerService {
+class ViewerServiceKerken extends ViewerService {
     constructor(props) {
         super(props);
         this.kerk_options = props.kerk_options;
@@ -16,8 +16,7 @@ class ViewerServiceKerk extends ViewerService {
             12.20222198952879,
             54.35672339723146
         ]; // Nederland
-        // add kapittels and uithoven later?
-        layers.push(new ViewerLayerKerk({
+        layers.push(new ViewerLayerKerken({
             name: 'kerken',
             extent_lonlat: extent,
             title: 'kerken',
@@ -31,11 +30,11 @@ class ViewerServiceKerk extends ViewerService {
     setLayers(layers) {
         this.layers = [];
         for (const l of layers) {
-            this.layers.push(new ViewerLayerKerk(l));
+            this.layers.push(new ViewerLayerKerken(l));
         }
     }
 
 
 }
 
-export default ViewerServiceKerk;
+export default ViewerServiceKerken;

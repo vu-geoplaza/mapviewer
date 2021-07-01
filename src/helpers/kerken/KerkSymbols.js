@@ -50,7 +50,7 @@ export const kerkLegend={
         'geen monumenten status': '#9D5BA8',
         'onbekend': '#FA8715',
     },
-    'huidige bestemming': {
+    'huidige_bestemming': {
         'kerk': '#1B9E77',
         'anders': '#D95F02'
     },

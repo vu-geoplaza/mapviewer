@@ -9,6 +9,8 @@
         <b-nav-item v-if="showInfo" v-b-modal.infomodal key="infomodal">info</b-nav-item>
         <b-nav-item v-if="showKloosterList" v-b-modal.kloosterlistmodal key="kloosterlistmodal">view list</b-nav-item>
         <b-nav-item v-if="showKloosterDownload" v-b-modal.downloadmodal key="downloadmodal">about</b-nav-item>
+        <b-nav-item v-if="showKerkFilter" v-b-modal.filtermodal key="filtermodal">filter</b-nav-item>
+        <b-nav-item v-if="showKerkenList" v-b-modal.kerkenlistmodal key="kerkenlistmodal">view list</b-nav-item>
         <b-nav-item v-if="admminmode" v-b-modal.servicemodal key="servicemodal">add service</b-nav-item>
         <FileSaver v-if="admminmode"/>
       </b-navbar-nav>
@@ -55,6 +57,8 @@
         showInfo: true,
         showKloosterList: false,
         showKloosterDownload: false,
+        showKerkFilter: false,
+        showKerkenList: false,
         showLanguage: false,
       }
     },
@@ -83,6 +87,10 @@
           this.showKloosterList = true;
         } else {
           this.showKloosterList = false;
+        }
+        if (this.$config.title==='Kerkenkaart'){
+          this.showKerkFilter = true;
+          this.showKerkenList = true;
         }
       }
     }
