@@ -87,7 +87,7 @@ export default {
           n++;
         } else { // clustered feature
           const features = feature.get('features');
-          if (features.length<=2) {
+          if (features.length<=max) {
             me.showoverlay = true;
             me.toggle = true;
             me.addMarker(features[0]);

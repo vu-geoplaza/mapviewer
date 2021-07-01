@@ -61,7 +61,7 @@ class ViewerLayerKerken extends ViewerLayer {
 
     OLLayer(url) {
         let me=this;
-        const clusterDistance = 50;
+        const clusterDistance = 75;
 
         let vectorReader = function (data) {
             let format = new GeoJSON;
