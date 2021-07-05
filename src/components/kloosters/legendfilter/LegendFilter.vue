@@ -33,7 +33,7 @@
               <b-collapse visible :id="'regelcard' + index">
                 <b-list-group class="row-fluid">
                   <b-list-group-item v-for="(orde_index, index2) in regel.orde_index" v-bind:key="index2"
-                                     class="p-1 col-lg-6 col-md-12 col-xs-12 col-sm-6 clearfix ordeblock"
+                                     class="p-1 col-xl-6 col-lg-12 col-md-12 col-xs-12 col-sm-12 clearfix ordeblock"
                                      v-show="present"
                                      v-bind:class="{ dim: !orden[orde_index].present }">
                     <b-img :src="orden[orde_index].symbol" class="mr-1"/>
