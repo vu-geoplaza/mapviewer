@@ -1,7 +1,8 @@
 import ViewerService from "../../service/ViewerService";
 import ViewerLayerKloosterLocaties from '../layer/ViewerLayerKloosterLocaties'
 import {ALLOWED_VIEWER_CRS} from "@/shared"
-import {plain_symbols, svg_url} from '@/helpers/kloosters/KloosterSymbols'
+import {plain_symbols} from "../KloosterSymbols";
+import Vue from "vue";
 
 // static/kloosters_1200.kml
 class ViewerServiceKloostersAll extends ViewerService {
@@ -11,6 +12,7 @@ class ViewerServiceKloostersAll extends ViewerService {
   }
 
   async getCapabilities() {
+    const symbol_url = Vue.prototype.$config.klooster.symbol_url;
     const layers = [];
     const extent = [
       -1.86027801047121,
@@ -23,21 +25,21 @@ class ViewerServiceKloostersAll extends ViewerService {
       name: 'kloosters',
       extent_lonlat: extent,
       title: 'kloosters',
-      legend_img: svg_url + plain_symbols['klooster'],
+      legend_img: symbol_url + plain_symbols['klooster'],
       available_crs: ALLOWED_VIEWER_CRS,
     }));
     layers.push(new ViewerLayerKloosterLocaties({
       name: 'kapittels',
       extent_lonlat: extent,
       title: 'kapittels',
-      legend_img: svg_url + plain_symbols['kapittel'],
+      legend_img: symbol_url + plain_symbols['kapittel'],
       available_crs: ALLOWED_VIEWER_CRS,
     }));
     layers.push(new ViewerLayerKloosterLocaties({
       name: 'uithoven',
       extent_lonlat: extent,
       title: 'uithoven',
-      legend_img: svg_url + plain_symbols['uithof'],
+      legend_img: symbol_url + plain_symbols['uithof'],
       available_crs: ALLOWED_VIEWER_CRS,
     }));
     return layers;

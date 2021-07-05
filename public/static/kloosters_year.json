@@ -1,0 +1,31 @@
+{
+  "title": "Kloosterkaart",
+  "url": "https://geoplaza.vu.nl/cms/research/kloosterkaart/",
+  "bbox": [
+    2.946307507057729,
+    50.53321086134227,
+    7.708880749245228,
+    53.84820079687907
+  ],
+  "crs": "EPSG:3857",
+  "available_crs": ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
+  "baselayer": "light",
+  "cluster_resolution": 10,
+  "services": [{
+    "url": "https://geoplaza.vu.nl/projects/kloosters/resources/getGeoJSONYear.php",
+    "type": "kloosters_by_year",
+    "layers": [{
+      "id": "kloosters_by_year",
+      "title": "kloosters_by_year",
+      "label": "kloosters_by_year",
+      "visible": true,
+      "opacity": 1.0,
+      "zindex": 93
+    }]
+  }],
+  "klooster": {
+    "info_url": "https://geoplaza.vu.nl/projects/kloosters/resources/getKloosterInfo.php",
+    "download_url": "https://geoplaza.vu.nl/projects/kloosters/resources/downloadGeoJSON.php",
+    "symbol_url": "https://geoplaza.vu.nl/projects/kloosters/svg/"
+  }
+}

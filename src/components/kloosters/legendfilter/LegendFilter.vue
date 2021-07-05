@@ -146,7 +146,7 @@ export default {
             nl: orde,
             en: symbolsCat.data[regel][orde].en,
             present: false,
-            symbol: 'https://geoplaza.vu.nl/projects/kloosters_vue/svg/' + symbolsCat.data[regel][orde].symbol + '.svg',
+            symbol: this.$config.klooster.symbol_url + symbolsCat.data[regel][orde].symbol + '.svg',
             selected: orde_selected
           });
           orde_index++;

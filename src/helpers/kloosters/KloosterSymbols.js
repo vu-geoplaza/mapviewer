@@ -358,7 +358,6 @@ for (var category in symbolsCat.data) {
     s[order] = symbolsCat.data[category][order].symbol + ext;
   }
 }
-export const svg_url='https://geoplaza.vu.nl/projects/kloosters_vue/svg/';
 export const symbols=s;
 export const plain_symbols={
   'klooster': 'plain/klooster' + ext,

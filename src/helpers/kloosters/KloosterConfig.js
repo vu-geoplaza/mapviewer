@@ -6,8 +6,10 @@ class KloosterConfig extends  ViewerConfig {
     this.klooster = {
       language: 'nl',
       //"filter": ['benedictijnen', 'benedictinessen'],
+      symbol_url: '',
+      download_url: '',
+      info_url: '',
       filter: [],
-      info_url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getKloosterInfo.php',
       selected_id: '',
       year: 1300,
       id: '',
@@ -16,6 +18,13 @@ class KloosterConfig extends  ViewerConfig {
         geojson: {}
       }
     }
+  }
+
+  readJSON(json) {
+    if (json.klooster.info_url) this.klooster.info_url = json.klooster.info_url;
+    if (json.klooster.download_url) this.klooster.download_url = json.klooster.download_url;
+    if (json.klooster.symbol_url) this.klooster.symbol_url = json.klooster.symbol_url;
+    super.readJSON(json)
   }
 
 }

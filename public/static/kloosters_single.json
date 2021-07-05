@@ -1,0 +1,25 @@
+{
+  "title": "Klooster",
+  "url": "https://geoplaza.vu.nl/cms/research/kloosterkaart/",
+  "bbox": [
+    2.946307507057729,
+    50.53321086134227,
+    7.708880749245228,
+    53.84820079687907
+  ],
+  "crs": "EPSG:3857",
+  "available_crs": ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
+  "baselayer": "light",
+  "services": [{
+    "url": "https://geoplaza.vu.nl/projects/kloosters/resources/getGeoJSONAll.php?name=single",
+    "type": "kloosters_single",
+    "layers": [{
+      "id": "kloosters_single",
+      "title": "kloosters_single",
+      "label": "kloosters_single",
+      "visible": true,
+      "opacity": 1.0,
+      "zindex": 93
+    }]
+  }]
+}

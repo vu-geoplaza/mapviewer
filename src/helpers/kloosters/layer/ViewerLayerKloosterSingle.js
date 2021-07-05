@@ -12,7 +12,7 @@ import Vue from 'vue'
 import {SharedEventBus} from "@/shared";
 import {lang} from '@/helpers/kloosters/lang.js';
 import Icon from "ol/style/Icon";
-import {plain_symbols, svg_url} from '@/helpers/kloosters/KloosterSymbols'
+import {plain_symbols} from '@/helpers/kloosters/KloosterSymbols'
 
 class ViewerLayerKloosterSingle extends ViewerLayer {
 
@@ -23,6 +23,7 @@ class ViewerLayerKloosterSingle extends ViewerLayer {
 
   OLLayer(url) {
     let klooster_config = Vue.prototype.$config.klooster;
+    const symbol_url = klooster_config.symbol_url;
     let me = this;
     let vectorReader = function (data) {
       let format = new GeoJSON;
@@ -54,11 +55,11 @@ class ViewerLayerKloosterSingle extends ViewerLayer {
       style: function (feature) {
         const features = feature.get('features');
         const type = features[0].get('type');
-        let image = svg_url + plain_symbols['klooster'];
+        let image = symbol_url + plain_symbols['klooster'];
         let years=[];
         let label = '';
         if (type=='uithof'){
-          image = svg_url + plain_symbols['uithof'];
+          image = symbol_url + plain_symbols['uithof'];
           if (klooster_config.language=="en") {
             label = lang[3]['en'];
           } else {

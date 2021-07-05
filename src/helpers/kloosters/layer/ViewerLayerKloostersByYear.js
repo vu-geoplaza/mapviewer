@@ -2,7 +2,7 @@ import ViewerLayer from "../../layer/ViewerLayer";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
-import {symbols, svg_url} from '@/helpers/kloosters/KloosterSymbols'
+import {symbols} from '@/helpers/kloosters/KloosterSymbols'
 import Style from "ol/style/Style";
 import Icon from "ol/style/Icon";
 import Fill from "ol/style/Fill";
@@ -25,6 +25,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
   OLLayer(url) {
     let klooster_config = Vue.prototype.$config.klooster;
     let me = this;
+    const symbol_url = klooster_config.symbol_url;
     let vectorReader=function(data){
       let format = new GeoJSON;
       let features = format.readFeatures(data, {
@@ -67,7 +68,6 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
       distance: clusterDistance,
       source: source
     });
-
     return new VectorLayer({
       source: clusterSource,
       style: function (feature, resolution) {
@@ -108,7 +108,7 @@ class ViewerLayerKloostersByYear extends ViewerLayer {
             me.styleCache[uq] = new Style({
               image: new Icon({
                 scale: iconscale,
-                src: svg_url + symbol,
+                src: symbol_url + symbol,
                 opacity: 0.80
               }),
               text: new Text({

@@ -6,13 +6,14 @@ import KloosterViewer from "@/KloosterViewer";
 
 import KloosterConfig from "@/helpers/kloosters/KloosterConfig";
 
-import {getParam, hashCode} from './shared'
+import {getParam, hashCode, SharedEventBus} from './shared'
 import {saveState} from "./helpers/ViewerDataHelpers";
+import axios from "axios";
 
 Vue.config.productionTip = false;
 
 function getState(config) {
-    const key = hashCode(config.title + "2");
+    const key = hashCode(config.title + "3");
     config.hash=key; // only calculate once
     if (!localStorage[key]) {
         saveState(config);
@@ -75,105 +76,23 @@ if (typeof getParam('language') === 'string') {
     }
 }
 
+// get the viewer config from an online json file
+function initWithDatafile(datafile) {
+    axios.get(datafile).then(function (response) {
+        config.readJSON(response.data);
+        init(config);
+    }).catch(function (error) {
+        console.error(error);
+        SharedEventBus.$emit('show-message', 'problem loading datafile: ' + error);
+    });
+}
 
 Vue.prototype.$kloosterkaartmode = mode;
 if (mode === 'all') {
-    config.readJSON({
-        title: 'Kloosterkaart',
-        url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
-        bbox: [
-            2.946307507057729,
-            50.53321086134227,
-            7.708880749245228,
-            53.84820079687907
-        ],
-        crs: "EPSG:3857",
-        available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
-        baselayer: "light",
-        cluster_resolution: 10,
-        services: [{
-            url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php',
-            type: 'kloosters_all',
-            layers: [
-                {
-                    "id": "kloosters",
-                    "title": "kloosters",
-                    "label": "kloosters",
-                    "visible": true,
-                    "opacity": 1.0,
-                    "zindex": 93
-                },
-                {
-                    "id": "kapittels",
-                    "title": "kapittels",
-                    "label": "kapittels",
-                    "visible": true,
-                    "opacity": 1.0,
-                    "zindex": 92
-                },
-                {
-                    "id": "uithoven",
-                    "title": "uithoven",
-                    "label": "uithoven",
-                    "visible": true,
-                    "opacity": 1.0,
-                    "zindex": 91
-                },
-            ]
-        }]
-    });
+    initWithDatafile('static/kloosters_all.json')
 } else if (mode == 'single') {
-    config.readJSON({
-        title: 'Klooster',
-        url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
-        bbox: [
-            2.946307507057729,
-            50.53321086134227,
-            7.708880749245228,
-            53.84820079687907
-        ],
-        crs: "EPSG:3857",
-        available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
-        baselayer: "light",
-        services: [{
-            url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONAll.php?name=single',
-            type: 'kloosters_single',
-            layers: [{
-                "id": "kloosters_single",
-                "title": "kloosters_single",
-                "label": "kloosters_single",
-                "visible": true,
-                "opacity": 1.0,
-                "zindex": 93
-            }]
-        }]
-    });
+    initWithDatafile('static/kloosters_single.json')
 } else {
-    config.readJSON({
-        title: 'Kloosterkaart',
-        url: 'https://geoplaza.vu.nl/cms/research/kloosterkaart/',
-        bbox: [
-            2.946307507057729,
-            50.53321086134227,
-            7.708880749245228,
-            53.84820079687907
-        ],
-        crs: "EPSG:3857",
-        available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
-        baselayer: "light",
-        cluster_resolution: 10,
-        services: [{
-            url: 'https://geoplaza.vu.nl/projects/kloosters_vue/resources/getGeoJSONYear.php',
-            type: 'kloosters_by_year',
-            layers: [{
-                "id": "kloosters_by_year",
-                "title": "kloosters_by_year",
-                "label": "kloosters_by_year",
-                "visible": true,
-                "opacity": 1.0,
-                "zindex": 93
-            }]
-        }]
-    });
+    initWithDatafile('static/kloosters_year.json')
 }
-init(config);
+

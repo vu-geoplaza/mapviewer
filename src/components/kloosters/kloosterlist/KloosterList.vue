@@ -80,7 +80,7 @@
                       if ((typeof symbols[orde] !== 'undefined')) {
                         symbol = symbols[orde];
                       }
-                      const image='https://geoplaza.vu.nl/projects/kloosters_vue/svg/' + symbol;
+                      const image = me.$config.klooster.symbol_url + symbol;
                       if (me.$config.klooster.language === 'en') {
                         me.items.push({label: feature.get('name_en'), feature: feature, image: image});
                       } else {
