@@ -48,6 +48,7 @@ export default {
       names: [],
       t: [],
       showoverlay: true,
+      toshow: -1
     }
   },
   methods: {
@@ -58,7 +59,6 @@ export default {
       var me = this;
       // bind an onclick for the featureInfo
       this.map.on('singleclick', function (evt) {
-        console.log('**** click event!')
         me.handleInfoClick(evt.coordinate, evt.pixel);
       });
       SharedEventBus.$on('kerk-selected', feature => {
@@ -69,16 +69,16 @@ export default {
       })
     },
     handleInfoClick(coordinate, pixel) {
-      console.log('*** handleInfoClick');
       this.clearMarkers();
       this.toggle = false;
       this.items = [];
       var me = this;
       let n = 0;
       const max = 10;
+      this.toshow = 10
       this.map.forEachFeatureAtPixel(pixel, function (feature) {
         if (!feature.get('features')&&feature.get('type')!=='pointMarker') {
-          if (n < max) { // browser slow if showing many tabs
+          if (n <= max) { // browser slow if showing many tabs
             me.showoverlay = true;
             me.toggle = true;
             me.addMarker(feature);
@@ -92,7 +92,7 @@ export default {
             me.toggle = true;
             me.addMarker(features[0]);
             for (var i = 0; i < features.length; i++) {
-              if (n < max) { // browser slow if showing many tabs
+              if (n <= max) { // browser slow if showing many tabs
                 me.showInfo(features[i]);
               }
               n++;
@@ -100,6 +100,7 @@ export default {
           }
         }
       });
+      this.toshow=n;
     },
     addItem(item) {
       this.items.push(item);
@@ -131,11 +132,22 @@ export default {
         item.feature = feature;
         item.title = id.toString();
         me.addItem(item);
+        me.addBAGId(data.bag_pand_id);
+        if (me.toshow == me.items.length) me.showBAG();
       }, error => {
         console.error(error);
       });
     },
-
+    addBAGId(id){
+      if(this.$config.kerk.pand_id.indexOf(id) === -1) {
+        this.$config.kerk.pand_id.push(id);
+      }
+    },
+    showBAG() {
+      if (this.$config.kerk.pand_id.length>0){
+        SharedEventBus.$emit('reload-vector-data');
+      }
+    }
   }
 }
 

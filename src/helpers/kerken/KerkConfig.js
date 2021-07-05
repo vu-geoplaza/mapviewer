@@ -11,6 +11,7 @@ class KerkConfig extends  ViewerConfig {
       filterstate_url: 'https://geoplaza.vu.nl/projects/kerken_vue/resources/getFilterState.php',
       selected_id: '',
       legend_style: 'denominatie',
+      pand_id: [],
       id: '',
       data: {
         year: 0,

@@ -79,7 +79,6 @@ class ViewerLayerKerken extends ViewerLayer {
         };
         let source = new VectorSource({
             loader: function () {
-                console.log('*** reload kerk source');
                 if (Vue.prototype.$config.filterchanged||Object.keys(Vue.prototype.$config.kerk.data.geojson).length === 0) {
                     console.log('filter changed, new request');
                     return axios.post(url, {'filter': Vue.prototype.$config.kerk.filter}).then(function (response) {
@@ -179,7 +178,6 @@ class ViewerLayerKerken extends ViewerLayer {
             },
             opacity: 1,
             source: clusterSource,
-            org_source: source,
             zIndex: this.zindex,
             cluster_distance: clusterDistance,
         });

@@ -8,6 +8,7 @@ import ViewerServiceKloostersByYear from "./kloosters/service/ViewerServiceKloos
 import ViewerServiceKloostersAll from "./kloosters/service/ViewerServiceKloostersAll";
 import ViewerServiceKloostersSingle from "./kloosters/service/ViewerServiceKloostersSingle";
 import ViewerServiceKerken from "./kerken/service/ViewerServiceKerken";
+import ViewerServiceKerkenBAG from "./kerken/service/ViewerServiceKerkenBAG";
 
 class ViewerConfig {
   constructor() {
@@ -66,6 +67,7 @@ class ViewerConfig {
     if (service_config.type === 'kloosters_all') return new ViewerServiceKloostersAll(service_config);
     if (service_config.type === 'kloosters_single') return new ViewerServiceKloostersSingle(service_config);
     if (service_config.type === 'kerken') return new ViewerServiceKerken(service_config);
+    if (service_config.type === 'kerken_bag') return new ViewerServiceKerkenBAG(service_config);
   }
 }
 
