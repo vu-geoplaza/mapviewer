@@ -1,7 +1,9 @@
 # mapviewer
 Built with Vuejs, Bootstrap-Vue and OpenLayers.  
 
-Kloosterkaart: https://geoplaza.vu.nl/projects/kloosters_vue/
+Kloosterkaart: https://geoplaza.vu.nl/projects/kloosters/
+
+Kerkenkaart: https://geoplaza.vu.nl/projects/kerken_vue/
 
 Mapviewer with demo layers: https://geoplaza.vu.nl/projects/viewer/
 
@@ -16,7 +18,9 @@ npm install
 ```
 npm run serve:kloosters
 ```
-or
+```
+npm run serve:kerken
+```
 ```
 npm run serve:gpz
 ```
@@ -25,7 +29,9 @@ for the standard web services viewer
 ```
 npm run build:kloosters
 ```
-or
+```
+npm run build:kerken
+```
 ```
 npm run build:gpz
 ```
