@@ -35,7 +35,7 @@ function getState(config) {
 
 function init(config) {
     Vue.prototype.$adminmode = false;
-    config = getState(config);
+
     Vue.prototype.$config = config; // might it be wiser to just use a global variable for this?
     document.title = config.title;
 
@@ -52,6 +52,7 @@ Vue.prototype.$nomenu = false;
 
 let mode = 'by_year';
 let config = new KloosterConfig(); // default settings
+config = getState(config);
 
 if (typeof getParam('nomenu') === 'string') {
     Vue.prototype.$nomenu = true;
