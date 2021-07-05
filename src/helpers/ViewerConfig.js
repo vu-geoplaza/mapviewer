@@ -4,11 +4,6 @@ import ViewerServiceTileArcGIS from "./service/ViewerServiceTileArcGIS";
 import ViewerServiceKML from "./service/ViewerServiceKML";
 import ViewerServiceGPX from "./service/ViewerServiceGPX";
 import ViewerServiceGeoJSON from "./service/ViewerServiceGeoJSON";
-import ViewerServiceKloostersByYear from "./kloosters/service/ViewerServiceKloostersByYear";
-import ViewerServiceKloostersAll from "./kloosters/service/ViewerServiceKloostersAll";
-import ViewerServiceKloostersSingle from "./kloosters/service/ViewerServiceKloostersSingle";
-import ViewerServiceKerken from "./kerken/service/ViewerServiceKerken";
-import ViewerServiceKerkenBAG from "./kerken/service/ViewerServiceKerkenBAG";
 
 class ViewerConfig {
   constructor() {
@@ -63,11 +58,6 @@ class ViewerConfig {
     if (service_config.type === 'kml') return new ViewerServiceKML(service_config);
     if (service_config.type === 'gpx') return new ViewerServiceGPX(service_config);
     if (service_config.type === 'geojson') return new ViewerServiceGeoJSON(service_config);
-    if (service_config.type === 'kloosters_by_year') return new ViewerServiceKloostersByYear(service_config);
-    if (service_config.type === 'kloosters_all') return new ViewerServiceKloostersAll(service_config);
-    if (service_config.type === 'kloosters_single') return new ViewerServiceKloostersSingle(service_config);
-    if (service_config.type === 'kerken') return new ViewerServiceKerken(service_config);
-    if (service_config.type === 'kerken_bag') return new ViewerServiceKerkenBAG(service_config);
   }
 }
 

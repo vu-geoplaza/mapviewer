@@ -1,4 +1,6 @@
 import ViewerConfig from "@/helpers/ViewerConfig";
+import ViewerServiceKerken from "./service/ViewerServiceKerken";
+import ViewerServiceKerkenBAG from "./service/ViewerServiceKerkenBAG";
 
 class KerkConfig extends  ViewerConfig {
   constructor() {
@@ -20,6 +22,11 @@ class KerkConfig extends  ViewerConfig {
     }
   }
 
+  getService(service_config) {
+    super.getService(service_config);
+    if (service_config.type === 'kerken') return new ViewerServiceKerken(service_config);
+    if (service_config.type === 'kerken_bag') return new ViewerServiceKerkenBAG(service_config);
+  }
 }
 
 export default KerkConfig;

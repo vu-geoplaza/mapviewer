@@ -1,4 +1,7 @@
 import ViewerConfig from "@/helpers/ViewerConfig";
+import ViewerServiceKloostersByYear from "./service/ViewerServiceKloostersByYear";
+import ViewerServiceKloostersAll from "./service/ViewerServiceKloostersAll";
+import ViewerServiceKloostersSingle from "./service/ViewerServiceKloostersSingle";
 
 class KloosterConfig extends  ViewerConfig {
   constructor() {
@@ -27,6 +30,13 @@ class KloosterConfig extends  ViewerConfig {
       if (json.klooster.symbol_url) this.klooster.symbol_url = json.klooster.symbol_url;
     }
     super.readJSON(json)
+  }
+
+  getService(service_config) {
+    if (service_config.type === 'kloosters_by_year') return new ViewerServiceKloostersByYear(service_config);
+    if (service_config.type === 'kloosters_all') return new ViewerServiceKloostersAll(service_config);
+    if (service_config.type === 'kloosters_single') return new ViewerServiceKloostersSingle(service_config);
+    super.getService(service_config);
   }
 
 }
