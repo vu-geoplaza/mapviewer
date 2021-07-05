@@ -21,5 +21,8 @@
       "opacity": 1.0,
       "zindex": 93
     }]
-  }]
+  }],
+  "klooster": {
+    "symbol_url": "https://geoplaza.vu.nl/projects/kloosters/svg/"
+  }
 }
