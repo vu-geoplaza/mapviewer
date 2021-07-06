@@ -157,6 +157,14 @@ const keys = [
             return html;
         }
     },
+    {
+        name: 'streetview',
+        label: 'Google Streetview',
+        'show': true,
+        f: function (d) {
+            return '<a href="'+ d.streetview +'" target="_blank">Streetview nabij locatie</a>';
+        }
+    }
 ]
 
 /*
