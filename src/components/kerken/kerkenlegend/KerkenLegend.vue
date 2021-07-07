@@ -5,18 +5,20 @@
         <span class="widget-header-text">Legenda</span>
         <b-button-close @click='toggle = !toggle' class="pull-right">
         </b-button-close>
-        <b-form-select v-model="selected_group" :options="groups"></b-form-select>
+        <b-form-select v-model="selected_group" v-on:change="showoverlay = true" :options="groups"></b-form-select>
       </b-card-header>
       <b-card-body class="p-0 scroll">
-        <b-list-group horizontal="md" flush>
-          <b-list-group-item class="p-1" v-for="item in items" v-bind:key="item.text">
-            <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-              <rect width="20" height="20" :style="'fill: ' + item.color" stroke="black" stroke-width="1" />
-            </svg>
-            {{ item.text }}
-            <span class="pull-right">{{ item.total }}</span>
-          </b-list-group-item>
-        </b-list-group>
+        <b-overlay :show="showoverlay" spinner-large rounded="sm">
+          <b-list-group horizontal="md" flush>
+            <b-list-group-item class="p-1" v-for="item in items" v-bind:key="item.text">
+              <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+                <rect width="20" height="20" :style="'fill: ' + item.color" stroke="black" stroke-width="1"/>
+              </svg>
+              {{ item.text }}
+              <span class="pull-right">{{ item.total }}</span>
+            </b-list-group-item>
+          </b-list-group>
+        </b-overlay>
       </b-card-body>
     </b-card>
   </div>
@@ -25,6 +27,7 @@
 <script>
 import {kerkLegend} from "@/helpers/kerken/KerkSymbols";
 import {SharedEventBus} from "@/shared";
+
 export default {
   name: "KerkenLegend",
   data: function () {
@@ -32,7 +35,8 @@ export default {
       groups: ['denominatie'],
       selected_group: 'denominatie',
       items: [],
-      toggle: true
+      toggle: true,
+      showoverlay: true,
     }
   },
   mounted() {
@@ -44,6 +48,7 @@ export default {
   },
   watch: {
     selected_group() {
+      this.showoverlay = true; // how to force updating this immediately?
       this.setItems(this.selected_group);
       this.$config.kerk.legend_style = this.selected_group;
       SharedEventBus.$emit('reload-vector-data');
@@ -61,6 +66,7 @@ export default {
     },
     setItems(group) {
       this.items = [];
+      this.showoverlay = true;
       for (const i in kerkLegend[group]) {
         let item = {};
         item.color = kerkLegend[group][i];
@@ -70,17 +76,19 @@ export default {
       }
     },
     setTotals(group, features) {
-      let tmp=[];
+      this.showoverlay = true;
+      let tmp = [];
       features.forEach(function (feature) {
         if (typeof tmp[feature.properties[group]] == 'undefined') {
-          tmp[feature.properties[group]]=1;
+          tmp[feature.properties[group]] = 1;
         } else {
           tmp[feature.properties[group]]++
         }
       });
-      this.items.forEach(function(item) {
-        item.total=tmp[item.text];
+      this.items.forEach(function (item) {
+        item.total = tmp[item.text];
       });
+      this.showoverlay = false;
     }
   }
 }
