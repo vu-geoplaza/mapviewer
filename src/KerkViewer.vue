@@ -12,6 +12,7 @@
     </b-row>
     <KerkenList />
     <KerkenFilter />
+    <AboutModal />
   </b-container>
 </template>
 
@@ -23,6 +24,7 @@
   import KerkenFilter from "./components/kerken/filter/KerkenFilter";
   import KerkenLegend from "./components/kerken/kerkenlegend/KerkenLegend";
   import KerkenList from "./components/kerken/kerkenlist/KerkenList";
+  import AboutModal from "./components/kerken/aboutmodal/AboutModal";
   export default {
     mounted: function () {
       SharedEventBus.$emit('app-mounted');
@@ -35,6 +37,7 @@
       KerkInfo,
       KerkenFilter,
       KerkenLegend,
+      AboutModal,
       NavBar,
       OlMap
     },
