@@ -1,15 +1,25 @@
 <template>
-  <div>
-    <b-form-select v-model="selected_option" :options="search_options"></b-form-select>
-    <vue-bootstrap-typeahead
-        v-model="query"
-        :data="search_items"
-        :placeholder="'Zoek op ' + selected_option"
-        @hit="itemSelected"
-        ref="typeahead"
-    />
-    <b-button variant="success" v-for="(item, index) in selected_items" v-bind:key="item.name + index" @click="itemDeselected(item)">{{ item.option }}: {{ item.name }}</b-button>
-  </div>
+  <b-card class="m-0">
+    <b-card-header class="p-2">
+      Selecteer categorie om op te filteren
+    </b-card-header>
+    <b-card-body>
+      <b-container fluid>
+        <b-form-select v-model="selected_option" :options="search_options"></b-form-select>
+        <vue-bootstrap-typeahead
+            v-model="query"
+            :data="search_items"
+            :placeholder="'Zoek op ' + selected_option"
+            @hit="itemSelected"
+            ref="typeahead"
+        ></vue-bootstrap-typeahead>
+
+      </b-container>
+      <b-button variant="success" v-for="(item, index) in selected_items" v-bind:key="item.name + index"
+                @click="itemDeselected(item)">{{ item.option }}: {{ item.name }}
+      </b-button>
+    </b-card-body>
+  </b-card>
 </template>
 
 <script>
@@ -66,26 +76,26 @@ export default {
       this.selectionsToFilter();
       this.$refs.typeahead.inputValue = "";
     },
-    itemDeselected(selected_item){
+    itemDeselected(selected_item) {
       this.removeSelectedItem(selected_item);
       this.selectionsToFilter();
     },
-    addSelectedItem(option, item){
+    addSelectedItem(option, item) {
       this.selected_items.push({option: option, name: item});
       this.sokey++;
     },
     removeSelectedItem(item) {
       let si = [];
       for (var i = 0; i < this.selected_items.length; i++) {
-        if (this.selected_items[i].name!==item.name){
+        if (this.selected_items[i].name !== item.name) {
           si.push(this.selected_items[i]);
         }
       }
       this.selected_items = si;
     },
-    selectionsToFilter(){
-      let f={};
-      for (const o in this.$config.kerk.filter){
+    selectionsToFilter() {
+      let f = {};
+      for (const o in this.$config.kerk.filter) {
         delete this.$config.kerk.filter[o];
       }
       for (let i = 0; i < this.selected_items.length; i++) {
@@ -95,12 +105,12 @@ export default {
           f[this.selected_items[i].option] = [this.selected_items[i].name]
         }
       }
-      for (const o in f){
-        this.$config.kerk.filter[o]=f[o];
+      for (const o in f) {
+        this.$config.kerk.filter[o] = f[o];
       }
     },
-    filterToSelections(){
-      this.selected_items=[];
+    filterToSelections() {
+      this.selected_items = [];
       for (const o in this.$config.kerk.filter) {
         if (this.search_options.includes(o)) {
           for (let i = 0; i < this.$config.kerk.filter[o].length; i++) {

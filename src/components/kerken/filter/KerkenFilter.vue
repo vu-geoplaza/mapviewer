@@ -2,29 +2,45 @@
   <!-- one per group -->
   <b-modal ref="filtermodal" id="filtermodal" ok-only size="lg" title="filter" @ok="handleOk">
     <b-row>
-      <KerkenSearch ref="searchForm"></KerkenSearch>
+      <b-col md="12">
+        <KerkenSearch ref="searchForm"></KerkenSearch>
+      </b-col>
     </b-row>
-    <b-list-group horizontal="md" flush>
-      <b-list-group-item class="p-1" v-for="(group, index) in groups" v-bind:key="group.key">
-        <b-form-group>
-          {{ group.name }}
-          <b-form-checkbox
-              v-model="group.selected"
-              :indeterminate="group.indeterminate"
-              @change="toggleAll(index)"
-          >
-          </b-form-checkbox>
-          <b-form-checkbox-group :label="group.name"
-            :id="group.name"
-            v-model="group.item_selected"
-            :options="group.item_options"
-            :name="group.name"
-            @change="toggleItem(index, group.item_selected)"
-          >
-          </b-form-checkbox-group>
-        </b-form-group>
-      </b-list-group-item>
-    </b-list-group>
+    <b-row>
+      <b-col md="12">
+      <b-list-group flush>
+        <b-list-group-item class="px-0" v-for="(group, index) in groups" v-bind:key="group.key">
+          <b-card>
+            <b-form-group>
+              <b-card-header header-tag="header" class="p-2">
+                <b-form-checkbox
+                    v-model="group.selected"
+                    :indeterminate="group.indeterminate"
+                    @change="toggleAll(index)"
+                >{{ group.name }}
+                </b-form-checkbox>
+              </b-card-header>
+              <b-card-body class="px-3 py-0">
+                <b-form-checkbox-group
+                    class="m-0"
+                    :label="group.name"
+                    :id="group.name"
+                    v-model="group.item_selected"
+                    style="column-count: 2;"
+                    :options="group.item_options"
+                    :name="group.name"
+                    @change="toggleItem(index, group.item_selected)"
+                    stacked
+
+                >
+                </b-form-checkbox-group>
+              </b-card-body>
+            </b-form-group>
+          </b-card>
+        </b-list-group-item>
+      </b-list-group>
+      </b-col>
+    </b-row>
   </b-modal>
 </template>
 
@@ -72,7 +88,7 @@ export default {
         g.selected = true;
         g.indeterminate = false;
         g.item_options = [];
-        g.item_selected= [];
+        g.item_selected = [];
         g.item_present = [];
         for (const item in kerkLegend[group]) {
           //g.item_options.push({text: item, value: item});
@@ -97,16 +113,16 @@ export default {
       this.maxKey++;
       return this.maxKey;
     },
-    toggleAll: function(i) {
-      this.groups[i].item_selected = this.groups[i].selected? this.groups[i].item_options.slice() : [];
+    toggleAll: function (i) {
+      this.groups[i].item_selected = this.groups[i].selected ? this.groups[i].item_options.slice() : [];
       this.setGlobal();
       this.$refs.searchForm.filterChanged();
     },
-    toggleItem: function (index, item_selected){
-      if (item_selected.length===0){
+    toggleItem: function (index, item_selected) {
+      if (item_selected.length === 0) {
         this.groups[index].indeterminate = false;
         this.groups[index].selected = false;
-      } else if (item_selected.length === this.groups[index].item_options.length){
+      } else if (item_selected.length === this.groups[index].item_options.length) {
         this.groups[index].indeterminate = false;
         this.groups[index].selected = true;
       } else {
@@ -117,16 +133,16 @@ export default {
       this.setGlobal();
       this.$refs.searchForm.filterChanged();
     },
-    setGlobal(){
-      let filter={};
+    setGlobal() {
+      let filter = {};
       for (var i = 0; i < this.groups.length; i++) {
-        if (this.groups[i].item_selected.length!==this.groups[i].item_options.length){
-          filter[this.groups[i].name]=this.groups[i].item_selected;
+        if (this.groups[i].item_selected.length !== this.groups[i].item_options.length) {
+          filter[this.groups[i].name] = this.groups[i].item_selected;
         }
       }
-      this.$config.kerk.filter=filter;
+      this.$config.kerk.filter = filter;
     },
-    applyFilter: function (){
+    applyFilter: function () {
       // call map reload
       Vue.prototype.$config.filterchanged = true;
       SharedEventBus.$emit('reload-vector-data');
