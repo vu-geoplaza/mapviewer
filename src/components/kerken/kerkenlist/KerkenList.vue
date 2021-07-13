@@ -126,7 +126,7 @@ export default {
       this.title = this.title + ' (' + me.items.length + ')';
     },
     selectKerk: function (item) {
-      const feature = this.map.getLayerByLid('kerken').getSource().getSource().getFeatureById(item.id);
+      const feature = this.map.getLayerByLid('kerken').getSource().getFeatureById(item.id);
       const geom = feature.getGeometry();
       this.map.getView().fit(geom, {
         maxZoom: 15,
