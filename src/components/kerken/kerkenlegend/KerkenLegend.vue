@@ -8,7 +8,6 @@
         <b-form-select v-model="selected_group" v-on:change="showoverlay = true" :options="groups"></b-form-select>
       </b-card-header>
       <b-card-body class="p-0 scroll">
-        <b-overlay :show="showoverlay" spinner-large rounded="sm">
           <b-list-group horizontal="md" flush>
             <b-list-group-item class="p-1" v-for="item in items" v-bind:key="item.text">
               <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
@@ -18,7 +17,6 @@
               <span class="pull-right">{{ item.total }}</span>
             </b-list-group-item>
           </b-list-group>
-        </b-overlay>
       </b-card-body>
     </b-card>
   </div>
@@ -36,7 +34,6 @@ export default {
       selected_group: 'denominatie',
       items: [],
       toggle: true,
-      showoverlay: true,
     }
   },
   mounted() {
@@ -48,7 +45,6 @@ export default {
   },
   watch: {
     selected_group() {
-      this.showoverlay = true; // how to force updating this immediately?
       this.setItems(this.selected_group);
       this.$config.kerk.legend_style = this.selected_group;
       SharedEventBus.$emit('reload-vector-data');
@@ -66,7 +62,6 @@ export default {
     },
     setItems(group) {
       this.items = [];
-      this.showoverlay = true;
       for (const i in kerkLegend[group]) {
         let item = {};
         item.color = kerkLegend[group][i];
@@ -76,7 +71,6 @@ export default {
       }
     },
     setTotals(group, features) {
-      this.showoverlay = true;
       let tmp = [];
       features.forEach(function (feature) {
         if (typeof tmp[feature.properties[group]] == 'undefined') {
@@ -88,7 +82,6 @@ export default {
       this.items.forEach(function (item) {
         item.total = tmp[item.text];
       });
-      this.showoverlay = false;
     }
   }
 }
