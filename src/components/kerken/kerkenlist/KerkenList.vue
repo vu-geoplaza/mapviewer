@@ -82,8 +82,8 @@ export default {
   },
   methods: {
     getFeaturesFromMap: function () {
-      //return this.map.getLayerByLid('kerken').getSource().getFeatures();
-      return this.map.getLayerByLid('kerken').getSource().getSource().getFeatures();
+      return this.map.getLayerByLid('kerken').getSource().getFeatures();
+      //return this.map.getLayerByLid('kerken').getSource().getSource().getFeatures();
     },
     setTitle: function () {
       this.title = 'Getoonde kerken';

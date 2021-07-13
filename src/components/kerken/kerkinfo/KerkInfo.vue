@@ -77,7 +77,7 @@ export default {
       const max = 10;
       this.toshow = 10
       this.map.forEachFeatureAtPixel(pixel, function (feature) {
-        if (!feature.get('features')&&feature.get('type')!=='pointMarker') {
+        if (!feature.get('type')!=='pointMarker'&&feature.get('type')!=='cluster') {
           if (n <= max) { // browser slow if showing many tabs
             me.showoverlay = true;
             me.toggle = true;
@@ -85,19 +85,6 @@ export default {
             me.showInfo(feature);
           }
           n++;
-        } else { // clustered feature
-          const features = feature.get('features');
-          if (features.length<=max) {
-            me.showoverlay = true;
-            me.toggle = true;
-            me.addMarker(features[0]);
-            for (var i = 0; i < features.length; i++) {
-              if (n <= max) { // browser slow if showing many tabs
-                me.showInfo(features[i]);
-              }
-              n++;
-            }
-          }
         }
       });
       this.toshow=n;

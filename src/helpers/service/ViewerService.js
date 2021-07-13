@@ -39,10 +39,12 @@ class ViewerService {
     var me = this;
     console.log('get service instance wtih crs: ' + crs);
     await this.getCapabilities().then(function (clayers) {
-      if (me.layers.length > 0) {
-        me.layers = me.mergeLayers(me.layers, clayers);
-      } else {
-        me.layers = clayers;
+      if (clayers!=='skip') {
+        if (me.layers.length > 0) {
+          me.layers = me.mergeLayers(me.layers, clayers);
+        } else {
+          me.layers = clayers;
+        }
       }
       var i = 0;
       for (const layer of me.layers) {
@@ -58,6 +60,7 @@ class ViewerService {
       }
       return me;
     });
+    console.log(me);
     return me;
   }
 

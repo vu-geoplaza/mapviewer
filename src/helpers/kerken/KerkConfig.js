@@ -17,7 +17,8 @@ class KerkConfig extends  ViewerConfig {
       id: '',
       data: {
         year: 0,
-        geojson: {}
+        geojson: {},
+        geojsoncluster: {}
       }
     }
   }

@@ -71,7 +71,7 @@ export default {
         let item = {};
         item.color = kerkLegend[group][i];
         item.text = i;
-        item.total = 0;
+        item.total = '';
         this.items.push(item);
       }
     },

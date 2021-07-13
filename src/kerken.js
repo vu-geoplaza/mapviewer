@@ -53,7 +53,24 @@ config.readJSON({
             "visible": true,
             "opacity": 1.0,
             "zindex": 100
-        }]
+        },
+            {
+                "id": "kerken_provincie",
+                "title": "kerken_provincie",
+                "label": "kerken_provincie",
+                "visible": true,
+                "opacity": 1.0,
+                "zindex": 101
+            },
+            {
+                "id": "kerken_gemeente",
+                "title": "kerken_gemeente",
+                "label": "kerken_gemeente",
+                "visible": true,
+                "opacity": 1.0,
+                "zindex": 102
+            }
+        ]
     },
         {
             url: 'https://geodata.nationaalgeoregister.nl/bag/wfs/v1_1?',
