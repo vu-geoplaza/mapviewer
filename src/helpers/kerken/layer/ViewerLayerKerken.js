@@ -59,20 +59,7 @@ class ViewerLayerKerken extends ViewerLayer {
         return new VectorLayer({
             visible: true,
             style: function (feature, resolution) {
-                function zoomForResolution(resolution) {
-                    var zoom = 0;
-                    var r = 156543.03390625; // resolution for zoom 0
-                    while (resolution < r) {
-                        r /= 2;
-                        zoom++;
-                        if (resolution > r) {
-                            return zoom;
-                        }
-                    }
-                    return zoom; // resolution was greater than 156543.03390625 so return 0
-                }
-                const zoom = zoomForResolution(resolution);
-                if (zoom <= 12) {
+                 if (resolution > 25) {
                     return [];
                 }
                 const legendStyle = Vue.prototype.$config.kerk.legend_style.replace(' ', '_');

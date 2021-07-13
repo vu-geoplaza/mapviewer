@@ -98,12 +98,13 @@ class ViewerLayerKerkenClustered extends ViewerLayer {
                 }
             }
         });
-        let maxZoom=9;
-        let minZoom=1;
+        let minResolution=200;
+        let maxResolution=20000;
         if (me.id=='kerken_gemeente'){
-            maxZoom=12;
-            minZoom=9;
+            maxResolution=200;
+            minResolution=25;
         }
+
         return new VectorLayer({
             visible: true,
             style: function (feature) {
@@ -132,8 +133,8 @@ class ViewerLayerKerkenClustered extends ViewerLayer {
                 }
                 return style;
             },
-            minZoom: minZoom,
-            maxZoom: maxZoom,
+            minResolution: minResolution,
+            maxResolution: maxResolution,
             opacity: 1,
             source: source,
             zIndex: this.zindex,
