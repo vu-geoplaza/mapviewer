@@ -171,7 +171,8 @@ export function Luchtfoto() {
     name: 'Luchtfoto 25cm',
     source: new WMTS({
       attributions: 'Kaartgegevens: &copy; <a href="https://www.kadaster.nl">Kadaster</a>',
-      url: 'https://geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts?',
+      //url: 'https://geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts?',
+      url: 'https://service.pdok.nl/hwh/luchtfotorgb/wmts/v1_0?',
       layer: 'Actueel_ortho25',
       matrixSet: 'EPSG:28992',
       format: 'image/png',
