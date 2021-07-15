@@ -89,7 +89,7 @@ class ViewerLayerKerkenClustered extends ViewerLayer {
                         vectorReader(response.data);
                     }).catch(function (error) {
                         console.error(error);
-                        document.getElementById("gpz").innerHTML = "<h4>Could not load data: " + error.message + "</h4>";
+                        SharedEventBus.$emit('show-message', 'problem loading data: ' + error);
                     });
                 } else {
                     // nothing changed, probably just a legend switch
