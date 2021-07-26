@@ -1,6 +1,6 @@
 {
   "name": "mapviewer",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "private": true,
   "scripts": {
     "serve:kloosters": "vue-cli-service serve src/kloosters.js",
@@ -21,6 +21,7 @@
     "bootstrap-vue": "^2.18.1",
     "core-js": "^3.6.5",
     "mobile-device-detect": "^0.4.3",
+    "npm": "^7.20.1",
     "ol": "^6.3.1",
     "ol-ext": "^3.1.17",
     "proj4": "^2.6.3",
@@ -33,7 +34,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.8",
     "@vue/cli-plugin-eslint": "^3.1.1",
-    "@vue/cli-service": "^3.12.1",
+    "@vue/cli-service": "^4.5.13",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
