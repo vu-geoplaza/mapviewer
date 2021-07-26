@@ -63,18 +63,23 @@ const keys = [
     },
     {
         'name': 'Jaar_ingebruikname',
+        'label': 'Jaar ingebruikname'
     },
     {
         'name': 'Jaar_Consecratie',
+        'label': 'Jaar consecratie',
     },
     {
         'name': 'Jaar_buiten_gebruik',
+        'label': 'Jaar buiten gebruik'
     },
     {
         'name': 'Vorm_type',
+        'label': 'Vorm/type',
     },
     {
         'name': 'Eretitel_Basiliek',
+        'label': 'Eretitel Basiliek',
     },
     {
         'name': 'architect',
@@ -97,31 +102,49 @@ const keys = [
     },
     {
         'name': 'Huidige_bestemming',
+        'label': 'Huidige bestemming',
     },
     {
         'name': 'Opmerkingen_bestemming',
+        'label': 'Opmerkingen bestemming',
     },
     {
         'name': 'Stijl',
     },
     {
         'name': 'Stijl_School',
+        'label': 'Stijl, School',
     },
     {
         'name': 'Opmerkingen_stijl',
+        'label': 'Opmerkingen stijl',
     },
     {
         'name': 'Monumenten_Status',
+        'label': 'Monumenten status',
     },
     {
         'name': 'Rijksmonument_nummer',
+        'label': 'Rijksmonument nummer',
+        'show': true,
+        f: function (d) {
+            const data = d[this.name];
+            //https://monumentenregister.cultureelerfgoed.nl/monumenten/24917
+            let html = '-';
+            if (data!=''&&data!=0){
+                html = data + ' [<a href="https://monumentenregister.cultureelerfgoed.nl/monumenten/' + data + '" target="_blank">link</a>]'
+            }
+            return html
+        }
     },
     {
         'name': 'Provinciaal_monument_ID',
+        'label': 'Provinciaal monument ID',
     },
 
     {
         'name': 'Gemeente_monument_ID',
+        'label': 'Gemeente monument ID',
     },
     {
         'name': 'Bijzonderheden',
@@ -180,22 +203,14 @@ Dakruiter
 Fronttoren
 Opmerkingen
 uiterlijke_kenmerken_gecontroleerd
-bag_pand_id
 ]
 */
-
-
-
-
-
-
 
 
 // Convert info json into displayable key-value pairs suitable for a table
 export function formatInfo(data) {
     let item={};
     item.rows=[];
-    //for (let key in data) {
     for (let i = 0; i < keys.length; i++) {
         let key = keys[i].name;
         let val = '';
@@ -203,6 +218,9 @@ export function formatInfo(data) {
             val = keys[i].f(data);
         } else {
             val = data[key];
+            if (val==0||val=='') {
+                val = '-';
+            }
         }
         let label = key.replace('_', ' ');
         if (keys[i].label) {
