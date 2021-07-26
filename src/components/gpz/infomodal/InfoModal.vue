@@ -12,19 +12,40 @@
           </li>
         </ul>
       </ul>
+        <b-button v-if="admminmode" href="#" @click="savedata()">download config</b-button>
       </b-col>
     </b-row>
   </b-modal>
 </template>
 
 <script>
+  import {Mapable} from "../../../mixins/mapable";
+  import {ViewerDataHelper} from "@/helpers/ViewerDataHelpers";
+
   export default {
     name: 'LayerSwitcher',
+    mixins: [Mapable],
     data: function () {
       return {
         services: this.$config.services,
+        admminmode: this.$adminmode,
       }
     },
+    methods: {
+      savedata: function() {
+        const data = ViewerDataHelper.olmapToConfigData(this.map);
+        data.title = this.$config.title;
+        data.url = this.$config.url;
+        var config = JSON.stringify(data, null, 2);
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(config);
+        var downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "gpz_map.json");
+        document.body.appendChild(downloadAnchorNode); // required for firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+      }
+    }
   }
 </script>
 <style scoped>
