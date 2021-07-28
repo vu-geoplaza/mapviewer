@@ -14,7 +14,7 @@
         <KloosterNavRight v-if="KloosterNav" />
       </b-navbar-nav>
     </b-collapse>
-    <b-navbar-nav class="ml-auto controls">
+    <b-navbar-nav class="ml-auto controls" v-if="mobile">
       <GeoLocation/>
       <b-nav-item @click="toggle_fullscreen()" right>
         <font-awesome-icon icon="expand"/>
@@ -33,6 +33,7 @@
   import KloosterNavRight from "@/components/kloosters/navbar/KloosterNavRight";
   import GpzNavLeft from "@/components/gpz/navbar/GpzNavLeft";
   import { api as fullscreen } from 'vue-fullscreen'
+  import { isMobile } from 'mobile-device-detect';
 
   export default {
     name: "NavBar",
@@ -48,6 +49,9 @@
     mounted() {
       this.set_title();
       this.set_custom();
+      if (isMobile) {
+        this.mobile=true;
+      }
     },
     data() {
       return {
@@ -60,6 +64,7 @@
         GpzNav: false,
         fullscreen: false,
         teleport: true,
+        mobile: true
       }
     },
     methods: {
