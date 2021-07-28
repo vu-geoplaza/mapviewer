@@ -1,5 +1,8 @@
 <template>
   <div class="kerkenlegend">
+    <a @click='toggle = !toggle' v-show='!toggle' class="open-button">
+      <font-awesome-icon icon="layer-group"/>
+    </a>
     <b-card v-show='toggle' visible no-body class="p-0">
       <b-card-header header-tag="header" class="p-2">
         <span class="widget-header-text">Legenda</span>
@@ -88,5 +91,15 @@ export default {
 </script>
 
 <style scoped>
-
+.open-button {
+  border: 1px solid black;
+  font-size: 19px;
+  text-align: center;
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 30px;
+  left: 30px;
+  background-color: white;
+}
 </style>
