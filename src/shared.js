@@ -3,10 +3,10 @@ import proj4 from "proj4";
 import {register} from "ol/proj/proj4";
 import {get as getProjection} from "ol/proj";
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {faArrowLeft, faArrowRight, faLayerGroup, faDotCircle, faMapMarkerAlt, faWindowClose, faChevronUp, faChevronDown} from '@fortawesome/free-solid-svg-icons'
+import {faArrowLeft, faArrowRight, faLayerGroup, faDotCircle, faMapMarkerAlt, faWindowClose, faChevronUp, faChevronDown, faExpand} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
-library.add(faArrowLeft, faArrowRight, faLayerGroup, faDotCircle, faMapMarkerAlt, faWindowClose, faChevronUp, faChevronDown);
+library.add(faArrowLeft, faArrowRight, faLayerGroup, faDotCircle, faMapMarkerAlt, faWindowClose, faChevronUp, faChevronDown, faExpand);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

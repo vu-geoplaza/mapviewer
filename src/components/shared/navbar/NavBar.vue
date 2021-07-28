@@ -13,6 +13,7 @@
       <b-navbar-nav class="ml-auto">
         <KloosterNavRight v-if="KloosterNav" />
         <GeoLocation/>
+        <b-nav-item @click="toggle_fullscreen()">fullscreen</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
 
@@ -28,6 +29,7 @@
   import KloosterNavLeft from "@/components/kloosters/navbar/KloosterNavLeft";
   import KloosterNavRight from "@/components/kloosters/navbar/KloosterNavRight";
   import GpzNavLeft from "@/components/gpz/navbar/GpzNavLeft";
+  import { api as fullscreen } from 'vue-fullscreen'
 
   export default {
     name: "NavBar",
@@ -53,6 +55,8 @@
         KerkenNav: false,
         KloosterNav: false,
         GpzNav: false,
+        fullscreen: false,
+        teleport: true,
       }
     },
     methods: {
@@ -73,6 +77,14 @@
         } else {
           this.GpzNav = true;
         }
+      },
+      toggle_fullscreen() {
+        fullscreen.toggle(this.$el.querySelector('#app'), {
+          teleport: this.teleport,
+          callback: (isFullscreen) => {
+            this.fullscreen = isFullscreen
+          },
+        })
       }
     }
   }
