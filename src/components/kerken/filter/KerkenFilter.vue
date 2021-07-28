@@ -144,7 +144,7 @@ export default {
     },
     applyFilter: function () {
       // call map reload
-      Vue.prototype.$config.filterchanged = true;
+      Vue.prototype.$config.filterchanged = 3; // Need to reload 3 layers
       SharedEventBus.$emit('reload-vector-data');
     }
   }

@@ -80,11 +80,12 @@ class ViewerLayerKerkenClustered extends ViewerLayer {
                 if (me.id=='kerken_gemeente'){
                     cluster='gemeente';
                 }
-                if (Vue.prototype.$config.filterchanged || typeof Vue.prototype.$config.kerk.data.geojsoncluster[cluster]=='undefined') {
-                    console.log('filter changed, new request');
+                if (Vue.prototype.$config.filterchanged > 0 || typeof Vue.prototype.$config.kerk.data.geojsoncluster[cluster]=='undefined') {
+                    console.log('filter changed, new '+cluster+' request ' + Vue.prototype.$config.filterchanged);
                     return axios.post(url, {'filter': Vue.prototype.$config.kerk.filter, 'cluster': cluster}).then(function (response) {
                         Vue.prototype.$config.kerk.data.geojsoncluster.last = cluster;
                         Vue.prototype.$config.kerk.data.geojsoncluster[cluster]=response.data;
+                        Vue.prototype.$config.filterchanged--;
                         me.styleCache = [];
                         vectorReader(response.data);
                     }).catch(function (error) {

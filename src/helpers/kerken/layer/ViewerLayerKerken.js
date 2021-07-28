@@ -39,11 +39,11 @@ class ViewerLayerKerken extends ViewerLayer {
         };
         let source = new VectorSource({
             loader: function () {
-                if (Vue.prototype.$config.filterchanged || Object.keys(Vue.prototype.$config.kerk.data.geojson).length === 0) {
-                    console.log('filter changed, new request');
+                if (Vue.prototype.$config.filterchanged > 0 || Object.keys(Vue.prototype.$config.kerk.data.geojson).length === 0) {
+                    console.log('filter changed, new request ' + Vue.prototype.$config.filterchanged);
                     return axios.post(url, {'filter': Vue.prototype.$config.kerk.filter}).then(function (response) {
                         Vue.prototype.$config.kerk.data.geojson = response.data;
-                        Vue.prototype.$config.filterchanged = false;
+                        Vue.prototype.$config.filterchanged--;
                         vectorReader(response.data);
                     }).catch(function (error) {
                         console.error(error);
