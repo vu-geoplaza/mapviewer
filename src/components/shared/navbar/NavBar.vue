@@ -64,7 +64,7 @@
         GpzNav: false,
         fullscreen: false,
         teleport: true,
-        mobile: true
+        mobile: false
       }
     },
     methods: {
