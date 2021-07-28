@@ -2,7 +2,7 @@
 
     <b-nav-item href="#" @click="geoLocate()" right>
       <b-spinner v-if="showspinner" small></b-spinner>
-        my location
+      <font-awesome-icon v-if="!showspinner" icon="crosshairs"/>
     </b-nav-item>
 
 </template>

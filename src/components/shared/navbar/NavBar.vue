@@ -12,11 +12,14 @@
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <KloosterNavRight v-if="KloosterNav" />
-        <GeoLocation/>
-        <b-nav-item @click="toggle_fullscreen()">fullscreen</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
-
+    <b-navbar-nav class="ml-auto controls">
+      <GeoLocation/>
+      <b-nav-item @click="toggle_fullscreen()" right>
+        <font-awesome-icon icon="expand"/>
+      </b-nav-item>
+    </b-navbar-nav>
   </b-navbar>
 
 </template>
@@ -91,7 +94,7 @@
 </script>
 
 <style>
-  .nav-item:not(:first-child) {
+  #nav_collapse .nav-item:not(:first-child) {
     border-left: 1px dotted white;
     border-bottom: none;
   }
@@ -99,6 +102,16 @@
   .show .nav-item {
     border-left: none;
     border-bottom: 1px dotted white;
+  }
+
+  .controls {
+    flex-direction: row !important;
+    font-size: 1.3rem;
+  }
+
+  .controls .nav-link {
+    padding-right: 0.5rem !important;
+    padding-left: 0.5rem !important;
   }
 </style>
 
