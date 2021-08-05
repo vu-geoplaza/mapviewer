@@ -1,7 +1,7 @@
 <template>
   <b-navbar-nav>
-  <b-nav-item v-b-modal.infomodal key="infomodal">info</b-nav-item>
-  <b-nav-item v-if="admminmode" v-b-modal.servicemodal key="servicemodal">add service</b-nav-item>
+  <b-nav-item v-b-modal.infomodal key="infomodal">{{ $t('info') }}</b-nav-item>
+  <b-nav-item v-if="admminmode" v-b-modal.servicemodal key="servicemodal">{{ $t('addservice') }}</b-nav-item>
   </b-navbar-nav>
 </template>
 

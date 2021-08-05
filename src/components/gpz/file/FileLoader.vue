@@ -1,7 +1,7 @@
 <template>
-    <b-modal id="uploadmodal" title="Upload data file" @ok="handleOk">
+    <b-modal id="uploadmodal" v-bind:title="$t('uploaddata')" @ok="handleOk">
       <b-form-file accept="application/json" v-model="file" class="mt-3" plain></b-form-file>
-      <div class="mt-3">Selected file: {{file && file.name}}</div>
+      <div class="mt-3">{{ $t('selectedfile') }}: {{file && file.name}}</div>
     </b-modal>
 </template>
 

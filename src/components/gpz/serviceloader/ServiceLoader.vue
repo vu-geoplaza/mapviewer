@@ -1,8 +1,8 @@
 <template>
-  <b-modal id="servicemodal" title="Add layers from url" @ok="handleOk">
+  <b-modal id="servicemodal" v-bind:title="$t('addlayersurl')" @ok="handleOk">
     <b-row>
     <b-col sm="8">
-      <b-form-input v-model="serviceurl" type="url" placeholder="enter url...">{{ serviceurl }}</b-form-input>
+      <b-form-input v-model="serviceurl" type="url" v-bind:placeholder="$t('enterurl')">{{ serviceurl }}</b-form-input>
     </b-col>
     <b-col sm="4">
       <b-form-select v-model="selected" :options="options" class="mb-3"/>

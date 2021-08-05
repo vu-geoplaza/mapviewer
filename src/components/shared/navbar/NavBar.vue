@@ -12,6 +12,9 @@
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <KloosterNavRight v-if="KloosterNav" />
+        <b-nav-item href="#" @click="switchlanguage()" right>
+          {{button_language}}
+        </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
     <b-navbar-nav class="ml-auto controls" v-if="mobile">
@@ -64,7 +67,9 @@
         GpzNav: false,
         fullscreen: false,
         teleport: true,
-        mobile: false
+        mobile: false,
+        language: this.$i18n.locale,
+        button_language: 'nl'
       }
     },
     methods: {
@@ -93,6 +98,18 @@
             this.fullscreen = isFullscreen
           },
         })
+      },
+      switchlanguage() {
+        if (this.language === 'nl') {
+          this.language = 'en';
+          this.button_language = 'nl';
+        } else {
+          this.language = 'nl';
+          this.button_language = 'en';
+        }
+        this.$i18n.locale = this.language;
+        //SharedEventBus.$emit('change-language');
+        this.$forceUpdate();
       }
     }
   }

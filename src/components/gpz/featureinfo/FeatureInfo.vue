@@ -5,7 +5,7 @@
         <a @click='toggle = !toggle' class="fa-pull-left">
           <font-awesome-icon icon="arrow-right"/>
         </a>
-        <span class="widget-header-text">Feature Info</span>
+        <span class="widget-header-text">{{ $t('featureinfo') }}</span>
       </b-card-header>
       <b-card-body>
         <b-tabs>

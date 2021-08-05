@@ -1,5 +1,5 @@
 <template>
-  <b-nav-item-dropdown text="base layer">
+  <b-nav-item-dropdown v-bind:text="$t('baselayer')">
     <b-dropdown-item v-on:click="switchBaseLayer(item.code)" v-for="(item, index) in items" :index="index" :key="index"
                      :item="item">
       {{ item.name }}&nbsp;<span v-if="item.active">*</span>

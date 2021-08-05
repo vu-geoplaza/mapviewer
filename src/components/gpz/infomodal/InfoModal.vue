@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="infomodal" size="lg" title="Layers shown on this map">
+  <b-modal id="infomodal" size="lg" v-bind:title="$t('layersshown')">
     <b-row>
       <b-col md="12">
       <ul v-for="service in services" v-bind:key="service.url">
@@ -12,7 +12,7 @@
           </li>
         </ul>
       </ul>
-        <b-button v-if="admminmode" href="#" @click="savedata()">download config</b-button>
+        <b-button v-if="admminmode" href="#" @click="savedata()">{{ $t('downloadconfig') }}</b-button>
       </b-col>
     </b-row>
   </b-modal>
