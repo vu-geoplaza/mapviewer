@@ -39,6 +39,7 @@
       SharedEventBus.$emit('app-mounted');
       console.log('app mounted');
       console.log('app version: ' + process.env.VUE_APP_VERSION);
+      this.$i18n.locale=this.$config.klooster.language;
     },
     name: 'KloosterViewer',
     components: {

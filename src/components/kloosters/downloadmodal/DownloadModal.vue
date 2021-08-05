@@ -1,5 +1,5 @@
 <template>
-  <b-modal ref="downloadmodal" id="downloadmodal" ok-only size="lg" title="About">
+  <b-modal ref="downloadmodal" id="downloadmodal" ok-only size="lg" v-bind:title="$t('about')">
     <b-row>
       <b-col md="12">
         <h4>Over deze kaart</h4>

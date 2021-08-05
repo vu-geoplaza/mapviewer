@@ -1,7 +1,7 @@
 <template>
   <b-navbar-nav>
-    <b-nav-item v-if="showKloosterList" v-b-modal.kloosterlistmodal key="kloosterlistmodal">view list</b-nav-item>
-    <b-nav-item v-b-modal.downloadmodal key="downloadmodal">about</b-nav-item>
+    <b-nav-item v-if="showKloosterList" v-b-modal.kloosterlistmodal key="kloosterlistmodal">{{ $t('list') }}</b-nav-item>
+    <b-nav-item v-b-modal.downloadmodal key="downloadmodal">{{ $t('about') }}</b-nav-item>
   </b-navbar-nav>
 </template>
 

@@ -135,7 +135,7 @@
                     title: ''
                 };
                 let me = this;
-                const language = this.$config.klooster.language;
+                const language = this.$i18n.locale;
 
                 for (var i = 0, len = lang.length; i < len; i++) {
                     this.t[i] = lang[i][language]

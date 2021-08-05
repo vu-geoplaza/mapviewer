@@ -53,12 +53,12 @@ export default {
       max: 1800,
       marks: [700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800],
       year_str: 'Jaar',
-      language: this.$config.klooster.language
+      language: this.$i18n.locale
     }
   },
   mounted: function () {
     SharedEventBus.$on('change-language', () => {
-      this.language = this.$config.klooster.language;
+      this.language = this.$i18n.locale;
       if (this.language === 'nl') {
         this.year_str = 'Jaar';
       } else {

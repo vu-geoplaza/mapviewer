@@ -13,12 +13,12 @@
         name: "LanguageSwitcher",
         data: function () {
             return {
-                language: this.$config.klooster.language,
+                language: this.$i18n.locale,
                 button_language: ''
             }
         },
         mounted: function () {
-            this.language = this.$config.klooster.language;
+            this.language = this.$i18n.locale;
             if (this.language === 'en') {
                 this.button_language = 'nl';
             } else {
@@ -34,7 +34,7 @@
                     this.language = 'nl';
                     this.button_language = 'en';
                 }
-                this.$config.klooster.language = this.language;
+                this.$i18n.locale = this.language;
                 SharedEventBus.$emit('change-language');
                 this.$forceUpdate();
             }

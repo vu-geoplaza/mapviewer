@@ -30,6 +30,7 @@
       SharedEventBus.$emit('app-mounted');
       console.log('app mounted');
       console.log('app version: ' + process.env.VUE_APP_VERSION);
+      this.$i18n.locale='nl';
     },
     name: 'KerkViewer',
     components: {

@@ -59,7 +59,7 @@ export default {
   name: "LegendFilter",
   data: function () {
     return {
-      language: this.$config.klooster.language,
+      language: this.$i18n.locale,
       regels: [{
         nl: '',
         en: '',
@@ -89,7 +89,7 @@ export default {
       me.present(me.$config.klooster.data.geojson.features);
     });
     SharedEventBus.$on('change-language', () => {
-      this.language = this.$config.klooster.language;
+      this.language = this.$i18n.locale;
     });
   },
   methods: {

@@ -30,7 +30,7 @@
                 title: '',
                 subtitle: '',
                 items: [],
-                language: this.$config.klooster.language, // list of klooster names
+                language: this.$i18n.locale, // list of klooster names
             }
         },
         mounted: function () {
@@ -81,7 +81,7 @@
                         symbol = symbols[orde];
                       }
                       const image = me.$config.klooster.symbol_url + symbol;
-                      if (me.$config.klooster.language === 'en') {
+                      if (me.$i18n.locale === 'en') {
                         me.items.push({label: feature.get('name_en'), feature: feature, image: image});
                       } else {
                         me.items.push({label: feature.get('name_nl'), feature: feature, image: image});

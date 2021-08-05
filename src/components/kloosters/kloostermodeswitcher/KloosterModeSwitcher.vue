@@ -22,10 +22,10 @@
         methods: {
             init: function() {
                 if (this.$config.klooster.mode==='all'){
-                    this.link = '?mode=&language=' + this.$config.klooster.language;
+                    this.link = '?mode=&language=' + this.$i18n.locale;
                     this.link_text = 'show by year';
                 } else {
-                    this.link = '?mode=all&language=' + this.$config.klooster.language;
+                    this.link = '?mode=all&language=' + this.$i18n.locale;
                     this.link_text = 'show all';
                 }
             }
