@@ -1,8 +1,8 @@
 <template>
   <b-navbar-nav>
-    <b-nav-item v-b-modal.filtermodal key="filtermodal">filter</b-nav-item>
-    <b-nav-item v-b-modal.kerkenlistmodal key="kerkenlistmodal">view list</b-nav-item>
-    <b-nav-item v-b-modal.aboutmodal key="aboutmodal">about</b-nav-item>
+    <b-nav-item v-b-modal.filtermodal key="filtermodal">{{ $t('filter') }}</b-nav-item>
+    <b-nav-item v-b-modal.kerkenlistmodal key="kerkenlistmodal">{{ $t('list') }}</b-nav-item>
+    <b-nav-item v-b-modal.aboutmodal key="aboutmodal">{{ $t('about') }}</b-nav-item>
   </b-navbar-nav>
 </template>
 

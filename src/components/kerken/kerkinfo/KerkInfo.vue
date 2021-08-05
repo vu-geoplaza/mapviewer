@@ -13,7 +13,6 @@
             <b-tab lazy :key="index" :title="item.title" class="scroll"
                    v-for="(item, index) in items" @click="addMarker(item.feature)">
               <b-table thead-class="hidden_header" striped :items="item.rows">
-
                 <template v-slot:cell(key)="data">
                   <span v-html="data.value"></span>
                 </template>
@@ -157,7 +156,7 @@ export default {
 
 .scroll {
   padding-right: 15px;
-  max-height: calc(100vh - 280px);;
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
 }
 ul {

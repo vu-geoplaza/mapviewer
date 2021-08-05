@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
 import Vue from 'vue'
+import i18n from './i18n'
 import KerkViewer from "@/KerkViewer";
 
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm'
@@ -22,7 +23,8 @@ function init(config) {
         el: '#gpz',
         render: h => h(KerkViewer),
         components: {KerkViewer},
-        template: '<KerkViewer/>'
+        template: '<KerkViewer/>',
+        i18n
     });
 }
 
@@ -43,47 +45,74 @@ config.readJSON({
     available_crs: ["EPSG:3857", "EPSG:28992", "EPSG:4326"],
     baselayer: "light",
     cluster_resolution: 10,
-    services: [{
-        url: 'https://geoplaza.vu.nl/projects/kerken_vue/resources/getGeoJSON.php',
-        type: 'kerken',
-        layers: [{
-            "id": "kerken",
-            "title": "kerken",
-            "label": "kerken",
-            "visible": true,
-            "opacity": 1.0,
-            "zindex": 100
+    services: [
+        {
+            url: 'https://geoplaza.vu.nl/projects/kerken_vue/resources/getGeoJSON.php',
+            type: 'kerken',
+            layers: [
+                {
+                    "id": "kerken",
+                    "title": "kerken",
+                    "label": "kerken",
+                    "visible": true,
+                    "opacity": 1.0,
+                    "zindex": 100
+                },
+                {
+                    "id": "kerken_provincie",
+                    "title": "kerken_provincie",
+                    "label": "kerken_provincie",
+                    "visible": true,
+                    "opacity": 1.0,
+                    "zindex": 101
+                },
+                {
+                    "id": "kerken_gemeente",
+                    "title": "kerken_gemeente",
+                    "label": "kerken_gemeente",
+                    "visible": true,
+                    "opacity": 1.0,
+                    "zindex": 102
+                }
+            ]
         },
-            {
-                "id": "kerken_provincie",
-                "title": "kerken_provincie",
-                "label": "kerken_provincie",
-                "visible": true,
-                "opacity": 1.0,
-                "zindex": 101
-            },
-            {
-                "id": "kerken_gemeente",
-                "title": "kerken_gemeente",
-                "label": "kerken_gemeente",
-                "visible": true,
-                "opacity": 1.0,
-                "zindex": 102
-            }
-        ]
-    },
         {
             url: 'https://geodata.nationaalgeoregister.nl/bag/wfs/v1_1?',
             type: "kerken_bag",
-            layers: [{
-                "id": "kerken_bag",
-                "title": "kerken_bag",
-                "label": "kerken_bag",
-                "visible": true,
-                "opacity": 0.8,
-                "zindex": 99
-            }]
-        }]
+            layers: [
+                {
+                    "id": "kerken_bag",
+                    "title": "kerken_bag",
+                    "label": "kerken_bag",
+                    "visible": true,
+                    "opacity": 0.8,
+                    "zindex": 99
+                }
+            ]
+        },/*
+        {
+            "url": "https://geodata.nationaalgeoregister.nl/bestuurlijkegrenzen/wms?",
+            "type": "wms",
+            "layers": [
+                {
+                    "id": "a8d3c3f0-bcb6-44f3-87c1-d4555dfb63c9",
+                    "title": "gemeenten",
+                    "label": "gemeenten",
+                    "visible": true,
+                    "opacity": 0.2,
+                    "zindex": 97
+                },
+                {
+                    "id": "640be565-97d5-4410-9fb5-f713674fe90a",
+                    "title": "provincies",
+                    "label": "provincies",
+                    "visible": true,
+                    "opacity": 0.2,
+                    "zindex": 98
+                }
+            ]
+        }*/
+    ]
 });
 
 

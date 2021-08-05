@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
 import Vue from 'vue'
+import i18n from './i18n'
 import GpzViewer from './GpzViewer'
 
 import ViewerConfig from './helpers/ViewerConfig'
@@ -54,7 +55,8 @@ function init(config){
     el: '#gpz',
     render: h => h(GpzViewer),
     components: {GpzViewer},
-    template: '<GpzViewer/>'
+    template: '<GpzViewer/>',
+    i18n
   });
 }
 

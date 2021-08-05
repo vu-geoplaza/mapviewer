@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
 import Vue from 'vue'
+import i18n from './i18n'
 import KloosterViewer from "@/KloosterViewer";
 
 import KloosterConfig from "@/helpers/kloosters/KloosterConfig";
@@ -13,7 +14,7 @@ import axios from "axios";
 Vue.config.productionTip = false;
 
 function getState(config) {
-    const key = hashCode(config.title + "3");
+    const key = hashCode(config.title + "4");
     config.hash=key; // only calculate once
     if (!localStorage[key]) {
         saveState(config);
@@ -44,7 +45,8 @@ function init(config) {
         el: '#gpz',
         render: h => h(KloosterViewer),
         components: {KloosterViewer},
-        template: '<KloosterViewer/>'
+        template: '<KloosterViewer/>',
+        i18n
     });
 }
 
