@@ -9,10 +9,10 @@
   "showyear": "per jaar",
   "showall": "alle",
   "featureinfo": "Feature info",
-  "uploaddata": "Upload data file",
+  "uploaddata": "Upload configuratiebestand",
   "selectedfile": "Selected file",
   "layersshown": "Lagen op deze kaart",
   "downloadconfig": "download config",
-  "addlayersurl": "Add layers from url",
-  "enterurl": "enter url..."
+  "addlayersurl": "Voeg lagen toe van webservice url",
+  "enterurl": "voer url in..."
 }
