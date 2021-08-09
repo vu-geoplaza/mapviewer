@@ -29,8 +29,7 @@
             return {
                 title: '',
                 subtitle: '',
-                items: [],
-                language: this.$i18n.locale, // list of klooster names
+                items: []
             }
         },
         mounted: function () {
@@ -47,7 +46,7 @@
                 return this.map.getLayerByLid('kloosters_by_year').getSource().getFeatures();
             },
             setTitle: function() {
-                if (this.language==='nl') {
+                if (this.$i18n.locale==='nl') {
                     this.title = 'Getoonde kloosters';
                     this.subtitle = 'Klik om in te zoomen op klooster'
 

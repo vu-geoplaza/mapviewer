@@ -10,8 +10,7 @@
       </a>
       <b-card v-show='toggle' visible no-body class="p-0">
         <b-card-header header-tag="header" class="p-2">
-          <span class="widget-header-text" v-if="language==='nl'">Legenda</span>
-          <span class="widget-header-text" v-if="language==='en'">Legend</span>
+          <span class="widget-header-text">{{ $t('legend') }}</span>
           <b-button-close @click='toggle = !toggle' class="pull-right">
           </b-button-close>
         </b-card-header>
@@ -21,8 +20,8 @@
               <b-card-header header-tag="header" class="pr-0 pl-2 pt-2 pb-2" v-bind:class="{ dim: !regel.present }">
                 <b-form inline>
                   <b-btn v-b-toggle="'regelcard' + index" variant="info" class="regelbutton">
-                    <span v-if="language === 'nl'">{{ regel.nl }}</span>
-                    <span v-if="language === 'en'">{{ regel.en }}</span>
+                    <span v-if="$i18n.locale === 'nl'">{{ regel.nl }}</span>
+                    <span v-if="$i18n.locale  === 'en'">{{ regel.en }}</span>
                     <span class="float-right when-open mr-1"><font-awesome-icon icon="chevron-up"/></span>
                     <span class="float-right when-closed mr-1"><font-awesome-icon icon="chevron-down"/></span>
                   </b-btn>
@@ -37,8 +36,8 @@
                                      v-show="present"
                                      v-bind:class="{ dim: !orden[orde_index].present }">
                     <b-img :src="orden[orde_index].symbol" class="mr-1"/>
-                    <span v-if="language === 'nl'">{{ orden[orde_index].nl }}</span>
-                    <span v-if="language === 'en'">{{ orden[orde_index].en }}</span>
+                    <span v-if="$i18n.locale  === 'nl'">{{ orden[orde_index].nl }}</span>
+                    <span v-if="$i18n.locale  === 'en'">{{ orden[orde_index].en }}</span>
                     <b-form-checkbox v-model="orden[orde_index].selected" @change="orde_select()" inline class="float-right mr-0"></b-form-checkbox>
                   </b-list-group-item>
                 </b-list-group>
@@ -59,7 +58,6 @@ export default {
   name: "LegendFilter",
   data: function () {
     return {
-      language: this.$i18n.locale,
       regels: [{
         nl: '',
         en: '',
@@ -87,9 +85,6 @@ export default {
     SharedEventBus.$on('kloostersource-loaded', () => {
       console.log('update legend');
       me.present(me.$config.klooster.data.geojson.features);
-    });
-    SharedEventBus.$on('change-language', () => {
-      this.language = this.$i18n.locale;
     });
   },
   methods: {

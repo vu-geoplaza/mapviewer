@@ -5,7 +5,7 @@
                 <button type="button" class="close" aria-label="Close" @click='toggle = !toggle'>
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <span class="widget-header-text">Feature Info</span>
+                <span class="widget-header-text">{{ $t('monasteryinfo') }}</span>
             </b-card-header>
             <b-card-body class="pl-2 pr-0">
                 <b-overlay :show="showoverlay" spinner-large rounded="sm">

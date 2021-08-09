@@ -58,8 +58,7 @@ export default {
   },
   mounted: function () {
     SharedEventBus.$on('change-language', () => {
-      this.language = this.$i18n.locale;
-      if (this.language === 'nl') {
+      if (this.$i18n.locale === 'nl') {
         this.year_str = 'Jaar';
       } else {
         this.year_str = 'Year';
