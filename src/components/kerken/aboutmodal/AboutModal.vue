@@ -2,12 +2,22 @@
   <b-modal ref="aboutmodal" id="aboutmodal" ok-only size="lg" title="About">
     <b-row>
       <b-col md="12">
-        <p>Kerkendatabase samengesteld door <a target="_blank" href="https://www.hermanwesselink.nl/index.php?page=onderzoek-kerkgebouwen-1800-1970">Herman
-          Wesselink</a></p>
+        <span v-if="$i18n.locale=='nl'">
+            <p>Kerkendatabase samengesteld door <a target="_blank" href="https://www.hermanwesselink.nl/index.php?page=onderzoek-kerkgebouwen-1800-1970">Herman
+              Wesselink</a></p>
 
-        <p>Heeft u vragen, opmerkingen of aanvullende informatie? Stuur dan een <a href="mailto:hermanwesselink78@gmail.com?cc=geoplaza.ub@vu.nl&amp;subject=kerkenkaart">email</a>.</p>
+            <p>Heeft u vragen, opmerkingen of aanvullende informatie? Stuur dan een <a href="mailto:hermanwesselink78@gmail.com?cc=geoplaza.ub@vu.nl&amp;subject=kerkenkaart">email</a>.</p>
 
-        <p><i>Laatste update: {{ updated }}</i></p>
+            <p><i>Laatste update: {{ updated }}</i></p>
+          </span>
+        <span v-if="$i18n.locale=='en'">
+            <p>Database of dutch churches created and managed by <a target="_blank" href="https://www.hermanwesselink.nl/index.php?page=onderzoek-kerkgebouwen-1800-1970">Herman
+              Wesselink</a></p>
+
+            <p>Questions, remarks or information? Send an <a href="mailto:hermanwesselink78@gmail.com?cc=geoplaza.ub@vu.nl&amp;subject=kerkenkaart">email</a>.</p>
+
+            <p><i>Last updated: {{ updated }}</i></p>
+          </span>
       </b-col>
     </b-row>
   </b-modal>
@@ -20,7 +30,10 @@ export default {
     return {
       updated: '2021-02-22'
     }
+  },
+  computed: {
   }
+
 }
 </script>
 
