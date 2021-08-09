@@ -86,8 +86,8 @@ export default {
       //return this.map.getLayerByLid('kerken').getSource().getSource().getFeatures();
     },
     setTitle: function () {
-      this.title = 'Getoonde kerken';
-      this.subtitle = 'Klik om in te zoomen op kerk'
+      this.title = this.$t('kerklisttitle');
+      this.subtitle = this.$t('kerklistsubtitle');
     },
     updateList: function (features) {
       this.setTitle();

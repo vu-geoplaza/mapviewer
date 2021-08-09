@@ -5,7 +5,7 @@
     </a>
     <b-card v-show='toggle' visible no-body class="p-0">
       <b-card-header header-tag="header" class="p-2">
-        <span class="widget-header-text">Legenda</span>
+        <span class="widget-header-text">{{ $t('legend') }}</span>
         <b-button-close @click='toggle = !toggle' class="pull-right">
         </b-button-close>
         <b-form-select v-model="selected_group" v-on:change="showoverlay = true" :options="groups"></b-form-select>

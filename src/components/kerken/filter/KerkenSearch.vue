@@ -1,7 +1,7 @@
 <template>
   <b-card class="m-0">
     <b-card-header class="p-2">
-      Selecteer categorie om op te filteren
+      {{ $t('selectfilter') }}
     </b-card-header>
     <b-card-body>
       <b-container fluid>
