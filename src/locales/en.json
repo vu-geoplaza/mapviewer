@@ -6,6 +6,8 @@
   "filter": "filter",
   "list": "view list",
   "about": "about",
+  "legend": "Legend",
+  "layers": "Layers",
   "showyear": "show by year",
   "showall": "show all",
   "featureinfo": "Feature info",
@@ -14,5 +16,11 @@
   "layersshown": "Layers shown on this map",
   "downloadconfig": "download config",
   "addlayersurl": "Add layers from url",
-  "enterurl": "enter url..."
+  "enterurl": "enter url...",
+  "selectfilter": "Select filter category",
+  "kerklisttitle": "Churches shown on map",
+  "kerklistsubtitle": "Click to zoom in on church",
+  "churchinfo": "Church description",
+  "aboutmap": "About this map",
+  "monasteryinfo": "Monastery description"
 }

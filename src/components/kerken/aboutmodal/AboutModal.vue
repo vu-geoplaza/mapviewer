@@ -1,5 +1,5 @@
 <template>
-  <b-modal ref="aboutmodal" id="aboutmodal" ok-only size="lg" title="About">
+  <b-modal ref="aboutmodal" id="aboutmodal" ok-only size="lg" v-bind:title="$t('aboutmap')">
     <b-row>
       <b-col md="12">
         <span v-if="$i18n.locale=='nl'">

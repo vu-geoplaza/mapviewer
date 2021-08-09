@@ -5,7 +5,7 @@
   </a>
     <b-card v-show='toggle' visible no-body class="mb-1">
       <b-card-header header-tag="header" class="p-2">
-        <span class="widget-header-text">Layers</span>
+        <span class="widget-header-text">{{ $t('layers') }}</span>
         <b-button-close @click='toggle = !toggle' class="pull-right">
         </b-button-close>
       </b-card-header>

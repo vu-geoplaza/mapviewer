@@ -6,6 +6,8 @@
   "filter": "filter",
   "list": "lijst",
   "about": "over",
+  "legend": "Legenda",
+  "layers": "Lagen",
   "showyear": "per jaar",
   "showall": "alle",
   "featureinfo": "Feature info",
@@ -14,5 +16,11 @@
   "layersshown": "Lagen op deze kaart",
   "downloadconfig": "download config",
   "addlayersurl": "Voeg lagen toe van webservice url",
-  "enterurl": "voer url in..."
+  "enterurl": "voer url in...",
+  "selectfilter": "Selecteer categorie om op te filteren",
+  "kerklisttitle": "Getoonde kerken",
+  "kerklistsubtitle": "Klik om in te zoomen op kerk",
+  "churchinfo": "Beschrijving kerk",
+  "aboutmap": "Over deze kaart",
+  "monasteryinfo": "Beschrijving klooster"
 }
