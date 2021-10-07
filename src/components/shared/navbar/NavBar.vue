@@ -17,9 +17,9 @@
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
-    <b-navbar-nav class="ml-auto controls" v-if="mobile">
+    <b-navbar-nav class="ml-auto controls">
       <GeoLocation/>
-      <b-nav-item @click="toggle_fullscreen()" right>
+      <b-nav-item @click="toggle_fullscreen()" right v-if="mobile">
         <font-awesome-icon icon="expand"/>
       </b-nav-item>
     </b-navbar-nav>
