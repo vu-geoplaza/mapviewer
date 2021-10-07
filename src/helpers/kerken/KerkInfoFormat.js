@@ -181,6 +181,15 @@ const keys = [
         }
     },
     {
+        'name': 'bag_pand_id',
+        'label': 'BAG pand id',
+        'show': true,
+        f: function (d) {
+            const url = 'https://bagviewer.kadaster.nl/lvbag/bag-viewer/index.html#?searchQuery=' + d.bag_pand_id
+            return d.bag_pand_id + ' (<a href="'+ url +'" target="_blank">Bekijk in BAG viewer</a>)';
+        }
+    },
+    {
         name: 'streetview',
         label: 'Google Streetview',
         'show': true,
