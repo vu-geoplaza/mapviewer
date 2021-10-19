@@ -9,6 +9,8 @@ import {kerkLegend} from "../KerkSymbols";
 import Stroke from "ol/style/Stroke";
 import Chart from "ol-ext/style/Chart";
 import {SharedEventBus} from "../../../shared";
+import Text from "ol/style/Text";
+import Fill from "ol/style/Fill";
 //import {SharedEventBus} from "@/shared";
 
 
@@ -128,6 +130,15 @@ class ViewerLayerKerkenClustered extends ViewerLayer {
                                 color: '#fff',
                                 width: 2
                             }),
+                        }),
+                            text: new Text({
+                            font: '14px Calibri,sans-serif',
+                            fill: new Fill({color: '#000'}),
+                            stroke: new Stroke({
+                                color: '#fff', width: 2
+                            }),
+                            offsetY: size+5,
+                            text: plaats,
                         })
                     })
                     me.styleCache[plaats]= style;
