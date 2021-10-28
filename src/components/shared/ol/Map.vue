@@ -8,6 +8,8 @@
     import {
         OSMstandard,
         BRT,
+        BRTGrey,
+        BRTPastel,
         base4326, CartoLight, Luchtfoto, BingRoad, BingAerial, OpenTopo
     } from "@/helpers/ViewerBaseLayers";
     import {SharedEventBus, ALLOWED_VIEWER_CRS} from '@/shared';
@@ -236,6 +238,8 @@
 
                 this.map.addLayer(OpenTopo());
                 this.map.addLayer(BRT());
+                this.map.addLayer(BRTGrey());
+                this.map.addLayer(BRTPastel());
                 this.map.addLayer(Luchtfoto());
 
                 this.map.addLayer(base4326());

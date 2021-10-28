@@ -109,8 +109,8 @@ export function OpenTopo() {
   })
 }
 
-export function BRT() {
-// Geldigheidsgebied van het tiling schema in RD-coördinaten:
+function BRTLayer(layer, name, code) {
+  // Geldigheidsgebied van het tiling schema in RD-coördinaten:
   var projectionExtent = BRT_EXTENT;
   var projection = new Projection({code: 'EPSG:28992', units: 'm', extent: projectionExtent});
 // Resoluties (pixels per meter) van de zoomniveaus:
@@ -127,13 +127,14 @@ export function BRT() {
     visible: false,
     opacity: 1.0,
     zIndex: 1,
-    code: 'brt',
+    code: code,
     projcode: 'EPSG:28992',
-    name: 'BRT Achtergrondkaart',
+    name: name,
     source: new WMTS({
       attributions: 'Kaartgegevens: &copy; <a href="https://www.kadaster.nl">Kadaster</a>',
-      url: 'https://geodata.nationaalgeoregister.nl/tiles/service/wmts?',
-      layer: 'brtachtergrondkaart',
+      //url: 'https://geodata.nationaalgeoregister.nl/tiles/service/wmts?',
+      url: 'https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0?',
+      layer: layer,
       matrixSet: 'EPSG:28992',
       format: 'image/png',
       projection: projection,
@@ -147,6 +148,19 @@ export function BRT() {
     })
   })
 }
+
+export function BRT() {
+  return BRTLayer('standaard', 'BRT Achtergrondkaart standaard', 'brts');
+}
+
+export function BRTGrey() {
+  return BRTLayer('grijs', 'BRT Achtergrondkaart grijs', 'brtg');
+}
+
+export function BRTPastel() {
+  return BRTLayer('pastel', 'BRT Achtergrondkaart pastel', 'brtp');
+}
+
 
 export function Luchtfoto() {
 // Geldigheidsgebied van het tiling schema in RD-coördinaten:
