@@ -32,7 +32,7 @@ class ViewerConfig {
     if (json.crs) this.crs = json.crs;
     if (this.crs === 'EPSG:28992') {
       this.baselayer = 'brt';
-    } else if (this.crs === 'EPSG:28992') {
+    } else if (this.crs === 'EPSG:4326') {
       this.baselayer = 'aho';
     }
     if (json.available_crs) {
