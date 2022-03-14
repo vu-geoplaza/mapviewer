@@ -34,12 +34,12 @@
     "vue-slider-component": "^3.2.9"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.5.8",
-    "@vue/cli-plugin-eslint": "^3.1.1",
-    "@vue/cli-service": "^4.5.13",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
+    "@vue/cli-plugin-babel": "^5.0.1",
+    "@vue/cli-plugin-eslint": "^5.0.1",
+    "@vue/cli-service": "^5.0.1",
+    "@babel/eslint-parser": "^7.5.4",
+    "eslint": "^8.11.0",
+    "eslint-plugin-vue": "^8.5.0",
     "vue-template-compiler": "^2.6.12"
   },
   "eslintConfig": {
@@ -52,7 +52,7 @@
       "eslint:recommended"
     ],
     "parserOptions": {
-      "parser": "babel-eslint"
+      "parser": "@babel/eslint-parser"
     },
     "rules": {}
   },
