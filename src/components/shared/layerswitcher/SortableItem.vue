@@ -8,15 +8,15 @@
           <span class="float-right when-open mr-1"><font-awesome-icon icon="chevron-up"/></span>
           <span class="float-right when-closed mr-1"><font-awesome-icon icon="chevron-down"/></span>
         </b-btn>
-        <input type="checkbox" :id="'checkbox' + index" v-model="item.visible" />
+        <input type="checkbox" :id="'checkbox' + index" v-model="it.visible" />
       </b-card-header>
       <b-collapse :id="'layercard' + index" v-model="show">
         <b-card-body>
           <p class="card-text">
-            <vue-slider :ref="'slider' + index" v-model="item.opacity" v-bind="slideoptions"></vue-slider>
+            <vue-slider :ref="'slider' + index" v-model="it.opacity" v-bind="slideoptions"></vue-slider>
           </p>
           <p class="card-text">
-            <img alt="legend" :src="item.legend_img"/>
+            <img alt="legend" :src="it.legend_img"/>
           </p>
         </b-card-body>
       </b-collapse>
@@ -27,6 +27,7 @@
 <script>
   import {ElementMixin, HandleDirective} from "vue-slicksort";
   import vueSlider from 'vue-slider-component';
+  import 'vue-slider-component/theme/default.css'
 
   export default {
     components: {
@@ -40,7 +41,28 @@
         slideoptions: {
           tooltip: 'hover'
         },
-        show: false
+        show: false,
+        it: {},
+      }
+    },
+    watch: {
+      item(newValue) {
+        if (Object.keys(this.it).length === 0 && this.it.constructor === Object) {
+          this.it = newValue
+        }
+      }
+    },
+    created() {
+      this.it = this.item;
+    },
+    methods: {
+      visibilityChanged($event) {
+        this.it.visible = $event;
+        this.$emit('input', this.it)
+      },
+      opacityChanged($event) {
+        this.it.opacity = $event;
+        this.$emit('input', this.it)
       }
     },
   }
