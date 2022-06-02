@@ -21,7 +21,7 @@
     "bootstrap-vue": "^2.18.1",
     "core-js": "^3.6.5",
     "mobile-device-detect": "^0.4.3",
-    "npm": "^7.20.1",
+    "npm": "^8.11.0",
     "ol": "^6.3.1",
     "ol-ext": "^3.1.17",
     "proj4": "^2.6.3",
