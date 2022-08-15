@@ -77,7 +77,7 @@ config.readJSON({
             ]
         },
         {
-            url: 'https://geodata.nationaalgeoregister.nl/bag/wfs/v1_1?',
+            url: 'https://service.pdok.nl/lv/bag/wfs/v2_0?',
             type: "kerken_bag",
             layers: [
                 {
@@ -89,29 +89,7 @@ config.readJSON({
                     "zindex": 99
                 }
             ]
-        },/*
-        {
-            "url": "https://geodata.nationaalgeoregister.nl/bestuurlijkegrenzen/wms?",
-            "type": "wms",
-            "layers": [
-                {
-                    "id": "a8d3c3f0-bcb6-44f3-87c1-d4555dfb63c9",
-                    "title": "gemeenten",
-                    "label": "gemeenten",
-                    "visible": true,
-                    "opacity": 0.2,
-                    "zindex": 97
-                },
-                {
-                    "id": "640be565-97d5-4410-9fb5-f713674fe90a",
-                    "title": "provincies",
-                    "label": "provincies",
-                    "visible": true,
-                    "opacity": 0.2,
-                    "zindex": 98
-                }
-            ]
-        }*/
+        },
     ]
 });
 
