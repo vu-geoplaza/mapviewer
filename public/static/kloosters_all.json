@@ -43,7 +43,7 @@
   }],
   "klooster": {
     "info_url": "https://geoplaza.vu.nl/projects/kloosters/resources/getKloosterInfo.php",
-    "download_url": "https://geoplaza.vu.nl/projects/kloosters/resources/downloadGeoJSON.php",
+    "download_url": "https://geoplaza.vu.nl/projects/kloosters/resources/downloadGeoJSON.php?",
     "symbol_url": "https://geoplaza.vu.nl/projects/kloosters/svg/"
   }
 }
