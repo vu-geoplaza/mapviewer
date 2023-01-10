@@ -31,6 +31,33 @@
           "zindex": 100
         }
       ]
+    },
+    {
+      "url": "dummy2",
+      "type": "allmaps",
+      "layers": [
+        {
+          "id": "",
+          "title": "[Nouvelle carte de la Hollande, d'après Kraijenhoff et les meilleures cartes connus] / [Ph. Vandermaelen]",
+          "label": "[Nouvelle carte de la Hollande, d'après Kraijenhoff et les meilleures cartes connus] / [Ph. Vandermaelen]",
+          "options": {
+            "iiif_urls": [
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1026",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1027",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1028",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1030",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1031",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1032",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1033",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1034",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1035"
+            ]
+          },
+          "visible": true,
+          "opacity": 0.8,
+          "zindex": 100
+        }
+      ]
     }
   ]
 }

@@ -19,10 +19,20 @@ class ViewerServiceAllmaps extends ViewerService {
             let extent = [ // netherlands for now
                 3.076515, 50.296118, 7.685279, 53.582500
             ];
+            let annotation_urls = []
+            if (typeof(l.options.annotation_urls)!=='undefined'){
+                annotation_urls = l.options.annotation_urls;
+            }
+            // This assumes that the iiif urls are known in the allmaps database.
+            if (typeof(l.options.iiif_urls)!=='undefined'){
+                for (let i of l.options.iiif_urls) {
+                    annotation_urls.push('https://annotations.allmaps.org/?url=' + i);
+                }
+            }
             this.layers.push(new ViewerLayerAllmaps({
                 name: l.name,
                 options: {
-                    annotation_urls: l.options.annotation_urls
+                    annotation_urls: annotation_urls
                 },
                 extent_lonlat: extent,
                 title: l.title,
