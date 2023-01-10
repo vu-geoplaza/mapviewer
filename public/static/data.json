@@ -1,0 +1,36 @@
+{
+  "crs": "EPSG:28992",
+  "title": "demo layers",
+  "url": "https://geoplaza.vu.nl/projects/viewer/",
+  "bbox": [
+    4.178080032326394,
+    52.15766739943118,
+    5.7009904277084384,
+    52.586104748698396
+  ],
+  "services": [
+    {
+      "url": "dummy",
+      "type": "allmaps",
+      "layers": [
+        {
+          "id": "",
+          "title": "allmaps test",
+          "label": "allmaps test",
+          "options": {
+            "annotation_urls": [
+              "https://raw.githubusercontent.com/allmaps/webgl2-preview/main/static/west-roxbury.json",
+              "https://annotations.allmaps.org/images/25b19ade19654e66",
+              "https://annotations.allmaps.org/?url=https://colle…halmap.org/search/commonwealth:0r96fq56q/manifest",
+              "https://annotations.allmaps.org/?url=https://colle…halmap.org/search/commonwealth:wd376290m/manifest",
+              "https://annotations.allmaps.org/manifests/53fa4a6770bd54ea"
+            ]
+          },
+          "visible": true,
+          "opacity": 0.8,
+          "zindex": 100
+        }
+      ]
+    }
+  ]
+}

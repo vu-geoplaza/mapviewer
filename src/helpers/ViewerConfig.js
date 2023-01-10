@@ -4,6 +4,7 @@ import ViewerServiceTileArcGIS from "./service/ViewerServiceTileArcGIS";
 import ViewerServiceKML from "./service/ViewerServiceKML";
 import ViewerServiceGPX from "./service/ViewerServiceGPX";
 import ViewerServiceGeoJSON from "./service/ViewerServiceGeoJSON";
+import ViewerServiceAllmaps from "./service/ViewerServiceAllmaps";
 
 class ViewerConfig {
   constructor() {
@@ -46,6 +47,7 @@ class ViewerConfig {
     if (json.services) {
       this.services = [];
       for (const s of json.services) {
+        console.log(s)
         this.services.push(this.getService(s));
       }
     }
@@ -58,6 +60,7 @@ class ViewerConfig {
     if (service_config.type === 'kml') return new ViewerServiceKML(service_config);
     if (service_config.type === 'gpx') return new ViewerServiceGPX(service_config);
     if (service_config.type === 'geojson') return new ViewerServiceGeoJSON(service_config);
+    if (service_config.type === 'allmaps') return new ViewerServiceAllmaps(service_config);
   }
 }
 
