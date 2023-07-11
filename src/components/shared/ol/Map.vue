@@ -19,6 +19,7 @@
     import Cluster from "ol/source/Cluster";
     import {MarkerLayer} from "@/helpers/ViewerMarkerLayer";
     import {saveState} from "@/helpers/ViewerDataHelpers";
+    import {defaults} from 'ol/control/defaults';
 
     // Add a simple extension to enable layer lookup by layer id
     if (Map.prototype.getLayerByLid === undefined) {
@@ -123,7 +124,9 @@
                 });
 
                 this.map = new Map({
-                    view: view
+                    view: view,
+                    // TODO: add attribution control when allmaps if fixed
+                    controls: defaults({attribution: false})
                 });
                 this.map.available_crs = config.available_crs;
 

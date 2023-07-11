@@ -14,12 +14,16 @@ const CDM_API = 'https://vu.contentdm.oclc.org/digital/api/collections/';
 const CDM_IIIF = 'https://cdm21033.contentdm.oclc.org/digital/iiif/';
 
 
-function annotationUrl(iiif_url) {
-    let id = generateId(iiif_url);
+// https://cdm21033.contentdm.oclc.org/iiif/2/krt:124/manifest.json
+// https://cdm21033.contentdm.oclc.org/iiif/2/krt:102/info.json
+
+async function annotationUrl(iiif_url) {
+    let id = await generateId(iiif_url);
+
     let url = 'https://annotations.allmaps.org/images/' + id;
     console.log(url);
-    axios.get(url).then(result => {
-        if (result.hasOwnProperty('error')) {
+    const data = await axios.get(url).then(result => {
+        if (Object.prototype.hasOwnProperty.call(result, 'error')) {
             return false;
         } else {
             /*
@@ -48,45 +52,75 @@ function annotationUrl(iiif_url) {
                         max1 = feature.geometry.coordinates[1];
                     }
                 }
-            return url, [min0, min1, max0, max1];
+            return { 'url': url, 'bbox': [min0, min1, max0, max1] };
         }
     }, error => {
         console.error(error);
         return false;
     });
+    return data;
 }
 
-function doCdmQuery(col, item) {
+async function doCdmQuery(col, item) {
     const url = CDM_API + col + '/items/' + item + '/false';
-    axios.get(url).then(result => {
-        if (result.hasOwnProperty('parentId')) {
-            const parentId = result.parentId;
-            const cpd = false;
+    console.log('***** do cdm query')
+    console.log(url);
+    const data = await axios.get(url).then(result => {
+        console.log('***** result')
+        console.log(result);
+        const data = result.data
+        if (Object.prototype.hasOwnProperty.call(data, 'parentId')) {
+            console.log('***** analyzing result')
+            const parentId = data.parentId;
+            let cpd = false;
             let ids = [];
             let title = '';
             if (parentId == -1) {
                 // single
                 ids.push(item);
-                const title = result.fields[0].value;
+                title = data.fields[0].value;
             } else {
                 // compound
-                for (const child of result.parent.children) {
+                for (const child of data.parent.children) {
                     ids.push(child.id);
                 }
-                const title = result.parent.fields[0].value;
-                const cpd = true;
+                title = data.parent.fields[0].value;
+                cpd = true;
             }
-            return ids, title, cpd;
+            console.log(ids, title, cpd);
+            return {
+                'ids': ids,
+                'title': title,
+                'cpd': cpd
+            }
         } else {
-            return false, false, false;
+            return false;
         }
     }, error => {
         console.error(error);
-        return false, false, false;
+        return false;
     });
+    return data;
 }
 
-export function viewerData(col, item, single) {
+function maxBbox(bbox = [180, -180, 90, -90], box) {
+    // extend the bbox so box fits within it
+    if (box[0] < bbox[0]) {
+        bbox[0] = box[0]
+    }
+    if (box[1] < bbox[1]) {
+        bbox[1] = box[1]
+    }
+    if (box[2] > bbox[2]) {
+        bbox[2] = box[2]
+    }
+    if (box[3] > bbox[3]) {
+        bbox[3] = box[3]
+    }
+    return bbox;
+}
+
+export async function viewerDataCdm(col, item, single) {
     let data = {
         "crs": "EPSG:3857",
         "title": "",
@@ -96,8 +130,7 @@ export function viewerData(col, item, single) {
             {
                 "url": "dummy",
                 "type": "allmaps",
-                "layers": [
-                ]
+                "layers": []
             }
         ]
     }
@@ -112,72 +145,69 @@ export function viewerData(col, item, single) {
         "opacity": 0.8,
         "zindex": 100
     }
-    let ids, title, cpd = doCdmQuery(col, item);
-    if (single) {
-        // everything in a single layer
-        let annotations = [];
-        if (ids) {
-            let bbox = [180, -180, 90, -90];
-            for (const id of ids) {
-                let url, box = annotationUrl(CDM_IIIF + col + "/" + item);
-                if (url) {
-                    annotations.push(url);
-                    if (box[0] < bbox[0]) {
-                        bbox[0] = box[0]
-                    }
-                    if (box[1] < bbox[1]) {
-                        bbox[1] = box[1]
-                    }
-                    if (box[2] > bbox[2]) {
-                        bbox[2] = box[2]
-                    }
-                    if (box[3] > bbox[3]) {
-                        bbox[3] = box[3]
+    console.log('***** something');
+    const result = await doCdmQuery(col, item);
+    console.log('***** result ' +  result.ids);
+
+    //const result = doCdmQuery(col, item);
+    return result.then((cdmdata) => {
+        console.log('***** now do something with the query result');
+        console.log(cdmdata.ids);
+        console.log(cdmdata.cpd);
+        if (single) {
+            // everything in a single layer
+            console.log('********* construct single layer');
+            let annotations = [];
+            if (cdmdata.ids) {
+                let bbox = [180, -180, 90, -90];
+                for (const id of cdmdata.ids) {
+                    console.log(CDM_IIIF + col + "/" + id);
+                    const aresult = annotationUrl(CDM_IIIF + col + "/" + id);
+                    aresult.then((d) => {
+                        if (d) {
+                            annotations.push(d.url);
+                            bbox = maxBbox(bbox, d.bbox)
+                            console.log('******* bbox for ' + id)
+                            console.log(d.bbox)
+                        }
+                    })
+                }
+                data.title = cdmdata.title;
+                data.bbox = bbox;
+                data.services[0].layers[0] = template_layer;
+                data.services[0].layers[0].title = cdmdata.title;
+                data.services[0].layers[0].label = cdmdata.title;
+                data.services[0].layers[0].annotation_urls = annotations;
+            }
+            console.log('****** return data');
+            console.log(data);
+            return data;
+        } else {
+            console.log('********* construct multiple layer');
+            // each page gets its own layer
+            //let ids, title, cpd = doCdmQuery(col, item);
+            if (cdmdata.ids) {
+                let bbox = [180, -180, 90, -90];
+                for (const id of cdmdata.ids) {
+                    let annotations = [];
+                    let url, box = annotationUrl(CDM_IIIF + col + "/" + id);
+                    if (url) {
+                        annotations.push(url);
+                        bbox = maxBbox(bbox, box)
+                        let l = template_layer;
+                        l.annotation_urls = annotations;
+                        l.id = id;
+                        let pagetitle = ''; // look up with cdm api
+                        l.title = pagetitle;
+                        l.label = pagetitle;
+                        data.services[0].layers.append(l);
                     }
                 }
-                data.title = title;
+                data.title = cdmdata.title;
                 data.bbox = bbox;
-                data.layers[0] = template_layer;
-                data.layers[0].title = title;
-                data.layers[0].label = title;
-                data.layers[0].annotation_urls = annotations;
             }
         }
         return data;
-    } else {
-        // each page gets its own layer
-        let ids, title, cpd = doCdmQuery(col, item);
-        if (ids) {
-            let bbox = [180, -180, 90, -90];
-            for (const id of ids) {
-                let url, box = annotationUrl(CDM_IIIF + col + "/" + item);
-                if (url) {
-                    annotations.push(url);
-                    if (box[0] < bbox[0]) {
-                        bbox[0] = box[0]
-                    }
-                    if (box[1] < bbox[1]) {
-                        bbox[1] = box[1]
-                    }
-                    if (box[2] > bbox[2]) {
-                        bbox[2] = box[2]
-                    }
-                    if (box[3] > bbox[3]) {
-                        bbox[3] = box[3]
-                    }
-                    let l = template_layer;
-                    l.annotation_urls = annotations;
-                    l.id = id;
-                    let pagetitle = ''; // look up with cdm api
-                    l.title = pagetitle;
-                    l.label = pagetitle;
-                    data.layers.append(l);
-                }
-            }
-            data.title = title;
-            data.bbox = bbox;
-        }
-    }
-    return data;
+    });
 }
 

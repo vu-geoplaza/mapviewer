@@ -10,30 +10,7 @@
   ],
   "services": [
     {
-      "url": "dummy",
-      "type": "allmaps",
-      "layers": [
-        {
-          "id": "",
-          "title": "allmaps test",
-          "label": "allmaps test",
-          "options": {
-            "annotation_urls": [
-              "https://raw.githubusercontent.com/allmaps/webgl2-preview/main/static/west-roxbury.json",
-              "https://annotations.allmaps.org/images/25b19ade19654e66",
-              "https://annotations.allmaps.org/?url=https://colle…halmap.org/search/commonwealth:0r96fq56q/manifest",
-              "https://annotations.allmaps.org/?url=https://colle…halmap.org/search/commonwealth:wd376290m/manifest",
-              "https://annotations.allmaps.org/manifests/53fa4a6770bd54ea"
-            ]
-          },
-          "visible": true,
-          "opacity": 0.8,
-          "zindex": 100
-        }
-      ]
-    },
-    {
-      "url": "dummy2",
+      "url": "ubvu",
       "type": "allmaps",
       "layers": [
         {
@@ -42,20 +19,52 @@
           "label": "[Nouvelle carte de la Hollande, d'après Kraijenhoff et les meilleures cartes connus] / [Ph. Vandermaelen]",
           "options": {
             "iiif_urls": [
-              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1026",
-              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1027",
-              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1028",
-              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1030",
-              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1031",
-              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1032",
-              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1033",
-              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1034",
-              "https://cdm21033.contentdm.oclc.org/digital/iiif/krt/1035"
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1026",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1027",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1028",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1030",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1031",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1032",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1033",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1034",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1035"
             ]
           },
           "visible": true,
           "opacity": 0.8,
-          "zindex": 100
+          "zindex": 101
+        },
+        {
+          "id": "",
+          "title": "Geologische kaart van Nederland / door W.C.H. Staring ; bew. aan de Topographische Inrichting",
+          "label": "Geologische kaart van Nederland / door W.C.H. Staring ; bew. aan de Topographische Inrichting",
+          "options": {
+            "iiif_urls": [
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1051",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1052",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1054",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1055",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1056",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1057",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1058",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1059",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1060",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1061",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1062",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1063",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1064",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1065",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1066",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1067",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1068",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1069",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1072",
+              "https://cdm21033.contentdm.oclc.org/digital/iiif/2/krt:1073"
+            ]
+          },
+          "visible": true,
+          "opacity": 0.8,
+          "zindex": 102
         }
       ]
     }

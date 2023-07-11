@@ -1,6 +1,6 @@
 import ViewerService from "./ViewerService";
 import ViewerLayerAllmaps from "../layer/ViewerLayerAllmaps";
-import {ALLOWED_VIEWER_CRS} from "@/shared";
+//import {ALLOWED_VIEWER_CRS} from "@/shared";
 
 /*
 https://observablehq.com/@allmaps/allmaps-openlayers-plugin
@@ -37,7 +37,7 @@ class ViewerServiceAllmaps extends ViewerService {
                 extent_lonlat: extent,
                 title: l.title,
                 legend_img: '',
-                available_crs: ALLOWED_VIEWER_CRS,
+                available_crs: ['EPSG:3857']
             }));
         }
     }

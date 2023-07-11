@@ -1,0 +1,33 @@
+{
+  "crs": "EPSG:28992",
+  "bbox": [
+    3.606000077361753,
+    52.231208628716644,
+    6.242718827361754,
+    52.66809900471276
+  ],
+  "services": [
+    {
+      "url": "https://geodata.nationaalgeoregister.nl/bestandbodemgebruik2015/ows?",
+      "type": "wms",
+      "layers": [
+        {
+          "id": "2ef1fd77-db88-426d-b24b-8ed41daeb379",
+          "title": "bbg2015_hoofdgroep",
+          "label": "bodemgebruik: bbg2015_hoofdgroep",
+          "visible": false,
+          "opacity": 0.8,
+          "zindex": 96
+        },
+        {
+          "id": "d9d85d30-4d4b-442b-b0b1-c6b70511689f",
+          "title": "bbg2015",
+          "label": "bodemgebruik: bbg2015",
+          "visible": false,
+          "opacity": 0.8,
+          "zindex": 99
+        }
+      ]
+    }
+  ]
+}
