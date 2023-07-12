@@ -22,43 +22,37 @@ async function annotationUrl(iiif_url) {
 
     let url = 'https://annotations.allmaps.org/images/' + id;
     console.log(url);
-    const data = await axios.get(url).then(result => {
-        if (Object.prototype.hasOwnProperty.call(result, 'error')) {
-            return false;
-        } else {
-            /*
-                 calculate bbox:
-                 loop over features.
-                 Keep min geometry.coordinates[0] geometry.coordinates[1]
-                 and max geometry.coordinates[0] geometry.coordinates[1]
-                 bbox: [min[0],min[1],max[0],max[1]]
-             */
-            let min1 = 180
-            let max1 = -180
-            let min0 = 90
-            let max0 = -90
-            for (const item in result.items)
-                for (const feature in item.body.features) {
-                    if (feature.geometry.coordinates[0] < min0) {
-                        min0 = feature.geometry.coordinates[0];
-                    }
-                    if (feature.geometry.coordinates[0] > max0) {
-                        max0 = feature.geometry.coordinates[0];
-                    }
-                    if (feature.geometry.coordinates[1] < min1) {
-                        min1 = feature.geometry.coordinates[1];
-                    }
-                    if (feature.geometry.coordinates[1] > max1) {
-                        max1 = feature.geometry.coordinates[1];
-                    }
+    let min1 = 180
+    let max1 = -180
+    let min0 = 90
+    let max0 = -90
+    const response = await fetch(url)
+    const annotation = await response.json()
+    if (!('error' in annotation)) {
+        for (const i in annotation.items) {
+            const item = annotation.items[i];
+            for (const j in item.body.features) {
+                const feature = item.body.features[j];
+                if (feature.geometry.coordinates[0] < min0) {
+                    min0 = feature.geometry.coordinates[0];
                 }
-            return { 'url': url, 'bbox': [min0, min1, max0, max1] };
+                if (feature.geometry.coordinates[0] > max0) {
+                    max0 = feature.geometry.coordinates[0];
+                }
+                if (feature.geometry.coordinates[1] < min1) {
+                    min1 = feature.geometry.coordinates[1];
+                }
+                if (feature.geometry.coordinates[1] > max1) {
+                    max1 = feature.geometry.coordinates[1];
+                }
+            }
         }
-    }, error => {
-        console.error(error);
+        //console.log('bbox: ' + min0 + ' ' + min1 + ' ' + max0 + ' ' + max1);
+        return { 'url': url, 'bbox': [min0, min1, max0, max1] };
+    } else {
+        console.log('Error loading annotation: ' + url + ' ' + annotation.error)
         return false;
-    });
-    return data;
+    }
 }
 
 async function doCdmQuery(col, item) {
@@ -104,20 +98,41 @@ async function doCdmQuery(col, item) {
 }
 
 function maxBbox(bbox = [180, -180, 90, -90], box) {
+    console.log('maxBbox');
+    console.log(bbox, box);
     // extend the bbox so box fits within it
     if (box[0] < bbox[0]) {
         bbox[0] = box[0]
     }
-    if (box[1] < bbox[1]) {
+    if (box[1] > bbox[1]) {
         bbox[1] = box[1]
     }
-    if (box[2] > bbox[2]) {
+    if (box[2] < bbox[2]) {
         bbox[2] = box[2]
     }
     if (box[3] > bbox[3]) {
         bbox[3] = box[3]
     }
+    console.log(bbox);
     return bbox;
+}
+
+async function processCdmIds(col, ids, annotations, bbox) {
+    for (const id of ids) {
+        console.log(CDM_IIIF + col + "/" + id);
+        const aresult = annotationUrl(CDM_IIIF + col + "/" + id);
+        await aresult.then((d) => {
+            console.log('********* result for ' + id)
+            console.log(d)
+            if (d) {
+                annotations.push(d.url);
+                bbox = maxBbox(bbox, d.bbox)
+                console.log('******* bbox for ' + id)
+                console.log(d.bbox)
+            }
+        })
+    }
+    return { 'annotations': annotations, 'bbox': bbox };
 }
 
 export async function viewerDataCdm(col, item, single) {
@@ -146,41 +161,28 @@ export async function viewerDataCdm(col, item, single) {
         "zindex": 100
     }
     console.log('***** something');
-    const result = await doCdmQuery(col, item);
-    console.log('***** result ' +  result.ids);
+    const cdmdata = await doCdmQuery(col, item);
+    console.log('***** result ' +  cdmdata.ids);
 
-    //const result = doCdmQuery(col, item);
-    return result.then((cdmdata) => {
+
+    if (cdmdata) {
         console.log('***** now do something with the query result');
         console.log(cdmdata.ids);
         console.log(cdmdata.cpd);
         if (single) {
+            let bbox = [180, -180, 90, -90];
             // everything in a single layer
             console.log('********* construct single layer');
             let annotations = [];
             if (cdmdata.ids) {
-                let bbox = [180, -180, 90, -90];
-                for (const id of cdmdata.ids) {
-                    console.log(CDM_IIIF + col + "/" + id);
-                    const aresult = annotationUrl(CDM_IIIF + col + "/" + id);
-                    aresult.then((d) => {
-                        if (d) {
-                            annotations.push(d.url);
-                            bbox = maxBbox(bbox, d.bbox)
-                            console.log('******* bbox for ' + id)
-                            console.log(d.bbox)
-                        }
-                    })
-                }
+                const d = await processCdmIds(col, cdmdata.ids, annotations, bbox);
                 data.title = cdmdata.title;
-                data.bbox = bbox;
+                data.bbox = d.bbox;
                 data.services[0].layers[0] = template_layer;
                 data.services[0].layers[0].title = cdmdata.title;
                 data.services[0].layers[0].label = cdmdata.title;
-                data.services[0].layers[0].annotation_urls = annotations;
+                data.services[0].layers[0].options.annotation_urls = d.annotations;
             }
-            console.log('****** return data');
-            console.log(data);
             return data;
         } else {
             console.log('********* construct multiple layer');
@@ -190,24 +192,26 @@ export async function viewerDataCdm(col, item, single) {
                 let bbox = [180, -180, 90, -90];
                 for (const id of cdmdata.ids) {
                     let annotations = [];
-                    let url, box = annotationUrl(CDM_IIIF + col + "/" + id);
-                    if (url) {
-                        annotations.push(url);
-                        bbox = maxBbox(bbox, box)
-                        let l = template_layer;
-                        l.annotation_urls = annotations;
-                        l.id = id;
-                        let pagetitle = ''; // look up with cdm api
-                        l.title = pagetitle;
-                        l.label = pagetitle;
-                        data.services[0].layers.append(l);
-                    }
+                    const aresult = annotationUrl(CDM_IIIF + col + "/" + id);
+                    aresult.then((d) => {
+                        if (d) {
+                            annotations.push(d.url);
+                            bbox = maxBbox(bbox, d.bbox)
+                            let l = template_layer;
+                            l.annotation_urls = annotations;
+                            l.id = id;
+                            let pagetitle = ''; // look up with cdm api
+                            l.title = pagetitle;
+                            l.label = pagetitle;
+                            data.services[0].layers.append(l);
+                        }
+                    });
                 }
                 data.title = cdmdata.title;
                 data.bbox = bbox;
             }
         }
         return data;
-    });
+    }
 }
 

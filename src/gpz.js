@@ -95,11 +95,15 @@ function initWithUrl(url, type, crs) {
     init(config);
 }
 
-function initWithCdm(cdmrec) {
+async function initWithCdm(cdmrec) {
     const config = new ViewerConfig();
-    const data = viewerDataCdm('krt', cdmrec, true)
-    config.readJSON(data);
-    init(config);
+    const result = viewerDataCdm('krt', cdmrec, true)
+    await result.then((data) => { 
+        console.log('---------- initWithCdm data');
+        console.log(data);
+        config.readJSON(data);
+        init(config);
+    });
 }
 
 
