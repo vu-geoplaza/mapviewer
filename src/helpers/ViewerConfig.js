@@ -5,6 +5,7 @@ import ViewerServiceKML from "./service/ViewerServiceKML";
 import ViewerServiceGPX from "./service/ViewerServiceGPX";
 import ViewerServiceGeoJSON from "./service/ViewerServiceGeoJSON";
 import ViewerServiceAllmaps from "./service/ViewerServiceAllmaps";
+import ViewerServiceAllmapsCdm from "./service/ViewerServiceAllmapsCdm";
 
 class ViewerConfig {
   constructor() {
@@ -61,6 +62,7 @@ class ViewerConfig {
     if (service_config.type === 'gpx') return new ViewerServiceGPX(service_config);
     if (service_config.type === 'geojson') return new ViewerServiceGeoJSON(service_config);
     if (service_config.type === 'allmaps') return new ViewerServiceAllmaps(service_config);
+    if (service_config.type === 'allmapscdm') return new ViewerServiceAllmapsCdm(service_config);
   }
 }
 

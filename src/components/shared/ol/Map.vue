@@ -72,6 +72,10 @@
                         me.calcAvailableCRS(layer.available_crs);
                         me.map.addLayer(layer.ol);
                     }
+                    if (service.options.fit) {
+                        console.log('fit to service ' + service.title);
+                        SharedEventBus.$emit('force-fit');
+                    }
                 });
             });
 
@@ -212,6 +216,10 @@
                             console.log('add layer ' + layer.title);
                             me.calcAvailableCRS(layer.available_crs);
                             me.map.addLayer(layer.ol);
+                        }
+                        if (service.options.fit) {
+                           console.log('fit to service ' + service.title);
+                           SharedEventBus.$emit('force-fit');
                         }
                     });
                 }

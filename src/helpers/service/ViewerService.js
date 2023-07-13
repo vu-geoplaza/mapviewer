@@ -16,6 +16,11 @@ class ViewerService {
     this.url = '';
 
     /**
+     * Room for miscellanious properties
+     */
+    this.options = {};
+
+    /**
      * The layers this service provides
      *
      * @type {Array}
@@ -24,6 +29,7 @@ class ViewerService {
 
     if (config.type) this.type = config.type;
     if (config.url) this.url = config.url;
+    if (config.options) this.options = config.options;
     if (config.layers) {
       this.setLayers(config.layers);
     }

@@ -4,9 +4,9 @@ import {WarpedMapLayer, WarpedMapSource} from '@allmaps/openlayers'
 
 class ViewerLayerAllmaps extends ViewerLayer {
     OLLayer() {
-        console.log('**** OLLayer');
+        console.log('**** OLLayer of ViewerLayerAllmaps');
         let source = new WarpedMapSource();
-         // get the annotation json from the annotation urls and add then to the source.
+         // get the annotation json from the annotation urls and add them to the source.
         for (let annotation_url of this.options.annotation_urls) {
             fetch(annotation_url)
                 .then((response) => response.json())
