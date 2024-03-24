@@ -28,7 +28,7 @@ export default {
   name: "AboutModal",
   data: function () {
     return {
-      updated: '2021-02-22'
+      updated: '2024-03-20'
     }
   },
   computed: {
