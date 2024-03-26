@@ -9,9 +9,9 @@ class KerkConfig extends  ViewerConfig {
     this.kerk = {
       filter: {},
       filterchanged: true,
-      info_url: 'https://geoplaza.vu.nl/projects/kerken_vue/resources/getKerkInfo.php',
-      typeahead_url: 'https://geoplaza.vu.nl/projects/kerken_vue/resources/getTypeaheadData.php',
-      filterstate_url: 'https://geoplaza.vu.nl/projects/kerken_vue/resources/getFilterState.php',
+      info_url: 'https://geoplaza.vu.nl/projects/kerken/resources/getKerkInfo.php',
+      typeahead_url: 'https://geoplaza.vu.nl/projects/kerken/resources/getTypeaheadData.php',
+      filterstate_url: 'https://geoplaza.vu.nl/projects/kerken/resources/getFilterState.php',
       selected_id: '',
       legend_style: 'denominatie',
       pand_id: [],

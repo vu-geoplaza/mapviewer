@@ -3,7 +3,7 @@ Built with Vuejs, Bootstrap-Vue and OpenLayers.
 
 Kloosterkaart: https://geoplaza.vu.nl/projects/kloosters/
 
-Kerkenkaart: https://geoplaza.vu.nl/projects/kerken_vue/
+Kerkenkaart: https://geoplaza.vu.nl/projects/kerken/
 
 Mapviewer with demo layers: https://geoplaza.vu.nl/projects/viewer/
 

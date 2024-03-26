@@ -47,7 +47,7 @@ config.readJSON({
     cluster_resolution: 10,
     services: [
         {
-            url: 'https://geoplaza.vu.nl/projects/kerken_vue/resources/getGeoJSON.php',
+            url: 'https://geoplaza.vu.nl/projects/kerken/resources/getGeoJSON.php',
             type: 'kerken',
             layers: [
                 {
