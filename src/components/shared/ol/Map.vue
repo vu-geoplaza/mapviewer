@@ -10,7 +10,7 @@
         BRT,
         BRTGrey,
         BRTPastel,
-        base4326, CartoLight, Luchtfoto, BingRoad, BingAerial, OpenTopo
+        CartoLight, Luchtfoto, BingRoad, BingAerial, OpenTopo
     } from "@/helpers/ViewerBaseLayers";
     import {SharedEventBus, ALLOWED_VIEWER_CRS} from '@/shared';
     import {transformExtent} from "ol/proj";
@@ -242,7 +242,6 @@
                 this.map.addLayer(BRTPastel());
                 this.map.addLayer(Luchtfoto());
 
-                this.map.addLayer(base4326());
             },
             removeBaseLayers() {
                 const layers = this.map.getLayers();

@@ -46,7 +46,7 @@ export function BingAerial(){
   })
 }
 
-export function OSMstandardOrg() {
+export function OSMstandard() {
   return new TileLayer({
     preload: Infinity,
     source: new OSM(),
@@ -59,7 +59,7 @@ export function OSMstandardOrg() {
   })
 }
 
-export function OSMstandard() {
+export function OSMstandardCached() {
   return new TileLayer({
     preload: Infinity,
     visible: false,
