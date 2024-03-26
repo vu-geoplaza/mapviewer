@@ -63,8 +63,8 @@ export default {
       SharedEventBus.$on('kerk-selected', feature => {
         me.toggle = true;
         this.items = [];
-        me.addMarker(feature);
         me.showInfo(feature);
+        me.addMarker(feature);
       })
     },
     handleInfoClick(coordinate, pixel) {
@@ -80,7 +80,6 @@ export default {
           if (n <= max) { // browser slow if showing many tabs
             me.showoverlay = true;
             me.toggle = true;
-            me.addMarker(feature);
             me.showInfo(feature);
           }
           n++;
@@ -120,6 +119,7 @@ export default {
         me.addItem(item);
         me.addBAGId(data.bag_pand_id);
         if (me.toshow == me.items.length) me.showBAG();
+        me.addMarker(feature);
       }, error => {
         console.error(error);
       });
