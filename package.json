@@ -1,6 +1,6 @@
 {
   "name": "mapviewer",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "private": true,
   "scripts": {
     "serve:kloosters": "vue-cli-service serve src/kloosters.js",
@@ -22,8 +22,8 @@
     "core-js": "^3.6.5",
     "mobile-device-detect": "^0.4.3",
     "npm": "^10.5.0",
-    "ol": "^6.3.1",
-    "ol-ext": "^3.1.17",
+    "ol": "^7.0.0",
+    "ol-ext": "^4.0.0",
     "proj4": "^2.6.3",
     "uuid": "^8.3.2",
     "vue": "^2.6.12",
