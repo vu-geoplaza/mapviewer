@@ -1,8 +1,5 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as build-stage
 ARG BUILD_ENV=gpz
-
-# install simple http server for serving static content
-#RUN npm install -g http-server
 
 # make the 'app' folder the current working directory
 WORKDIR /app
@@ -19,5 +16,9 @@ COPY . .
 # build app for production with minification
 RUN npm run build:${BUILD_ENV}
 
-#EXPOSE 8080
-#CMD [ "http-server", "dist/gpz" ]
+FROM nginx:stable-alpine as production-stage
+ARG BUILD_ENV
+WORKDIR /usr/share/nginx/html
+COPY --from=build-stage /app/dist/${BUILD_ENV}/. .
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
