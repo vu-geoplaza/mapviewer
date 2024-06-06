@@ -12,7 +12,7 @@
   "baselayer": "light",
   "cluster_resolution": 10,
   "services": [{
-    "url": "https://geoplaza.vu.nl/projects/kloosters/resources/getGeoJSONYear.php",
+    "url": "resources/getGeoJSONYear.php",
     "type": "kloosters_by_year",
     "layers": [{
       "id": "kloosters_by_year",
@@ -24,8 +24,8 @@
     }]
   }],
   "klooster": {
-    "info_url": "https://geoplaza.vu.nl/projects/kloosters/resources/getKloosterInfo.php",
-    "download_url": "https://geoplaza.vu.nl/projects/kloosters/resources/downloadGeoJSON.php?",
-    "symbol_url": "https://geoplaza.vu.nl/projects/kloosters/svg/"
+    "info_url": "resources/getKloosterInfo.php",
+    "download_url": "resources/downloadGeoJSON.php?",
+    "symbol_url": "resources/svg/"
   }
 }

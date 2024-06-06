@@ -21,7 +21,7 @@ class ViewerServiceKloostersSingle extends ViewerService {
       name: 'kloosters_single',
       extent_lonlat: extent,
       title: 'kloosters_single',
-      legend_img: 'https://geoplaza.vu.nl/projects/kloosters/svg/circle_m_0.svg',
+      legend_img: 'resources/svg/circle_m_0.svg',
       available_crs: ALLOWED_VIEWER_CRS,
     }));
     return layers;
