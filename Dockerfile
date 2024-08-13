@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build:${BUILD_ENV}
 
 FROM nginxinc/nginx-unprivileged as production-stage
-ARG BUILD_ENV
+#ARG BUILD_ENV
 WORKDIR /usr/share/nginx/html
 COPY --from=build-stage /app/dist/${BUILD_ENV}/. .
 EXPOSE 80
