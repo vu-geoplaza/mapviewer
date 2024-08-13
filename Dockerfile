@@ -1,4 +1,4 @@
-FROM node:lts-alpine as build-stage
+FROM node:lts-alpine AS build-stage
 ARG BUILD_ENV=gpz
 
 # make the 'app' folder the current working directory
@@ -16,12 +16,12 @@ COPY . .
 # build app for production with minification
 RUN npm run build:${BUILD_ENV}
 
-FROM nginx:stable-alpine as production-stage
+FROM nginxinc/nginx-unprivileged AS production-stage
 ARG BUILD_ENV
 
 RUN chmod -R 777 /var/cache/nginx
 
 WORKDIR /usr/share/nginx/html
 COPY --from=build-stage /app/dist/${BUILD_ENV}/. .
-EXPOSE 80
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
