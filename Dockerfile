@@ -16,8 +16,11 @@ COPY . .
 # build app for production with minification
 RUN npm run build:${BUILD_ENV}
 
-FROM nginxinc/nginx-unprivileged as production-stage
-#ARG BUILD_ENV
+FROM nginx:stable-alpine as production-stage
+ARG BUILD_ENV
+
+RUN chmod -R 777 /var/cache/nginx
+
 WORKDIR /usr/share/nginx/html
 COPY --from=build-stage /app/dist/${BUILD_ENV}/. .
 EXPOSE 80
