@@ -12,12 +12,11 @@ RUN npm install
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
-RUN chmod 777 -R /var/cache
 
 # build app for production with minification
 RUN npm run build:${BUILD_ENV}
 
-FROM nginx:stable-alpine as production-stage
+FROM nginxinc/nginx-unprivileged as production-stage
 ARG BUILD_ENV
 WORKDIR /usr/share/nginx/html
 COPY --from=build-stage /app/dist/${BUILD_ENV}/. .
