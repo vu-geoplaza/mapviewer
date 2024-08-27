@@ -1,5 +1,5 @@
 FROM node:lts-alpine AS build-stage
-ARG BUILD_ENV=gpz
+ARG BUILD_ENV
 
 # make the 'app' folder the current working directory
 WORKDIR /app
